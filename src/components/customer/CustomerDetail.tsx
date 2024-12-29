@@ -2,7 +2,7 @@ import { Box, Divider, List, ListItem, ListItemIcon, ListItemText, Stack, Typogr
 import type { Customer } from '../../api/openapi/backend';
 import { useForm } from '@tanstack/react-form';
 import { useCreateCustomer, useDeleteCustomerById, useUpdateCustomer } from '../../api/queries/customerQueryOptions';
-import { useNavigate, useRouter } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 import { yupValidator } from '@tanstack/yup-form-adapter';
 import { useCallback, useState } from 'react';
 import { formatCustomerName, formatVehicleMainDetail } from '../../utils/formatterUtil';
@@ -77,7 +77,6 @@ const CustomerVehicles: React.FC<CustomerVehiclesProps> = ({ customerId }) => {
 };
 
 const CustomerDetail: React.FC<CustomerProps> = ({ customer }) => {
-    const router = useRouter();
     const [readOnly, setReadOnly] = useState(!!customer);
     const navigate = useNavigate({ from: '/customer/add' });
     const createCustomerMutation = useCreateCustomer();
@@ -94,7 +93,6 @@ const CustomerDetail: React.FC<CustomerProps> = ({ customer }) => {
                     saved = await createCustomerMutation.mutateAsync(value);
                 }
                 setReadOnly(true);
-                await router.invalidate();
                 navigate({
                     to: '/customer/$id',
                     params: {

@@ -1,0 +1,6 @@
+package-lock.json
+
+/openapi
+/src/api/openapi
+/src/routeTree.gen.ts
+docker-compose.yml

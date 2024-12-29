@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="sk">
+    <head>
+        <meta charset="UTF-8" />
+        <link
+            rel="icon"
+            type="image/svg+xml"
+            href="/vite.svg"
+        />
+        <link
+            rel="preconnect"
+            href="https://fonts.googleapis.com"
+        />
+        <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin
+        />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+        />
+
+        <meta
+            name="theme-color"
+            content="#000000"
+        />
+        <meta
+            name="description"
+            content="Evidencia"
+        />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <title>Evidencia</title>
+        <script>
+            window.ENV = (() => {
+                const toNumber = (text) => {
+                    if (isNaN(+text)) {
+                        return null;
+                    }
+                    return +text;
+                };
+                const toString = (text) => {
+                    if (text.trim().length === 0 || text.trim().startsWith('%VITE_API_')) {
+                        return null;
+                    }
+                    return text.trim();
+                };
+                // <% if (process.env.NODE_ENV === 'production') { %>
+                return {
+                    API_BASE_PATH: toString('${API_BASE_PATH}'),
+                    KEYCLOAK_REALM: toString('${KEYCLOAK_REALM}'),
+                    KEYCLOAK_CLIENT: toString('${KEYCLOAK_CLIENT}'),
+                    KEYCLOAK_URL: toString('${KEYCLOAK_URL}')
+                };
+                // <% } else { %>
+                return {
+                    API_BASE_PATH: toString('%VITE_API_BASE_PATH%'),
+                    KEYCLOAK_REALM: toString('%VITE_KEYCLOAK_REALM%'),
+                    KEYCLOAK_CLIENT: toString('%VITE_KEYCLOAK_CLIENT%'),
+                    KEYCLOAK_URL: toString('%VITE_KEYCLOAK_URL%')
+                };
+                // <% } %>
+            })();
+        </script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script
+            type="module"
+            src="/src/main.tsx"
+        ></script>
+    </body>
+</html>

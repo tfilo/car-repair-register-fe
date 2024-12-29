@@ -1,8 +1,6 @@
 import { Box, ButtonGroup, Typography } from '@mui/material';
 import { CarRepair, DirectionsCar, Person } from '@mui/icons-material';
-import { useNavigate, useSearch } from '@tanstack/react-router';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { findRepairLogsOptions } from '../../api/queries/repairLogQueryOptions';
+import { getRouteApi, useNavigate, useSearch } from '@tanstack/react-router';
 import { formatCustomerName } from '../../utils/formatterUtil';
 import dayjs from 'dayjs';
 import NavBtn from '../common/NavBtn';
@@ -97,8 +95,9 @@ const Secondary: React.FC<{ repairLog: RepairLog }> = ({ repairLog }) => {
 
 const RepairLogs: React.FC = () => {
     const navigate = useNavigate({ from: '/' });
-    const { page, size, sort, query, vehicleId } = useSearch({ from: '/' });
-    const findRepairLogs = useSuspenseQuery(findRepairLogsOptions(page, size, sort, query, vehicleId));
+    const { query } = useSearch({ from: '/' });
+    const routeApi = getRouteApi('/');
+    const findRepairLogs = routeApi.useLoaderData();
 
     const navigationHandler = useCallback(
         (id: number) => {
@@ -115,7 +114,7 @@ const RepairLogs: React.FC = () => {
 
     return (
         <CommonSearch
-            result={findRepairLogs.data}
+            result={findRepairLogs}
             searchHelper='Vyhľadáva podľa obsahu textu, EČ, VIN, Výrobcu, Modelu a Zákazníka.'
             query={query}
             actionBar={<ActionBar />}

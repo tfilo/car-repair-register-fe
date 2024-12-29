@@ -1,7 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import yup from '../../yup-config';
 import { getCustomerByIdOptions } from '../../api/queries/customerQueryOptions';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import CustomerDetail from '../../components/customer/CustomerDetail';
 
 export const Route = createFileRoute('/customer/$id')({
@@ -20,7 +19,7 @@ export const Route = createFileRoute('/customer/$id')({
 });
 
 function RouteComponent() {
-    const params = Route.useParams();
-    const { data: customer } = useSuspenseQuery(getCustomerByIdOptions(+params.id));
-    return <CustomerDetail customer={customer} />;
+    const routeApi = getRouteApi('/customer/$id');
+    const data = routeApi.useLoaderData();
+    return <CustomerDetail customer={data} />;
 }

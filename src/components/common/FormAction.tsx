@@ -1,4 +1,4 @@
-import { ArrowBack, Delete, Edit, Save } from '@mui/icons-material';
+import { ArrowBack, Cancel, Delete, Edit, Save } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { useCallback, useState } from 'react';
 import CustomModal from './Modal';
@@ -39,18 +39,33 @@ const FormAction: React.FC<FormActionProps> = ({
 
     return (
         <>
-            <Button
-                startIcon={<ArrowBack />}
-                variant='contained'
-                type='button'
-                color='inherit'
-                onClick={onBackHandler}
-                sx={{ height: 48 }}
-                disabled={isPending}
-            >
-                Späť
-            </Button>
-            {readOnly === false && (
+            {readOnly === false && allowDelete ? (
+                <Button
+                    startIcon={<Cancel />}
+                    variant='contained'
+                    type='button'
+                    color='inherit'
+                    onClick={() => setReadOnly(true)}
+                    sx={{ height: 48 }}
+                    disabled={isPending}
+                >
+                    Zrušiť
+                </Button>
+            ) : (
+                <Button
+                    startIcon={<ArrowBack />}
+                    variant='contained'
+                    type='button'
+                    color='inherit'
+                    onClick={onBackHandler}
+                    sx={{ height: 48 }}
+                    disabled={isPending}
+                >
+                    Späť
+                </Button>
+            )}
+
+            {readOnly === false ? (
                 <>
                     {allowDelete && (
                         <Button
@@ -68,6 +83,7 @@ const FormAction: React.FC<FormActionProps> = ({
                     <Button
                         startIcon={<Save />}
                         variant='contained'
+                        color='success'
                         type='submit'
                         sx={{ height: 48 }}
                         disabled={!canSubmit || isPending}
@@ -75,17 +91,18 @@ const FormAction: React.FC<FormActionProps> = ({
                         {isPending ? 'Ukladám' : 'Uložiť'}
                     </Button>
                 </>
-            )}
-            {readOnly === true && (
-                <Button
-                    startIcon={<Edit />}
-                    variant='contained'
-                    type='button'
-                    sx={{ height: 48 }}
-                    onClick={() => setReadOnly(false)}
-                >
-                    Upraviť
-                </Button>
+            ) : (
+                <>
+                    <Button
+                        startIcon={<Edit />}
+                        variant='contained'
+                        type='button'
+                        sx={{ height: 48 }}
+                        onClick={() => setReadOnly(false)}
+                    >
+                        Upraviť
+                    </Button>
+                </>
             )}
             {isDeleteModalOpen && (
                 <CustomModal

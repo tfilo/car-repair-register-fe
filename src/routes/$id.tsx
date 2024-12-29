@@ -1,6 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import yup from '../yup-config';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { getRepairLogByIdOptions } from './../api/queries/repairLogQueryOptions';
 import RepairLogDetail from '../components/repair-log/RepairLogDetail';
 
@@ -16,12 +15,11 @@ export const Route = createFileRoute('/$id')({
             .validate(Number(params.id));
     },
     loader: async ({ context: { queryClient }, params: { id } }) => queryClient.ensureQueryData(getRepairLogByIdOptions(+id)),
-
     component: RouteComponent
 });
 
 function RouteComponent() {
-    const params = Route.useParams();
-    const { data: repairLog } = useSuspenseQuery(getRepairLogByIdOptions(+params.id));
-    return <RepairLogDetail repairLog={repairLog} />;
+    const routeApi = getRouteApi('/$id');
+    const data = routeApi.useLoaderData();
+    return <RepairLogDetail repairLog={data} />;
 }

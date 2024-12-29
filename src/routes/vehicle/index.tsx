@@ -22,8 +22,7 @@ export const Route = createFileRoute('/vehicle/')({
         query,
         customerId
     }),
-    loader: async ({ context: { queryClient }, deps: { page, size, sort, query, customerId } }) => {
-        return queryClient.ensureQueryData(findVehiclesOptions(page, size, sort, query, customerId));
-    },
+    loader: async ({ context: { queryClient }, deps: { page, size, sort, query, customerId } }) =>
+        queryClient.ensureQueryData(findVehiclesOptions(page, size, sort, query, customerId)),
     component: Vehicles
 });

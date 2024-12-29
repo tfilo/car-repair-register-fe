@@ -1,65 +1,23 @@
-import {
-    Autocomplete,
-    Box,
-    Checkbox,
-    CircularProgress,
-    FormControl,
-    FormControlLabel,
-    FormGroup,
-    FormHelperText,
-    InputLabel,
-    Stack,
-    TextField,
-    Typography
-} from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { Box, Checkbox, FormControlLabel, FormGroup, Stack, Typography } from '@mui/material';
 import { useForm } from '@tanstack/react-form';
-import { TextareaAutosize } from '@mui/base';
-import { Vehicle, type RepairLog } from '../../api/openapi/backend';
+import { type RepairLog } from '../../api/openapi/backend';
 import { useCreateRepairLog, useDeleteRepairLogById, useUpdateRepairLog } from '../../api/queries/repairLogQueryOptions';
 import { useNavigate } from '@tanstack/react-router';
 import { yupValidator } from '@tanstack/yup-form-adapter';
-import { useCallback, useId, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import yup from '../../yup-config';
-import { findVehiclesOptions, useCreateVehicle } from '../../api/queries/vehicleQueryOptions';
-import { queryClient } from '../../queryClient';
-import { useDebouncedCallback } from 'use-debounce';
+import { useCreateVehicle } from '../../api/queries/vehicleQueryOptions';
 import React from 'react';
-import { styled } from '@mui/system';
-import { blue, grey } from '@mui/material/colors';
-import dayjs from 'dayjs';
-import { formatCustomerNameAsString, formatVehicleMainDetail } from '../../utils/formatterUtil';
+import { formatVehicleMainDetail } from '../../utils/formatterUtil';
 import ErrorMessage from '../common/ErrorMessage';
 import FormAction from '../common/FormAction';
 import TechnicalInfo from '../common/TechnicalInfo';
 import TextInput from '../common/TextInput';
 import CustomerInput from '../common/CustomerInput';
 import { useCreateCustomer } from '../../api/queries/customerQueryOptions';
-
-const Textarea = styled(TextareaAutosize)(
-    () => `
-    box-sizing: border-box;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.2;
-    padding: 4px 6px;
-    border-radius: 4px;
-    color: ${grey[900]};
-    background: '#fff';
-    border: 1px solid ${grey[400]};
-
-    &:focus {
-      border-color: ${blue[700]};
-      box-shadow: 0 0 0 1px ${blue[700]};
-    }
-
-    /* firefox */
-    &:focus-visible {
-      outline: 0;
-    }
-  `
-);
+import VehicleInput from '../common/VehicleInput';
+import DateInput from '../common/DateInput';
+import TextareaInput from '../common/TextareaInput';
 
 export type RepairLogDetailProps = {
     repairLog?: RepairLog;
@@ -69,17 +27,12 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
     const [readOnly, setReadOnly] = useState(!!repairLog);
     const [newVehicle, setNewVehicle] = useState(false);
     const [newCustomer, setNewCustomer] = useState(false);
-    const uniqueId = useId();
     const navigate = useNavigate({ from: '/add' });
     const createCustomerMutation = useCreateCustomer();
     const createVehicleMutation = useCreateVehicle();
     const createRepairLogMutation = useCreateRepairLog();
     const updateRepairLogMutation = useUpdateRepairLog();
     const deleteRepairLogByIdMutation = useDeleteRepairLogById();
-
-    const [loadinVehicles, setLoadingVehicles] = useState(false);
-    const [customerOpen, setCustomerOpen] = useState(false);
-    const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
     const repairLogSchema = useMemo(
         () =>
@@ -125,26 +78,6 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
             }),
         [newCustomer, newVehicle]
     );
-
-    const handleCustomerOpen = () => {
-        setCustomerOpen(true);
-        (async () => {
-            setLoadingVehicles(true);
-            const res = await queryClient.fetchQuery(findVehiclesOptions(0, 10, ['registrationPlate,asc', 'brand,asc', 'model,asc'], ''));
-            setLoadingVehicles(false);
-            setVehicles([...(res.content ?? [])]);
-        })();
-    };
-
-    const handleCustomerClose = () => {
-        setCustomerOpen(false);
-        setVehicles([]);
-    };
-
-    const debouncedSearch = useDebouncedCallback(async (query: string) => {
-        const res = await queryClient.fetchQuery(findVehiclesOptions(0, 10, ['registrationPlate,asc', 'brand,asc', 'model,asc'], query));
-        setVehicles([...(res.content ?? [])]);
-    }, 1000);
 
     const form = useForm({
         onSubmit: async ({ value: { vehicle, ...data } }) => {
@@ -287,57 +220,14 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                     />
                 </FormGroup>
             )}
-            <form.Field
+            <VehicleInput
                 name='vehicle'
-                children={({ state, handleChange, handleBlur }) => {
-                    return (
-                        <Autocomplete
-                            sx={{ display: newVehicle === false ? 'initial' : 'none' }}
-                            disablePortal
-                            open={customerOpen}
-                            filterOptions={(x) => x}
-                            options={vehicles}
-                            loading={loadinVehicles}
-                            onOpen={handleCustomerOpen}
-                            onClose={handleCustomerClose}
-                            isOptionEqualToValue={(option, value) => option.id === value.id}
-                            getOptionLabel={(o) => o.registrationPlate + ' - ' + formatCustomerNameAsString(o.customer)}
-                            onChange={(e, val) => handleChange(val)}
-                            value={state.value}
-                            onBlur={handleBlur}
-                            autoHighlight
-                            readOnly={readOnly}
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label='Vozidlo'
-                                    onChange={(e) => debouncedSearch(e.target.value)}
-                                    slotProps={{
-                                        input: {
-                                            ...params.InputProps,
-                                            endAdornment: (
-                                                <React.Fragment>
-                                                    {loadinVehicles ? (
-                                                        <CircularProgress
-                                                            color='inherit'
-                                                            size={20}
-                                                        />
-                                                    ) : null}
-                                                    {params.InputProps.endAdornment}
-                                                </React.Fragment>
-                                            )
-                                        }
-                                    }}
-                                    required
-                                    error={state.meta.isTouched && state.meta.errors.length > 0}
-                                    helperText={state.meta.isTouched && state.meta.errors.join(';')}
-                                />
-                            )}
-                        />
-                    );
-                }}
+                label='Vozidlo'
+                required
+                readOnly={readOnly}
+                form={form}
+                sx={{ display: newVehicle === false ? 'initial' : 'none' }}
             />
-
             <CustomerInput
                 name='vehicle.customer'
                 label='Zákazník'
@@ -346,7 +236,6 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 form={form}
                 sx={{ display: newVehicle === true && newCustomer === false ? 'initial' : 'none' }}
             />
-
             <TextInput
                 name='vehicle.customer.name'
                 label='Meno'
@@ -362,7 +251,6 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 readOnly={readOnly}
                 sx={{ display: newVehicle === true && newCustomer === true ? 'initial' : 'none' }}
             />
-
             <TextInput
                 name='vehicle.registrationPlate'
                 label='Evidenčné číslo'
@@ -371,83 +259,19 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 required
                 sx={{ display: newVehicle === true ? 'initial' : 'none' }}
             />
-
-            <form.Field
+            <TextareaInput
                 name='content'
-                children={({ state, handleChange, handleBlur }) => {
-                    return (
-                        <FormControl>
-                            <InputLabel
-                                htmlFor={`${uniqueId}_content`}
-                                shrink={true}
-                                sx={{ background: '#fff', paddingX: '4px' }}
-                                error={state.meta.isTouched && state.meta.errors.length > 0}
-                                required
-                            >
-                                Popis opravy
-                            </InputLabel>
-                            <Textarea
-                                id={`${uniqueId}_content`}
-                                aria-describedby={`${uniqueId}_content-helper`}
-                                value={state.value}
-                                onChange={(e) => handleChange(e.target.value)}
-                                onBlur={handleBlur}
-                                minRows={6}
-                                required
-                                sx={
-                                    state.meta.isTouched && state.meta.errors.length > 0
-                                        ? [
-                                              {
-                                                  '&:focus': {
-                                                      boxShadow: '0 0 0 1px #d32f2f',
-                                                      borderColor: '#d32f2f'
-                                                  }
-                                              },
-                                              {
-                                                  borderColor: '#d32f2f'
-                                              }
-                                          ]
-                                        : undefined
-                                }
-                                readOnly={readOnly}
-                            />
-                            <FormHelperText
-                                error={state.meta.isTouched && state.meta.errors.length > 0}
-                                id={`${uniqueId}_content-helper`}
-                            >
-                                {state.meta.isTouched && state.meta.errors.join(';')}
-                            </FormHelperText>
-                        </FormControl>
-                    );
-                }}
+                label='Popis opravy'
+                form={form}
+                readOnly={readOnly}
+                required
             />
-            <form.Field
+            <DateInput
+                form={form}
+                readOnly={readOnly}
+                required
                 name='repairDate'
-                children={({ state, handleChange }) => {
-                    return (
-                        <FormControl>
-                            <DatePicker
-                                value={state.value ? dayjs(state.value) : null}
-                                onChange={(e) => {
-                                    if (e !== null) {
-                                        const iso = e.format('YYYY-MM-DD');
-                                        handleChange(iso);
-                                    }
-                                }}
-                                format='DD.MM.YYYY'
-                                label='Dátum opravy *'
-                                aria-describedby={`${uniqueId}_repairDate-helper`}
-                                readOnly={readOnly}
-                            />
-                            <FormHelperText
-                                error={state.meta.isTouched && state.meta.errors.length > 0}
-                                id={`${uniqueId}_repairDate-helper`}
-                            >
-                                {state.meta.isTouched && state.meta.errors.join(';')}
-                            </FormHelperText>
-                        </FormControl>
-                    );
-                }}
+                label='Dátum opravy'
             />
             <Stack
                 direction={{
@@ -485,7 +309,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                     }}
                 </form.Subscribe>
             </Stack>
-            {repairLog && <TechnicalInfo object={repairLog} />}
+            {repairLog && readOnly && <TechnicalInfo object={repairLog} />}
         </Box>
     );
 };

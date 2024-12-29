@@ -83,12 +83,19 @@ const VehicleDetail: React.FC<VehicleDetailProps> = ({ vehicle }) => {
         onSubmit: async ({ value: { customer, ...data } }) => {
             if (customer !== null) {
                 try {
+                    let saved: Vehicle;
                     if (vehicle !== undefined) {
-                        await updateVehicleMutation.mutateAsync({ id: vehicle.id, vehicle: { ...data, customerId: customer.id } });
+                        saved = await updateVehicleMutation.mutateAsync({ id: vehicle.id, vehicle: { ...data, customerId: customer.id } });
                     } else {
-                        await createVehicleMutation.mutateAsync({ ...data, customerId: customer.id });
+                        saved = await createVehicleMutation.mutateAsync({ ...data, customerId: customer.id });
                     }
                     setReadOnly(true);
+                    navigate({
+                        to: '/vehicle/$id',
+                        params: {
+                            id: `${saved.id}`
+                        }
+                    });
                 } catch (e) {
                     console.log('Nastala chyba', e);
                 }
@@ -278,7 +285,7 @@ const VehicleDetail: React.FC<VehicleDetailProps> = ({ vehicle }) => {
                     }}
                 </form.Subscribe>
             </Stack>
-            {vehicle && <TechnicalInfo object={vehicle} />}
+            {vehicle && readOnly && <TechnicalInfo object={vehicle} />}
         </Box>
     );
 };

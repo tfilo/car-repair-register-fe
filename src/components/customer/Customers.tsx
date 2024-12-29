@@ -1,8 +1,6 @@
 import { AddCircle, Person } from '@mui/icons-material';
 import { Typography } from '@mui/material';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { useNavigate, useSearch } from '@tanstack/react-router';
-import { findCustomersOptions } from '../../api/queries/customerQueryOptions';
+import { getRouteApi, useNavigate, useSearch } from '@tanstack/react-router';
 import { formatCustomerContact, formatCustomerName } from '../../utils/formatterUtil';
 import NavBtn from '../common/NavBtn';
 import CommonSearch from '../common/CommonSearch';
@@ -35,8 +33,9 @@ const Primary: React.FC<{ customer: Customer }> = ({ customer }) => {
 
 const Customers: React.FC = () => {
     const navigate = useNavigate({ from: '/customer' });
-    const { page, size, sort, query } = useSearch({ from: '/customer/' });
-    const findCustomers = useSuspenseQuery(findCustomersOptions(page, size, sort, query));
+    const { query } = useSearch({ from: '/customer/' });
+    const routeApi = getRouteApi('/customer/');
+    const findCustomers = routeApi.useLoaderData();
 
     const navigationHandler = useCallback(
         (id: number) => {
@@ -53,7 +52,7 @@ const Customers: React.FC = () => {
 
     return (
         <CommonSearch
-            result={findCustomers.data}
+            result={findCustomers}
             searchHelper='Vyhľadáva podľa mena, priezviska, telefónneho čísla a emailu.'
             query={query}
             actionBar={<ActionBar />}

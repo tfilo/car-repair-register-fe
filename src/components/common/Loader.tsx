@@ -1,5 +1,6 @@
+// TODO dokoncit loader
 const Loader: React.FC = () => {
-    return <>Loading</>;
+    return <>Načítava sa</>;
 };
 
 export default Loader;

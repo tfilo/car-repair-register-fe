@@ -2,12 +2,12 @@ import { Autocomplete, CircularProgress, SxProps, TextField, Theme } from '@mui/
 import { ReactFormExtendedApi } from '@tanstack/react-form';
 import { formatCustomerNameAsString } from '../../utils/formatterUtil';
 import React, { useState } from 'react';
-import { Customer } from '../../api/openapi/backend';
+import { Vehicle } from '../../api/openapi/backend';
 import { queryClient } from '../../queryClient';
-import { findCustomersOptions } from '../../api/queries/customerQueryOptions';
 import { useDebouncedCallback } from 'use-debounce';
+import { findVehiclesOptions } from '../../api/queries/vehicleQueryOptions';
 
-type CustomerInputProps = {
+type VehicleInputProps = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     form: ReactFormExtendedApi<any, any>;
     label: string;
@@ -17,29 +17,29 @@ type CustomerInputProps = {
     sx?: SxProps<Theme>;
 };
 
-const CustomerInput: React.FC<CustomerInputProps> = ({ form, readOnly, required, name, label, sx }) => {
-    const [loadinCustomers, setLoadingCustomers] = useState(false);
+const VehicleInput: React.FC<VehicleInputProps> = ({ form, readOnly, required, name, label, sx }) => {
+    const [loadinVehicles, setLoadingVehicles] = useState(false);
     const [customerOpen, setCustomerOpen] = useState(false);
-    const [customers, setCustomers] = useState<Customer[]>([]);
+    const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
     const handleCustomerOpen = () => {
         setCustomerOpen(true);
         (async () => {
-            setLoadingCustomers(true);
-            const res = await queryClient.fetchQuery(findCustomersOptions(0, 10, ['name,asc', 'surname,asc'], ''));
-            setLoadingCustomers(false);
-            setCustomers([...(res.content ?? [])]);
+            setLoadingVehicles(true);
+            const res = await queryClient.fetchQuery(findVehiclesOptions(0, 10, ['registrationPlate,asc', 'brand,asc', 'model,asc'], ''));
+            setLoadingVehicles(false);
+            setVehicles([...(res.content ?? [])]);
         })();
     };
 
     const handleCustomerClose = () => {
         setCustomerOpen(false);
-        setCustomers([]);
+        setVehicles([]);
     };
 
     const debouncedSearch = useDebouncedCallback(async (query: string) => {
-        const res = await queryClient.fetchQuery(findCustomersOptions(0, 10, ['name,asc', 'surname,asc'], query));
-        setCustomers([...(res.content ?? [])]);
+        const res = await queryClient.fetchQuery(findVehiclesOptions(0, 10, ['registrationPlate,asc', 'brand,asc', 'model,asc'], query));
+        setVehicles([...(res.content ?? [])]);
     }, 1000);
 
     return (
@@ -49,16 +49,15 @@ const CustomerInput: React.FC<CustomerInputProps> = ({ form, readOnly, required,
                 return (
                     <Autocomplete
                         sx={sx}
-                        fullWidth
                         disablePortal
                         open={customerOpen}
                         filterOptions={(x) => x}
-                        options={customers}
-                        loading={loadinCustomers}
+                        options={vehicles}
+                        loading={loadinVehicles}
                         onOpen={handleCustomerOpen}
                         onClose={handleCustomerClose}
                         isOptionEqualToValue={(option, value) => option.id === value.id}
-                        getOptionLabel={(o) => formatCustomerNameAsString(o)}
+                        getOptionLabel={(o) => o.registrationPlate + ' - ' + formatCustomerNameAsString(o.customer)}
                         onChange={(_, val) => handleChange(val)}
                         getOptionKey={(o) => o.id}
                         value={state.value}
@@ -76,7 +75,7 @@ const CustomerInput: React.FC<CustomerInputProps> = ({ form, readOnly, required,
                                         ...params.InputProps,
                                         endAdornment: (
                                             <React.Fragment>
-                                                {loadinCustomers ? (
+                                                {loadinVehicles ? (
                                                     <CircularProgress
                                                         color='inherit'
                                                         size={20}
@@ -98,4 +97,4 @@ const CustomerInput: React.FC<CustomerInputProps> = ({ form, readOnly, required,
     );
 };
 
-export default CustomerInput;
+export default VehicleInput;

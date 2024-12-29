@@ -1,7 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import yup from '../../yup-config';
 import { getVehicleByIdOptions } from '../../api/queries/vehicleQueryOptions';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import VehicleDetail from '../../components/vehicle/VehicleDetail';
 
 export const Route = createFileRoute('/vehicle/$id')({
@@ -16,12 +15,11 @@ export const Route = createFileRoute('/vehicle/$id')({
             .validate(Number(params.id));
     },
     loader: async ({ context: { queryClient }, params: { id } }) => queryClient.ensureQueryData(getVehicleByIdOptions(+id)),
-
     component: RouteComponent
 });
 
 function RouteComponent() {
-    const params = Route.useParams();
-    const { data: vehicle } = useSuspenseQuery(getVehicleByIdOptions(+params.id));
-    return <VehicleDetail vehicle={vehicle} />;
+    const routeApi = getRouteApi('/vehicle/$id');
+    const data = routeApi.useLoaderData();
+    return <VehicleDetail vehicle={data} />;
 }

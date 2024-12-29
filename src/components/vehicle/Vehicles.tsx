@@ -1,8 +1,6 @@
 import { AddCircle, DirectionsCar } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { useNavigate, useSearch } from '@tanstack/react-router';
-import { findVehiclesOptions } from '../../api/queries/vehicleQueryOptions';
+import { getRouteApi, useNavigate, useSearch } from '@tanstack/react-router';
 import { formatCustomerName, formatVehicleMainDetail, formatVehicleSecondaryDetail } from '../../utils/formatterUtil';
 import NavBtn from '../common/NavBtn';
 import CommonSearch from '../common/CommonSearch';
@@ -57,8 +55,9 @@ const Secondary: React.FC<{ vehicle: Vehicle }> = ({ vehicle }) => {
 
 const Vehicles: React.FC = () => {
     const navigate = useNavigate({ from: '/vehicle' });
-    const { page, size, sort, query, customerId } = useSearch({ from: '/vehicle/' });
-    const findVehicles = useSuspenseQuery(findVehiclesOptions(page, size, sort, query, customerId));
+    const { query } = useSearch({ from: '/vehicle/' });
+    const routeApi = getRouteApi('/vehicle/');
+    const findVehicles = routeApi.useLoaderData();
 
     const navigationHandler = useCallback(
         (id: number) => {
@@ -75,7 +74,7 @@ const Vehicles: React.FC = () => {
 
     return (
         <CommonSearch
-            result={findVehicles.data}
+            result={findVehicles}
             searchHelper='Vyhľadáva podľa EČ, VIN, výrobcu, modelu a zákazníka.'
             query={query}
             actionBar={<ActionBar />}

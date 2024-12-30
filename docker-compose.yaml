@@ -59,7 +59,7 @@ services:
             - traefik.http.services.keycloak.loadbalancer.server.port=8080
 
     backend:
-        image: car_repair_register:0.0.1-SNAPSHOT
+        image: tfilo/car-repair-register-be:latest
         ports:
             - 9090:9090
         environment:
@@ -73,14 +73,11 @@ services:
             SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 72MB
             SERVER_PORT: 8080
             SERVER_SERVLET_CONTEXT_PATH: /api/car-repair-register
-            JAVA_OPTS: '-XX:MaxDirectMemorySize=256m'
-        # healthcheck:
-        #     test: ['CMD', 'curl', '-f', 'http://localhost:9090/actuator/health | grep UP || exit 1']
-        #     interval: 10s
-        #     timeout: 5s
-        #     retries: 10
+            JAVA_OPTS: '-XX:MaxDirectMemorySize=96m'
         depends_on:
             db:
+                condition: service_healthy
+            keycloak:
                 condition: service_healthy
         labels:
             - traefik.enable=true

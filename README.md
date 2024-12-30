@@ -1,12 +1,14 @@
 # Car repair register - frontend
 
-Frontend application providing GUI in React.js.
+Frontend application for [car-repair-register-be](https://github.com/tope-sk/car-repair-register-fe) writen in React.js. Based on Vite react-ts template.
+
+`npm create vite@latest car-repair-register-fe -- --template react-ts`
 
 ## Technologies required for development
 
 - Node.js (>=22)
-- Docker (>=26.0.1)
-- Docker compose (>=2.26.1)
+- Docker (>=27.4.1)
+- Docker compose (>=2.32.1)
 
 ## Development
 
@@ -14,9 +16,9 @@ While development it is required to have Postgres database, Keycloak and Backend
 
 - `docker compose up -d`
 
-It will run database on port 5432 and backend on port 80 exposed by traefik and internal api on port 9090 for healthcheck (not used in frontend).
+It will run database on port 5432 and backend on port 80 exposed by traefik and internal healthcheck api on port 9090 for healthcheck (not used in frontend).
 
-After database and backend is running, you can start development server by commands:
+After database, keycloak and backend is running, you can start development server by commands:
 
 - `npm install` (only if you didn't run it before or you modifed package.json file)
 - `npm run apigen` (only if you need generate openapi without starting/buildin app)
@@ -40,9 +42,12 @@ If added new dependencies, list of used libraries can be updated using this scri
 
 WHILE RUNNING IT WILL INSTANLL GLOBALLY license-report LIBRARY
 
-## Environment variables
+## Environment variables
 
-API_BASE_PATH="/api/car-repair-register"
-KEYCLOAK_REALM="evidence"
-KEYCLOAK_CLIENT="evidence-public"
-KEYCLOAK_URL="http://localhost/auth"
+| Environment variable | Value                    |
+| -------------------- | ------------------------ |
+| API_BASE_PATH        | /api/car-repair-register |
+| KEYCLOAK_REALM       | evidence                 |
+| KEYCLOAK_CLIENT      | evidence-public          |
+| KEYCLOAK_URL         | http://localhost/auth    |
+| MAX_ATTACHMENT_SIZE  | 67108864                 |

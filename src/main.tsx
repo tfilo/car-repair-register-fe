@@ -6,7 +6,7 @@ import type { AuthProviderProps } from 'react-oidc-context';
 import { AuthProvider } from 'react-oidc-context';
 import { envSchema } from './envSchema';
 
-// Validácia správnosti premenných prostredia
+// Validation of environment variables
 envSchema.validateSync(window.ENV);
 
 const oidcConfig: AuthProviderProps = {

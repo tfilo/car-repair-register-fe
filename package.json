@@ -2,9 +2,10 @@
     "name": "car-repair-register-fe",
     "author": {
         "name": "Tomáš Filo (tope-sk)",
-        "url": "https://github.com/orgs/tope-sk/dashboard"
+        "url": "https://github.com/tope-sk/car-repair-register-fe"
     },
-    "version": "0.0.0",
+    "license": "MIT",
+    "version": "1.0.0",
     "type": "module",
     "scripts": {
         "dev": "vite",

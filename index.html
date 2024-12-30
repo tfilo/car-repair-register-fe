@@ -53,14 +53,16 @@
                     API_BASE_PATH: toString('${API_BASE_PATH}'),
                     KEYCLOAK_REALM: toString('${KEYCLOAK_REALM}'),
                     KEYCLOAK_CLIENT: toString('${KEYCLOAK_CLIENT}'),
-                    KEYCLOAK_URL: toString('${KEYCLOAK_URL}')
+                    KEYCLOAK_URL: toString('${KEYCLOAK_URL}'),
+                    MAX_ATTACHMENT_SIZE: toString('${MAX_ATTACHMENT_SIZE}')
                 };
                 // <% } else { %>
                 return {
                     API_BASE_PATH: toString('%VITE_API_BASE_PATH%'),
                     KEYCLOAK_REALM: toString('%VITE_KEYCLOAK_REALM%'),
                     KEYCLOAK_CLIENT: toString('%VITE_KEYCLOAK_CLIENT%'),
-                    KEYCLOAK_URL: toString('%VITE_KEYCLOAK_URL%')
+                    KEYCLOAK_URL: toString('%VITE_KEYCLOAK_URL%'),
+                    MAX_ATTACHMENT_SIZE: toString('%VITE_MAX_ATTACHMENT_SIZE%')
                 };
                 // <% } %>
             })();

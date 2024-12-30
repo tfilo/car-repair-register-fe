@@ -20,7 +20,6 @@ import DateInput from '../common/DateInput';
 import TextareaInput from '../common/TextareaInput';
 import FileInput from '../common/FileInput';
 import { useUploadAttachment } from '../../api/queries/attachmentQueryOptions';
-import { MAX_FILE_SIZE } from '../../utils/constants';
 import Attachments from './Attachments';
 
 export type RepairLogDetailProps = {
@@ -128,7 +127,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
 
                     if (files !== null) {
                         for (let i = 0; i < files.length; i++) {
-                            if (files[i].size < MAX_FILE_SIZE) {
+                            if (files[i].size < window.ENV.MAX_ATTACHMENT_SIZE) {
                                 await uploadAttachmentMutation.mutateAsync({ repairLogId: saved.id, multipartFile: files[i] });
                             }
                         }

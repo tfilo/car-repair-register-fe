@@ -1,7 +1,6 @@
 import { Delete, DescriptionOutlined, Download, PhotoOutlined, PictureAsPdfOutlined } from '@mui/icons-material';
 import { Box, Card, CardContent, IconButton, Typography } from '@mui/material';
 import { useMemo } from 'react';
-import { MAX_FILE_SIZE } from '../../utils/constants';
 import { fileSizeFormatter } from '../../utils/formatterUtil';
 
 type FileComponentProps = {
@@ -41,13 +40,14 @@ const FileComponent: React.FC<FileComponentProps> = ({ fileName, fileType, fileS
                                 <Typography
                                     variant='subtitle1'
                                     component='div'
-                                    color={fileSize < MAX_FILE_SIZE ? 'textSecondary' : 'error'}
+                                    color={fileSize < window.ENV.MAX_ATTACHMENT_SIZE ? 'textSecondary' : 'error'}
                                 >
                                     Veľkosť: {fileSizeFormatter(fileSize)}
                                 </Typography>
-                                {fileSize > MAX_FILE_SIZE && (
+                                {fileSize > window.ENV.MAX_ATTACHMENT_SIZE && (
                                     <Typography color='error'>
-                                        POZOR - súbor prekročil povolenú veľkosť {fileSizeFormatter(MAX_FILE_SIZE)} a nebude nahraný!
+                                        POZOR - súbor prekročil povolenú veľkosť {fileSizeFormatter(window.ENV.MAX_ATTACHMENT_SIZE)} a
+                                        nebude nahraný!
                                     </Typography>
                                 )}
                             </>

@@ -1,6 +1,6 @@
 import { Link as RouterLink, useLocation } from '@tanstack/react-router';
-import { Breadcrumbs, Button, Container, IconButton, Link, Typography } from '@mui/material';
-import { LogoutOutlined } from '@mui/icons-material';
+import { Box, Breadcrumbs, Button, Container, IconButton, Link, Typography } from '@mui/material';
+import { AccountCircle, LogoutOutlined } from '@mui/icons-material';
 import { useAuth } from 'react-oidc-context';
 
 const PATH_BUNDLE: { [key: string]: string } = {
@@ -74,40 +74,91 @@ const Navigation: React.FC = () => {
                     );
                 })}
             </Breadcrumbs>
-            <Button
-                startIcon={<LogoutOutlined />}
-                variant='text'
-                color='primary'
-                onClick={() =>
-                    signoutRedirect({
-                        post_logout_redirect_uri: window.location.origin
-                    })
-                }
-                sx={{
-                    display: {
-                        xs: 'none',
-                        sm: 'flex'
-                    }
-                }}
+            <Box
+                display='flex'
+                gap={2}
             >
-                Odhlásiť sa
-            </Button>
-            <IconButton
-                color='primary'
-                onClick={() =>
-                    signoutRedirect({
-                        post_logout_redirect_uri: window.location.origin
-                    })
-                }
-                sx={{
-                    display: {
-                        sm: 'none',
-                        xs: 'flex'
+                <Button
+                    startIcon={<AccountCircle />}
+                    variant='text'
+                    color='primary'
+                    onClick={() =>
+                        (window.location.href =
+                            window.ENV.KEYCLOAK_URL +
+                            '/realms/' +
+                            window.ENV.KEYCLOAK_REALM +
+                            '/account?referrer=' +
+                            window.ENV.KEYCLOAK_CLIENT +
+                            '&referrer_uri=' +
+                            window.location.href)
                     }
-                }}
-            >
-                <LogoutOutlined />
-            </IconButton>
+                    sx={{
+                        display: {
+                            xs: 'none',
+                            sm: 'flex'
+                        }
+                    }}
+                >
+                    Profil
+                </Button>
+                <Button
+                    startIcon={<LogoutOutlined />}
+                    variant='text'
+                    color='primary'
+                    onClick={() =>
+                        signoutRedirect({
+                            post_logout_redirect_uri: window.location.origin
+                        })
+                    }
+                    sx={{
+                        display: {
+                            xs: 'none',
+                            sm: 'flex'
+                        }
+                    }}
+                >
+                    Odhlásiť sa
+                </Button>
+                <IconButton
+                    title='Profil'
+                    color='primary'
+                    onClick={() =>
+                        (window.location.href =
+                            window.ENV.KEYCLOAK_URL +
+                            '/realms/' +
+                            window.ENV.KEYCLOAK_REALM +
+                            '/account?referrer=' +
+                            window.ENV.KEYCLOAK_CLIENT +
+                            '&referrer_uri=' +
+                            window.location.href)
+                    }
+                    sx={{
+                        display: {
+                            sm: 'none',
+                            xs: 'flex'
+                        }
+                    }}
+                >
+                    <AccountCircle />
+                </IconButton>
+                <IconButton
+                    title='Odhlásiť sa'
+                    color='primary'
+                    onClick={() =>
+                        signoutRedirect({
+                            post_logout_redirect_uri: window.location.origin
+                        })
+                    }
+                    sx={{
+                        display: {
+                            sm: 'none',
+                            xs: 'flex'
+                        }
+                    }}
+                >
+                    <LogoutOutlined />
+                </IconButton>
+            </Box>
         </Container>
     );
 };

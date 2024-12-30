@@ -11,7 +11,7 @@ const Textarea = styled(TextareaAutosize)(
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.2;
-    padding: 6px 6px;
+    padding: 12px;
     border-radius: 4px;
     color: ${grey[900]};
     background: '#fff';

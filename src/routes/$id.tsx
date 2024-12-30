@@ -2,6 +2,7 @@ import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import yup from '../yup-config';
 import { getRepairLogByIdOptions } from './../api/queries/repairLogQueryOptions';
 import RepairLogDetail from '../components/repair-log/RepairLogDetail';
+import Loader from '../components/common/Loader';
 
 export const Route = createFileRoute('/$id')({
     beforeLoad: async ({ params }) => {
@@ -15,7 +16,8 @@ export const Route = createFileRoute('/$id')({
             .validate(Number(params.id));
     },
     loader: async ({ context: { queryClient }, params: { id } }) => queryClient.ensureQueryData(getRepairLogByIdOptions(+id)),
-    component: RouteComponent
+    component: RouteComponent,
+    pendingComponent: Loader
 });
 
 function RouteComponent() {

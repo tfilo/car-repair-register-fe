@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import yup from '../../yup-config';
 import { findVehiclesOptions } from '../../api/queries/vehicleQueryOptions';
 import Vehicles from '../../components/vehicle/Vehicles';
+import Loader from '../../components/common/Loader';
 
 const vehicleSearchSchema = yup.object({
     page: yup.number().default(0).integer(),
@@ -24,5 +25,6 @@ export const Route = createFileRoute('/vehicle/')({
     }),
     loader: async ({ context: { queryClient }, deps: { page, size, sort, query, customerId } }) =>
         queryClient.ensureQueryData(findVehiclesOptions(page, size, sort, query, customerId)),
-    component: Vehicles
+    component: Vehicles,
+    pendingComponent: Loader
 });

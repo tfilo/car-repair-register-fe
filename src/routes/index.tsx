@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import RepairLogs from '../components/repair-log/RepairLogs';
 import yup from '../yup-config';
 import { findRepairLogsOptions } from '../api/queries/repairLogQueryOptions';
+import Loader from '../components/common/Loader';
 
 const recordsLogSearchSchema = yup.object({
     page: yup.number().default(0).integer(),
@@ -18,5 +19,6 @@ export const Route = createFileRoute('/')({
     loaderDeps: ({ search: { page, size, sort, query, vehicleId } }) => ({ page, size, sort, query, vehicleId }),
     loader: async ({ context: { queryClient }, deps: { page, size, sort, query, vehicleId } }) =>
         queryClient.ensureQueryData(findRepairLogsOptions(page, size, sort, query, vehicleId)),
-    component: RepairLogs
+    component: RepairLogs,
+    pendingComponent: Loader
 });

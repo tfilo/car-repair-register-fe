@@ -2,6 +2,7 @@ import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import yup from '../../yup-config';
 import { getCustomerByIdOptions } from '../../api/queries/customerQueryOptions';
 import CustomerDetail from '../../components/customer/CustomerDetail';
+import Loader from '../../components/common/Loader';
 
 export const Route = createFileRoute('/customer/$id')({
     beforeLoad: async ({ params }) => {
@@ -15,7 +16,8 @@ export const Route = createFileRoute('/customer/$id')({
             .validate(Number(params.id));
     },
     loader: async ({ context: { queryClient }, params: { id } }) => queryClient.ensureQueryData(getCustomerByIdOptions(+id)),
-    component: RouteComponent
+    component: RouteComponent,
+    pendingComponent: Loader
 });
 
 function RouteComponent() {

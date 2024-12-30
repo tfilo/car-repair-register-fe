@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import yup from '../../yup-config';
 import { findCustomersOptions } from '../../api/queries/customerQueryOptions';
 import Customers from '../../components/customer/Customers';
+import Loader from '../../components/common/Loader';
 
 const customerSearchSchema = yup.object({
     page: yup.number().default(0).integer(),
@@ -22,5 +23,6 @@ export const Route = createFileRoute('/customer/')({
     }),
     loader: async ({ context: { queryClient }, deps: { page, size, sort, query } }) =>
         queryClient.ensureQueryData(findCustomersOptions(page, size, sort, query)),
-    component: Customers
+    component: Customers,
+    pendingComponent: Loader
 });

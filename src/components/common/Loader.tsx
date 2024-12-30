@@ -1,6 +1,18 @@
-// TODO dokoncit loader
+import { Box } from '@mui/material';
+
 const Loader: React.FC = () => {
-    return <>Načítava sa</>;
+    return (
+        <Box
+            sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)'
+            }}
+        >
+            Načítava sa
+        </Box>
+    );
 };
 
 export default Loader;

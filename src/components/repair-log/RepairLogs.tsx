@@ -125,7 +125,7 @@ const RepairLogs: React.FC = () => {
     return (
         <CommonSearch
             result={findRepairLogs}
-            searchHelper='Vyhľadáva podľa obsahu textu, EČ, VIN, Výrobcu, Modelu a Zákazníka.'
+            searchHelper='Vyhľadáva podľa obsahu textu, EČ, VIN, výrobcu, modelu a zákazníka.'
             query={query}
             actionBar={<ActionBar />}
         >

@@ -31,7 +31,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
     const [readOnly, setReadOnly] = useState(!!repairLog);
     const [newVehicle, setNewVehicle] = useState(false);
     const [newCustomer, setNewCustomer] = useState(false);
-    const navigate = useNavigate({ from: '/add' });
+    const navigate = useNavigate();
     const createCustomerMutation = useCreateCustomer();
     const createVehicleMutation = useCreateVehicle();
     const createRepairLogMutation = useCreateRepairLog();
@@ -325,7 +325,13 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                                     })
                                 }
                                 onDeleteHandler={handleRepairLogDelete}
-                                setReadOnly={(v) => setReadOnly(v)}
+                                setReadOnly={(v) => {
+                                    if (v === true) {
+                                        form.reset();
+                                        setFiles(null);
+                                    }
+                                    setReadOnly(v);
+                                }}
                                 readOnly={readOnly}
                                 allowDelete={repairLog !== undefined}
                                 deleteModal={{

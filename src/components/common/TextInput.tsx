@@ -20,7 +20,7 @@ const TextInput: React.FC<TextInputProps> = ({ form, readOnly, required, name, l
                     <TextField
                         fullWidth
                         sx={sx}
-                        defaultValue={state.value}
+                        value={state.value ?? ''}
                         onChange={(e) => handleChange(e.target.value)}
                         onBlur={handleBlur}
                         label={label}

@@ -68,7 +68,20 @@ const CustomerVehicles: React.FC<CustomerVehiclesProps> = ({ customerId }) => {
                         <ListItemIcon>
                             <DirectionsCar />
                         </ListItemIcon>
-                        <ListItemText primary={formatVehicleMainDetail(v, true)} />
+                        <ListItemText
+                            primary={
+                                <Typography
+                                    color='primary'
+                                    sx={{
+                                        '&:hover': {
+                                            textDecoration: 'underline'
+                                        }
+                                    }}
+                                >
+                                    {formatVehicleMainDetail(v, true)}
+                                </Typography>
+                            }
+                        />
                     </ListItem>
                 ))}
             </List>
@@ -78,7 +91,7 @@ const CustomerVehicles: React.FC<CustomerVehiclesProps> = ({ customerId }) => {
 
 const CustomerDetail: React.FC<CustomerProps> = ({ customer }) => {
     const [readOnly, setReadOnly] = useState(!!customer);
-    const navigate = useNavigate({ from: '/customer/add' });
+    const navigate = useNavigate();
     const createCustomerMutation = useCreateCustomer();
     const updateCustomerMutation = useUpdateCustomer();
     const deleteCustomerByIdMutation = useDeleteCustomerById();
@@ -206,7 +219,13 @@ const CustomerDetail: React.FC<CustomerProps> = ({ customer }) => {
                                     })
                                 }
                                 onDeleteHandler={handleCustomerDelete}
-                                setReadOnly={(v) => setReadOnly(v)}
+                                setReadOnly={(v) => {
+                                    if (v === true) {
+                                        console.log('RESETUJEM');
+                                        form.reset();
+                                    }
+                                    setReadOnly(v);
+                                }}
                                 readOnly={readOnly}
                                 allowDelete={customer !== undefined}
                                 deleteModal={{

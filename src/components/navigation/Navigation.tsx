@@ -65,7 +65,7 @@ const Navigation: React.FC = () => {
                         <Link
                             key={subpath}
                             underline='hover'
-                            color='inherit'
+                            color='primary'
                             href={subpath}
                             component={RouterLink}
                         >

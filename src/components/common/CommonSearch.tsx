@@ -73,6 +73,7 @@ const CommonSearch: CommonSearchComponent = ({ children, query, result, searchHe
                     );
                 })}
             </List>
+            <Divider />
             <Pagination pageMetadata={result.page} />
         </Box>
     );

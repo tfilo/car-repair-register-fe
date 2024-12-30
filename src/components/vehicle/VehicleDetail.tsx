@@ -74,7 +74,7 @@ export type VehicleDetailProps = {
 
 const VehicleDetail: React.FC<VehicleDetailProps> = ({ vehicle }) => {
     const [readOnly, setReadOnly] = useState(!!vehicle);
-    const navigate = useNavigate({ from: '/vehicle/add' });
+    const navigate = useNavigate();
     const createVehicleMutation = useCreateVehicle();
     const updateVehicleMutation = useUpdateVehicle();
     const deleteVehicleByIdMutation = useDeleteVehicleById();
@@ -273,7 +273,24 @@ const VehicleDetail: React.FC<VehicleDetailProps> = ({ vehicle }) => {
                                     })
                                 }
                                 onDeleteHandler={handleVehicleDelete}
-                                setReadOnly={(v) => setReadOnly(v)}
+                                setReadOnly={(v) => {
+                                    if (v === true && vehicle !== undefined) {
+                                        form.reset({
+                                            batteryCapacity: vehicle.batteryCapacity,
+                                            brand: vehicle.brand ?? '',
+                                            customer: vehicle.customer,
+                                            engineCode: vehicle.engineCode ?? '',
+                                            enginePower: vehicle.enginePower,
+                                            engineVolume: vehicle.engineVolume,
+                                            fuelType: vehicle.fuelType ?? '',
+                                            model: vehicle.model ?? '',
+                                            registrationPlate: vehicle.registrationPlate ?? '',
+                                            vin: vehicle.vin ?? '',
+                                            yearOfManufacture: vehicle.yearOfManufacture
+                                        });
+                                    }
+                                    setReadOnly(v);
+                                }}
                                 readOnly={readOnly}
                                 allowDelete={vehicle !== undefined}
                                 deleteModal={{

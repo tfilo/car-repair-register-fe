@@ -7,7 +7,15 @@ const NotFound: React.FC<NotFoundRouteProps> = () => {
             <div>
                 <h3>Požadovaná stránka sa nenašla</h3>
                 <p>
-                    <Link to='/'>Späť na domovskú obrazovku.</Link>
+                    <Link
+                        to='/'
+                        search={{
+                            page: 0,
+                            size: 10
+                        }}
+                    >
+                        Späť na domovskú obrazovku.
+                    </Link>
                 </p>
             </div>
         </div>

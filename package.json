@@ -16,7 +16,8 @@
         "apigen": "rimraf src/api/openapi && openapi-generator-cli generate",
         "cy:open": "npm run cy:clear && cypress open --e2e --browser electron",
         "cy:run": "npm run cy:clear && cypress run --browser electron",
-        "cy:clear": "rimraf cypress/results/*.xml"
+        "cy:clear": "rimraf cypress/results/*.xml",
+        "licenseReport": "license-report --package=./package.json --output=table --config license-report.json > ./LIBRARIES"
     },
     "dependencies": {
         "@mui/icons-material": "^6.2.1",
@@ -64,6 +65,7 @@
         "vite-plugin-istanbul": "^6.0.2",
         "vite-plugin-minify": "^2.1.0",
         "yup": "^1.6.1",
-        "yup-locales": "^1.2.28"
+        "yup-locales": "^1.2.28",
+        "license-report": "^6.7.0"
     }
 }

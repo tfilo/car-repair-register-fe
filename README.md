@@ -1,50 +1,48 @@
-# React + TypeScript + Vite
+# Car repair register - frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend application providing GUI in React.js.
 
-Currently, two official plugins are available:
+## Technologies required for development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js (>=22)
+- Docker (>=26.0.1)
+- Docker compose (>=2.26.1)
 
-## Expanding the ESLint configuration
+## Development
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+While development it is required to have Postgres database, Keycloak and Backend running. It can be runned by prepared `docker-compose.yaml` file. This development environment can be started by command:
 
-- Configure the top-level `parserOptions` property like this:
+- `docker compose up -d`
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+It will run database on port 5432 and backend on port 80 exposed by traefik and internal api on port 9090 for healthcheck (not used in frontend).
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+After database and backend is running, you can start development server by commands:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- `npm install` (only if you didn't run it before or you modifed package.json file)
+- `npm run apigen` (only if you need generate openapi without starting/buildin app)
+- `npm run dev`
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+React App will start in development mode on port 5173. |
+
+## Building docker image
+
+There is provided Dockerfile and sh script build-image.sh. You can use this script to build docker image.
+
+## License
+
+Project is licensed under [MIT](./LICENSE.txt) License. There are 3rd party libraries which can be part of builded docker images. List of this libraries can be found in [LIBRARIES](./LIBRARIES). Other than that this project use development libraries too. Please look at [package.json](./package.json) if you are interested in complete list of direct dependencies of this project.
+
+## How to update list of used libraries
+
+If added new dependencies, list of used libraries can be updated using this script
+
+`npm run licenseReport`
+
+WHILE RUNNING IT WILL INSTANLL GLOBALLY license-report LIBRARY
+
+## Environment variables
+
+API_BASE_PATH="/api/car-repair-register"
+KEYCLOAK_REALM="evidence"
+KEYCLOAK_CLIENT="evidence-public"
+KEYCLOAK_URL="http://localhost/auth"

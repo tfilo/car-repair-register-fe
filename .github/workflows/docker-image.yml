@@ -1,0 +1,37 @@
+name: Docker Image CI
+
+on:
+  push:
+    tags: ["*"]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: "./package-lock.json"
+      - name: build
+        run: |
+          npm ci
+          npm run build
+      - name: docker login
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: Build the Docker image
+        run: docker build . -f Dockerfile -t ${{secrets.DOCKER_USER}}/car-repair-register-fe:${{github.ref_name}} -t ${{secrets.DOCKER_USER}}/car-repair-register-fe:latest
+      - name: Docker push
+        run: docker image push --all-tags ${{secrets.DOCKER_USER}}/car-repair-register-fe

@@ -116,3 +116,15 @@ export const formatVehicleSecondaryDetail = (v: Vehicle): ReactNode | null => {
     }
     return <TextGroupWrapper>{result}</TextGroupWrapper>;
 };
+
+export const fileSizeFormatter = (size: number): string => {
+    if (size < 500) {
+        return `${size} B`;
+    }
+
+    if (size < 1000000) {
+        return `${(size / 1024).toFixed(2)} kB`;
+    }
+
+    return `${(size / 1024 / 1024).toFixed(2)} MB`;
+};

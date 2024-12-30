@@ -76,6 +76,16 @@ const Primary: React.FC<{ repairLog: RepairLog }> = ({ repairLog }) => {
             >
                 {formatCustomerName(repairLog.vehicle.customer)}
             </Typography>
+            {repairLog.attachments && repairLog.attachments.length > 0 && (
+                <Typography
+                    overflow='hidden'
+                    textOverflow='ellipsis'
+                    variant='body2'
+                    color='secondary'
+                >
+                    Počet príloh: {repairLog.attachments.length}ks
+                </Typography>
+            )}
         </>
     );
 };

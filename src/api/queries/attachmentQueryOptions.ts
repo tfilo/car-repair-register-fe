@@ -26,8 +26,8 @@ export const useDeleteAttachmentById = () => {
 };
 
 export const useDownloadAttachmentById = () => {
-    return (id: number) => {
-        attachmentApi
+    return async (id: number) => {
+        await attachmentApi
             .downloadAttachmentByIdRaw({
                 id
             })

@@ -70,9 +70,10 @@ services:
             SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: # for local development without check for issuer
             SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/auth/realms/evidence/protocol/openid-connect/certs
             SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: 64MB
-            SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 64MB
+            SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 72MB
             SERVER_PORT: 8080
             SERVER_SERVLET_CONTEXT_PATH: /api/car-repair-register
+            JAVA_OPTS: '-XX:MaxDirectMemorySize=256m'
         # healthcheck:
         #     test: ['CMD', 'curl', '-f', 'http://localhost:9090/actuator/health | grep UP || exit 1']
         #     interval: 10s

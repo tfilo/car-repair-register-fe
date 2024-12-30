@@ -11,7 +11,7 @@ const Textarea = styled(TextareaAutosize)(
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.2;
-    padding: 4px 6px;
+    padding: 6px 6px;
     border-radius: 4px;
     color: ${grey[900]};
     background: '#fff';
@@ -80,6 +80,7 @@ const TextareaInput: React.FC<TextareaInputProps> = ({ form, readOnly, required,
                             required={required}
                             sx={innerSx}
                             readOnly={readOnly}
+                            autoComplete='off'
                         />
                         <FormHelperText
                             error={state.meta.isTouched && state.meta.errors.length > 0}

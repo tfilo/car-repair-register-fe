@@ -83,7 +83,8 @@ const VehicleInput: React.FC<VehicleInputProps> = ({ form, readOnly, required, n
                                                 ) : null}
                                                 {params.InputProps.endAdornment}
                                             </React.Fragment>
-                                        )
+                                        ),
+                                        autoComplete: 'off'
                                     }
                                 }}
                                 error={state.meta.isTouched && state.meta.errors.length > 0}

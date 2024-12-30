@@ -18,6 +18,10 @@ import { useCreateCustomer } from '../../api/queries/customerQueryOptions';
 import VehicleInput from '../common/VehicleInput';
 import DateInput from '../common/DateInput';
 import TextareaInput from '../common/TextareaInput';
+import FileInput from '../common/FileInput';
+import { useUploadAttachment } from '../../api/queries/attachmentQueryOptions';
+import { MAX_FILE_SIZE } from '../../utils/constants';
+import Attachments from './Attachments';
 
 export type RepairLogDetailProps = {
     repairLog?: RepairLog;
@@ -33,6 +37,8 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
     const createRepairLogMutation = useCreateRepairLog();
     const updateRepairLogMutation = useUpdateRepairLog();
     const deleteRepairLogByIdMutation = useDeleteRepairLogById();
+    const uploadAttachmentMutation = useUploadAttachment();
+    const [files, setFiles] = useState<FileList | null>(null);
 
     const repairLogSchema = useMemo(
         () =>
@@ -119,6 +125,15 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                     } else {
                         saved = await createRepairLogMutation.mutateAsync({ ...data, vehicleId });
                     }
+
+                    if (files !== null) {
+                        for (let i = 0; i < files.length; i++) {
+                            if (files[i].size < MAX_FILE_SIZE) {
+                                await uploadAttachmentMutation.mutateAsync({ repairLogId: saved.id, multipartFile: files[i] });
+                            }
+                        }
+                    }
+                    setFiles(null);
                     setReadOnly(true);
                     navigate({
                         to: '/$id',
@@ -181,7 +196,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 {repairLog !== undefined ? formatVehicleMainDetail(repairLog.vehicle, true) : 'Nový záznam'}
             </Typography>
             <ErrorMessage
-                mutationResult={[createRepairLogMutation, updateRepairLogMutation]}
+                mutationResult={[createRepairLogMutation, updateRepairLogMutation, uploadAttachmentMutation]}
                 yupSchema={repairLogSchema}
             />
             {!repairLog && readOnly === false && (
@@ -273,6 +288,19 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 name='repairDate'
                 label='Dátum opravy'
             />
+            {readOnly === false && (
+                <FileInput
+                    label='Pridať prílohy'
+                    files={files}
+                    setFiles={setFiles}
+                />
+            )}
+            {repairLog && (
+                <Attachments
+                    attachments={repairLog.attachments}
+                    readOnly={readOnly}
+                />
+            )}
             <Stack
                 direction={{
                     sx: 'column',

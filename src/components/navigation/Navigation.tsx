@@ -23,7 +23,9 @@ const resolveBreadcrumbBundle = (idx: number, array: string[]) => {
         }
     }
     if (idx > 0 && array[idx - 1] === '') {
-        return 'Detail záznamy opravy';
+        if (!isNaN(+array[idx])) {
+            return 'Detail záznamu opravy';
+        }
     }
 
     return PATH_BUNDLE[array[idx]] ?? array[idx];

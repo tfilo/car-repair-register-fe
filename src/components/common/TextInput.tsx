@@ -1,17 +1,21 @@
 import { SxProps, TextField, Theme } from '@mui/material';
-import { ReactFormExtendedApi } from '@tanstack/react-form';
+import { DeepKeys, ReactFormExtendedApi, Validator } from '@tanstack/react-form';
+import { ReactElement } from 'react';
 
-type TextInputProps = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    form: ReactFormExtendedApi<any, any>;
+type TextInputProps<TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>> = {
+    form: ReactFormExtendedApi<TFormData, TFormValidator>;
+    name: TName;
     label: string;
-    name: string;
     readOnly?: boolean;
     required?: boolean;
     sx?: SxProps<Theme>;
 };
 
-const TextInput: React.FC<TextInputProps> = ({ form, readOnly, required, name, label, sx }) => {
+type TextInputComponent = <TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>>(
+    props: TextInputProps<TFormData, TFormValidator, TName>
+) => ReactElement | null;
+
+const TextInput: TextInputComponent = ({ form, readOnly, required, name, label, sx }) => {
     return (
         <form.Field
             name={name}
@@ -21,7 +25,7 @@ const TextInput: React.FC<TextInputProps> = ({ form, readOnly, required, name, l
                         fullWidth
                         sx={sx}
                         value={state.value ?? ''}
-                        onChange={(e) => handleChange(e.target.value)}
+                        onChange={(e) => handleChange(e.target.value as Parameters<typeof handleChange>[0])}
                         onBlur={handleBlur}
                         label={label}
                         required={required}

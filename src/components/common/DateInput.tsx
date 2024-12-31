@@ -1,20 +1,23 @@
 import { FormControl, FormHelperText, SxProps, Theme } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
-import { ReactFormExtendedApi } from '@tanstack/react-form';
-import { useId } from 'react';
+import { DeepKeys, ReactFormExtendedApi, Validator } from '@tanstack/react-form';
+import { ReactElement, useId } from 'react';
 import dayjs from 'dayjs';
 
-type DateInputProps = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    form: ReactFormExtendedApi<any, any>;
+type DateInputProps<TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>> = {
+    form: ReactFormExtendedApi<TFormData, TFormValidator>;
+    name: TName;
     label: string;
-    name: string;
     readOnly?: boolean;
     required?: boolean;
     sx?: SxProps<Theme>;
 };
 
-const DateInput: React.FC<DateInputProps> = ({ form, readOnly, required, name, label, sx }) => {
+type DateInputComponent = <TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>>(
+    props: DateInputProps<TFormData, TFormValidator, TName>
+) => ReactElement | null;
+
+const DateInput: DateInputComponent = ({ form, readOnly, required, name, label, sx }) => {
     const uniqueId = useId();
 
     return (
@@ -24,11 +27,11 @@ const DateInput: React.FC<DateInputProps> = ({ form, readOnly, required, name, l
                 return (
                     <FormControl>
                         <DatePicker
-                            value={state.value ? dayjs(state.value) : null}
+                            value={state.value ? dayjs(state.value as string) : null}
                             onChange={(e) => {
                                 if (e !== null) {
                                     const iso = e.format('YYYY-MM-DD');
-                                    handleChange(iso);
+                                    handleChange(iso as Parameters<typeof handleChange>[0]);
                                 }
                             }}
                             format='DD.MM.YYYY'

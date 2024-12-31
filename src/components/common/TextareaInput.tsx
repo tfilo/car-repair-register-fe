@@ -1,7 +1,7 @@
 import { FormControl, FormHelperText, InputLabel, styled, SxProps, Theme } from '@mui/material';
-import { ReactFormExtendedApi } from '@tanstack/react-form';
+import { DeepKeys, ReactFormExtendedApi, Validator } from '@tanstack/react-form';
 import { TextareaAutosize } from '@mui/base';
-import { useId } from 'react';
+import { ReactElement, useId } from 'react';
 import { blue, grey } from '@mui/material/colors';
 
 const Textarea = styled(TextareaAutosize)(
@@ -29,16 +29,19 @@ const Textarea = styled(TextareaAutosize)(
 `
 );
 
-type TextareaInputProps = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    form: ReactFormExtendedApi<any, any>;
+type TextareaInputProps<TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>> = {
+    form: ReactFormExtendedApi<TFormData, TFormValidator>;
+    name: TName;
     label: string;
-    name: string;
     readOnly?: boolean;
     required?: boolean;
 };
 
-const TextareaInput: React.FC<TextareaInputProps> = ({ form, readOnly, required, name, label }) => {
+type TextareaInputComponent = <TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>>(
+    props: TextareaInputProps<TFormData, TFormValidator, TName>
+) => ReactElement | null;
+
+const TextareaInput: TextareaInputComponent = ({ form, readOnly, required, name, label }) => {
     const uniqueId = useId();
     return (
         <form.Field
@@ -73,8 +76,8 @@ const TextareaInput: React.FC<TextareaInputProps> = ({ form, readOnly, required,
                         <Textarea
                             id={`${uniqueId}_${name}`}
                             aria-describedby={`${uniqueId}_${name}-helper`}
-                            value={state.value}
-                            onChange={(e) => handleChange(e.target.value)}
+                            value={state.value as string}
+                            onChange={(e) => handleChange(e.target.value as Parameters<typeof handleChange>[0])}
                             onBlur={handleBlur}
                             minRows={6}
                             required={required}

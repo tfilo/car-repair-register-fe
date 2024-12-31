@@ -1,23 +1,26 @@
 import { Autocomplete, CircularProgress, SxProps, TextField, Theme } from '@mui/material';
-import { ReactFormExtendedApi } from '@tanstack/react-form';
+import { DeepKeys, ReactFormExtendedApi, Validator } from '@tanstack/react-form';
 import { formatCustomerNameAsString } from '../../utils/formatterUtil';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Customer } from '../../api/openapi/backend';
 import { queryClient } from '../../queryClient';
 import { findCustomersOptions } from '../../api/queries/customerQueryOptions';
 import { useDebouncedCallback } from 'use-debounce';
 
-type CustomerInputProps = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    form: ReactFormExtendedApi<any, any>;
+type CustomerInputProps<TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>> = {
+    form: ReactFormExtendedApi<TFormData, TFormValidator>;
+    name: TName;
     label: string;
-    name: string;
     readOnly?: boolean;
     required?: boolean;
     sx?: SxProps<Theme>;
 };
 
-const CustomerInput: React.FC<CustomerInputProps> = ({ form, readOnly, required, name, label, sx }) => {
+type CustomerInputComponent = <TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>>(
+    props: CustomerInputProps<TFormData, TFormValidator, TName>
+) => ReactElement | null;
+
+const CustomerInput: CustomerInputComponent = ({ form, readOnly, required, name, label, sx }) => {
     const [loadinCustomers, setLoadingCustomers] = useState(false);
     const [customerOpen, setCustomerOpen] = useState(false);
     const [customers, setCustomers] = useState<Customer[]>([]);
@@ -59,9 +62,9 @@ const CustomerInput: React.FC<CustomerInputProps> = ({ form, readOnly, required,
                         onClose={handleCustomerClose}
                         isOptionEqualToValue={(option, value) => option.id === value.id}
                         getOptionLabel={(o) => formatCustomerNameAsString(o)}
-                        onChange={(_, val) => handleChange(val)}
+                        onChange={(_, val) => handleChange(val as Parameters<typeof handleChange>[0])}
                         getOptionKey={(o) => o.id}
-                        value={state.value}
+                        value={state.value as Customer}
                         onBlur={handleBlur}
                         autoHighlight
                         readOnly={readOnly}

@@ -1,23 +1,26 @@
 import { Autocomplete, CircularProgress, SxProps, TextField, Theme } from '@mui/material';
-import { ReactFormExtendedApi } from '@tanstack/react-form';
+import { DeepKeys, ReactFormExtendedApi, Validator } from '@tanstack/react-form';
 import { formatCustomerNameAsString } from '../../utils/formatterUtil';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Vehicle } from '../../api/openapi/backend';
 import { queryClient } from '../../queryClient';
 import { useDebouncedCallback } from 'use-debounce';
 import { findVehiclesOptions } from '../../api/queries/vehicleQueryOptions';
 
-type VehicleInputProps = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    form: ReactFormExtendedApi<any, any>;
+type VehicleInputProps<TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>> = {
+    form: ReactFormExtendedApi<TFormData, TFormValidator>;
+    name: TName;
     label: string;
-    name: string;
     readOnly?: boolean;
     required?: boolean;
     sx?: SxProps<Theme>;
 };
 
-const VehicleInput: React.FC<VehicleInputProps> = ({ form, readOnly, required, name, label, sx }) => {
+type VehicleInputComponent = <TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>>(
+    props: VehicleInputProps<TFormData, TFormValidator, TName>
+) => ReactElement | null;
+
+const VehicleInput: VehicleInputComponent = ({ form, readOnly, required, name, label, sx }) => {
     const [loadinVehicles, setLoadingVehicles] = useState(false);
     const [customerOpen, setCustomerOpen] = useState(false);
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -58,9 +61,9 @@ const VehicleInput: React.FC<VehicleInputProps> = ({ form, readOnly, required, n
                         onClose={handleCustomerClose}
                         isOptionEqualToValue={(option, value) => option.id === value.id}
                         getOptionLabel={(o) => o.registrationPlate + ' - ' + formatCustomerNameAsString(o.customer)}
-                        onChange={(_, val) => handleChange(val)}
+                        onChange={(_, val) => handleChange(val as Parameters<typeof handleChange>[0])}
                         getOptionKey={(o) => o.id}
-                        value={state.value}
+                        value={state.value as Vehicle}
                         onBlur={handleBlur}
                         autoHighlight
                         readOnly={readOnly}

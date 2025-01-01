@@ -76,6 +76,16 @@ const Primary: React.FC<{ repairLog: RepairLog }> = ({ repairLog }) => {
             >
                 {formatCustomerName(repairLog.vehicle.customer)}
             </Typography>
+            {repairLog.odometer !== null && (
+                <Typography
+                    overflow='hidden'
+                    textOverflow='ellipsis'
+                    variant='body2'
+                    color='info'
+                >
+                    Stav odometra: {repairLog.odometer.toLocaleString('sk')}km
+                </Typography>
+            )}
             {repairLog.attachments && repairLog.attachments.length > 0 && (
                 <Typography
                     overflow='hidden'

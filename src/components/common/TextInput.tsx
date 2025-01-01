@@ -9,13 +9,14 @@ type TextInputProps<TFormData, TFormValidator extends Validator<TFormData, unkno
     readOnly?: boolean;
     required?: boolean;
     sx?: SxProps<Theme>;
+    style?: React.CSSProperties;
 };
 
 type TextInputComponent = <TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>>(
     props: TextInputProps<TFormData, TFormValidator, TName>
 ) => ReactElement | null;
 
-const TextInput: TextInputComponent = ({ form, readOnly, required, name, label, sx }) => {
+const TextInput: TextInputComponent = ({ form, readOnly, required, name, label, sx, style }) => {
     return (
         <form.Field
             name={name}
@@ -34,6 +35,9 @@ const TextInput: TextInputComponent = ({ form, readOnly, required, name, label, 
                         slotProps={{
                             input: {
                                 readOnly
+                            },
+                            htmlInput: {
+                                style
                             }
                         }}
                         autoComplete='off'

@@ -3,7 +3,7 @@
     "info": {
         "title": "Car Repair Register API",
         "description": "Evidence of customers and vehicles for small workshops.",
-        "version": "0.0.1-SNAPSHOT"
+        "version": "1.1.0"
     },
     "servers": [
         {
@@ -36,16 +36,6 @@
                     }
                 ],
                 "responses": {
-                    "403": {
-                        "description": "forbidden",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "ok",
                         "content": {
@@ -56,8 +46,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
+                    "403": {
+                        "description": "forbidden",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -68,6 +58,16 @@
                     },
                     "404": {
                         "description": "not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -116,32 +116,12 @@
                     "required": true
                 },
                 "responses": {
-                    "403": {
-                        "description": "forbidden",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "ok",
                         "content": {
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Vehicle"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
                                 }
                             }
                         }
@@ -156,8 +136,28 @@
                             }
                         }
                     },
+                    "403": {
+                        "description": "forbidden",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
                     "404": {
                         "description": "not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -196,6 +196,9 @@
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
                     "403": {
                         "description": "forbidden",
                         "content": {
@@ -206,11 +209,8 @@
                             }
                         }
                     },
-                    "200": {
-                        "description": "ok"
-                    },
-                    "401": {
-                        "description": "unauthorized",
+                    "404": {
+                        "description": "not found",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -219,8 +219,8 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "not found",
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -261,16 +261,6 @@
                     }
                 ],
                 "responses": {
-                    "403": {
-                        "description": "forbidden",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "ok",
                         "content": {
@@ -281,8 +271,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
+                    "403": {
+                        "description": "forbidden",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -293,6 +283,16 @@
                     },
                     "404": {
                         "description": "not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -341,32 +341,12 @@
                     "required": true
                 },
                 "responses": {
-                    "403": {
-                        "description": "forbidden",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "ok",
                         "content": {
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/RepairLog"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
                                 }
                             }
                         }
@@ -381,8 +361,28 @@
                             }
                         }
                     },
+                    "403": {
+                        "description": "forbidden",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
                     "404": {
                         "description": "not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -421,6 +421,9 @@
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
                     "403": {
                         "description": "forbidden",
                         "content": {
@@ -431,11 +434,8 @@
                             }
                         }
                     },
-                    "200": {
-                        "description": "ok"
-                    },
-                    "401": {
-                        "description": "unauthorized",
+                    "404": {
+                        "description": "not found",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -444,8 +444,8 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "not found",
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -486,16 +486,6 @@
                     }
                 ],
                 "responses": {
-                    "403": {
-                        "description": "forbidden",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "ok",
                         "content": {
@@ -506,8 +496,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
+                    "403": {
+                        "description": "forbidden",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -518,6 +508,16 @@
                     },
                     "404": {
                         "description": "not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -566,16 +566,6 @@
                     "required": true
                 },
                 "responses": {
-                    "403": {
-                        "description": "forbidden",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "ok",
                         "content": {
@@ -586,8 +576,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
+                    "403": {
+                        "description": "forbidden",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -598,6 +588,16 @@
                     },
                     "404": {
                         "description": "not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -636,6 +636,9 @@
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
                     "403": {
                         "description": "forbidden",
                         "content": {
@@ -646,11 +649,8 @@
                             }
                         }
                     },
-                    "200": {
-                        "description": "ok"
-                    },
-                    "401": {
-                        "description": "unauthorized",
+                    "404": {
+                        "description": "not found",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -659,8 +659,8 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "not found",
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -755,28 +755,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "not found",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "internal server error",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -791,6 +771,26 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/VehiclePagedModel"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
                                 }
                             }
                         }
@@ -814,8 +814,8 @@
                     "required": true
                 },
                 "responses": {
-                    "403": {
-                        "description": "forbidden",
+                    "409": {
+                        "description": "conflict",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -834,18 +834,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "conflict",
+                    "403": {
+                        "description": "forbidden",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -856,6 +846,16 @@
                     },
                     "404": {
                         "description": "not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -950,28 +950,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "not found",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "internal server error",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -986,6 +966,26 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/RepairLogPagedModel"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
                                 }
                             }
                         }
@@ -1009,8 +1009,8 @@
                     "required": true
                 },
                 "responses": {
-                    "403": {
-                        "description": "forbidden",
+                    "409": {
+                        "description": "conflict",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1029,18 +1029,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "conflict",
+                    "403": {
+                        "description": "forbidden",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1051,6 +1041,16 @@
                     },
                     "404": {
                         "description": "not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1126,18 +1126,18 @@
                     }
                 ],
                 "responses": {
-                    "403": {
-                        "description": "forbidden",
+                    "200": {
+                        "description": "ok",
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
+                                    "$ref": "#/components/schemas/CustomerPagedModel"
                                 }
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
+                    "403": {
+                        "description": "forbidden",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1156,8 +1156,8 @@
                             }
                         }
                     },
-                    "500": {
-                        "description": "internal server error",
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1166,12 +1166,12 @@
                             }
                         }
                     },
-                    "200": {
-                        "description": "ok",
+                    "500": {
+                        "description": "internal server error",
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/CustomerPagedModel"
+                                    "$ref": "#/components/schemas/ErrorMessage"
                                 }
                             }
                         }
@@ -1195,22 +1195,22 @@
                     "required": true
                 },
                 "responses": {
-                    "403": {
-                        "description": "forbidden",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "201": {
                         "description": "created",
                         "content": {
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Customer"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "forbidden",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
                                 }
                             }
                         }
@@ -1276,8 +1276,8 @@
                     "required": true
                 },
                 "responses": {
-                    "403": {
-                        "description": "forbidden",
+                    "413": {
+                        "description": "content too large",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1296,8 +1296,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
+                    "403": {
+                        "description": "forbidden",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1316,8 +1316,8 @@
                             }
                         }
                     },
-                    "500": {
-                        "description": "internal server error",
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1326,8 +1326,8 @@
                             }
                         }
                     },
-                    "413": {
-                        "description": "content too large",
+                    "500": {
+                        "description": "internal server error",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1358,16 +1358,6 @@
                     }
                 ],
                 "responses": {
-                    "403": {
-                        "description": "forbidden",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "ok",
                         "content": {
@@ -1379,8 +1369,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
+                    "403": {
+                        "description": "forbidden",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1391,6 +1381,16 @@
                     },
                     "404": {
                         "description": "not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1429,6 +1429,9 @@
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
                     "403": {
                         "description": "forbidden",
                         "content": {
@@ -1439,11 +1442,8 @@
                             }
                         }
                     },
-                    "200": {
-                        "description": "ok"
-                    },
-                    "401": {
-                        "description": "unauthorized",
+                    "404": {
+                        "description": "not found",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1452,8 +1452,8 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "not found",
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1798,6 +1798,7 @@
             "RepairLogUpdate": {
                 "required": [
                     "content",
+                    "odometer",
                     "repairDate",
                     "vehicleId"
                 ],
@@ -1811,6 +1812,11 @@
                     "vehicleId": {
                         "type": "integer",
                         "format": "int64"
+                    },
+                    "odometer": {
+                        "type": "integer",
+                        "format": "int32",
+                        "nullable": true
                     },
                     "repairDate": {
                         "type": "string",
@@ -1856,6 +1862,7 @@
                     "created",
                     "id",
                     "modified",
+                    "odometer",
                     "repairDate",
                     "vehicle"
                 ],
@@ -1874,6 +1881,11 @@
                     "repairDate": {
                         "type": "string",
                         "format": "date"
+                    },
+                    "odometer": {
+                        "type": "integer",
+                        "format": "int32",
+                        "nullable": true
                     },
                     "attachments": {
                         "type": "array",
@@ -2014,6 +2026,7 @@
             "RepairLogCreate": {
                 "required": [
                     "content",
+                    "odometer",
                     "repairDate",
                     "vehicleId"
                 ],
@@ -2027,6 +2040,11 @@
                     "vehicleId": {
                         "type": "integer",
                         "format": "int64"
+                    },
+                    "odometer": {
+                        "type": "integer",
+                        "format": "int32",
+                        "nullable": true
                     },
                     "repairDate": {
                         "type": "string",

@@ -5,16 +5,17 @@ import FileComponent from './FileComponent';
 
 type FileInputProps = {
     label: string;
-    files: FileList | null;
-    setFiles: (files: FileList | null) => void;
+    files: File[];
+    setFiles: React.Dispatch<React.SetStateAction<File[]>>;
 };
 
 type SelectedFilesProps = {
-    files: FileList | null;
+    files: File[];
+    setFiles: React.Dispatch<React.SetStateAction<File[]>>;
 };
 
-const SelectedFiles: React.FC<SelectedFilesProps> = ({ files }) => {
-    if (files === null) {
+const SelectedFiles: React.FC<SelectedFilesProps> = ({ files, setFiles }) => {
+    if (files.length === 0) {
         return null;
     }
 
@@ -25,12 +26,17 @@ const SelectedFiles: React.FC<SelectedFilesProps> = ({ files }) => {
             gap={2}
         >
             <Typography>Nové prílohy na nahratie:</Typography>
-            {Array.from(files).map((f) => (
+            {files.map((f, fIndex) => (
                 <FileComponent
                     fileSize={f.size}
                     fileType={f.type}
                     fileName={f.name}
-                    key={f.name}
+                    key={`${f.name}_${fIndex}`}
+                    onDelete={() =>
+                        setFiles((prev) => {
+                            return prev.filter((_, idx) => idx !== fIndex);
+                        })
+                    }
                 />
             ))}
         </Stack>
@@ -42,7 +48,15 @@ const FileInput: React.FC<FileInputProps> = ({ label, files, setFiles }) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const onFileChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFiles(event.target.files);
+        if (event.target.files) {
+            const newFiles: File[] = [];
+            for (let i = 0; i < event.target.files.length; i++) {
+                newFiles.push(event.target.files[i]);
+            }
+            setFiles((prev) => {
+                return [...prev, ...newFiles];
+            });
+        }
     };
 
     return (
@@ -73,13 +87,13 @@ const FileInput: React.FC<FileInputProps> = ({ label, files, setFiles }) => {
                 >
                     {label}
                 </Button>
-                {files !== null && (
+                {files.length > 0 && (
                     <Button
                         startIcon={<Delete />}
                         onClick={(e) => {
                             e.stopPropagation();
                             e.preventDefault();
-                            setFiles(null);
+                            setFiles([]);
                             if (inputRef && 'current' in inputRef && inputRef.current !== null) {
                                 inputRef.current.value = '';
                             }
@@ -105,7 +119,10 @@ const FileInput: React.FC<FileInputProps> = ({ label, files, setFiles }) => {
                 }}
                 tabIndex={-1}
             />
-            <SelectedFiles files={files} />
+            <SelectedFiles
+                files={files}
+                setFiles={setFiles}
+            />
         </Box>
     );
 };

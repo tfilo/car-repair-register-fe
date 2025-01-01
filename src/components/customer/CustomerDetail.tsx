@@ -2,7 +2,7 @@ import { Box, Divider, List, ListItem, ListItemIcon, ListItemText, Stack, Typogr
 import type { Customer } from '../../api/openapi/backend';
 import { useForm } from '@tanstack/react-form';
 import { useCreateCustomer, useDeleteCustomerById, useUpdateCustomer } from '../../api/queries/customerQueryOptions';
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, useRouter } from '@tanstack/react-router';
 import { yupValidator } from '@tanstack/yup-form-adapter';
 import { useCallback, useState } from 'react';
 import { formatCustomerName, formatVehicleMainDetail } from '../../utils/formatterUtil';
@@ -21,13 +21,14 @@ export type CustomerProps = {
 
 const customerSchema = yup.object({
     name: yup.string().trim().required().max(64, 'Meno musí mať maximálne 64 znakov').label('Meno'),
-    surname: yup.string().trim().optional().nullable().max(64, 'Priezvisko musí mať maximálne 64 znakov').label('Priezvisko'),
-    mobile: yup.string().trim().optional().nullable().max(20, 'Telefón musí mať maximálne 20 znakov').label('Telefón'),
+    surname: yup.string().trim().defined().emptyAsNull().nullable().max(64, 'Priezvisko musí mať maximálne 64 znakov').label('Priezvisko'),
+    mobile: yup.string().trim().defined().emptyAsNull().nullable().max(20, 'Telefón musí mať maximálne 20 znakov').label('Telefón'),
     email: yup
         .string()
         .email('Musí byť platný email')
         .trim()
-        .optional()
+        .defined()
+        .emptyAsNull()
         .nullable()
         .max(320, 'Email musí mať maximálne 320 znakov')
         .label('Email')
@@ -90,6 +91,7 @@ const CustomerVehicles: React.FC<CustomerVehiclesProps> = ({ customerId }) => {
 };
 
 const CustomerDetail: React.FC<CustomerProps> = ({ customer }) => {
+    const router = useRouter();
     const [readOnly, setReadOnly] = useState(!!customer);
     const navigate = useNavigate();
     const createCustomerMutation = useCreateCustomer();
@@ -98,14 +100,22 @@ const CustomerDetail: React.FC<CustomerProps> = ({ customer }) => {
 
     const form = useForm({
         onSubmit: async ({ value }) => {
+            const data = customerSchema.cast(value);
             try {
                 let saved: Customer;
                 if (customer !== undefined) {
-                    saved = await updateCustomerMutation.mutateAsync({ id: customer.id, customer: value });
+                    saved = await updateCustomerMutation.mutateAsync({ id: customer.id, customer: data });
                 } else {
-                    saved = await createCustomerMutation.mutateAsync(value);
+                    saved = await createCustomerMutation.mutateAsync(data);
                 }
                 setReadOnly(true);
+                router.invalidate();
+                form.reset({
+                    name: saved.name ?? '',
+                    surname: saved.surname ?? '',
+                    email: saved.email ?? '',
+                    mobile: saved.mobile ?? ''
+                });
                 navigate({
                     to: '/customer/$id',
                     params: {
@@ -221,7 +231,6 @@ const CustomerDetail: React.FC<CustomerProps> = ({ customer }) => {
                                 onDeleteHandler={handleCustomerDelete}
                                 setReadOnly={(v) => {
                                     if (v === true) {
-                                        console.log('RESETUJEM');
                                         form.reset();
                                     }
                                     setReadOnly(v);

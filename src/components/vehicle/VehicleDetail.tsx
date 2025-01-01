@@ -2,7 +2,7 @@ import { Box, Stack, Typography } from '@mui/material';
 import { type Vehicle } from '../../api/openapi/backend';
 import { useForm } from '@tanstack/react-form';
 import { useCreateVehicle, useDeleteVehicleById, useUpdateVehicle } from '../../api/queries/vehicleQueryOptions';
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, useRouter } from '@tanstack/react-router';
 import { useCallback, useState } from 'react';
 import { formatCustomerNameAsString } from '../../utils/formatterUtil';
 import React from 'react';
@@ -24,47 +24,65 @@ const vehicleSchema = yup.object({
         })
         .required()
         .label('Zákazník'),
-    vin: yup.string().trim().optional().nullable().max(20, 'VIN musí mať maximálne 20 znakov').label('VIN'),
-    engineCode: yup.string().trim().optional().nullable().max(20, 'Kód motora musí mať maximálne 20 znakov').label('Kód motora'),
-    fuelType: yup.string().trim().optional().nullable().max(20, 'Typ paliva musí mať maximálne 20 znakov').label('Typ paliva'),
+    vin: yup.string().trim().defined().emptyAsNull().nullable().max(20, 'VIN musí mať maximálne 20 znakov').label('VIN'),
+    engineCode: yup
+        .string()
+        .trim()
+        .defined()
+        .emptyAsNull()
+        .nullable()
+        .max(20, 'Kód motora musí mať maximálne 20 znakov')
+        .label('Kód motora'),
+    fuelType: yup.string().trim().defined().emptyAsNull().nullable().max(20, 'Typ paliva musí mať maximálne 20 znakov').label('Typ paliva'),
     enginePower: yup
         .number()
         .typeError('Výkon motora musí byť číslo v jednotkách kW')
         .integer()
+        .defined()
         .min(0)
         .max(3000)
+        .emptyAsNull()
         .nullable()
-        .default(null)
         .label('Výkon motora'),
     engineVolume: yup
         .number()
         .typeError('Objem motora musí byť číslo v jednotkách ccm')
         .integer()
+        .defined()
         .min(0)
         .max(10000)
+        .emptyAsNull()
         .nullable()
-        .default(null)
         .label('Objem motora'),
     batteryCapacity: yup
         .number()
         .typeError('Kapacita batérie musí byť číslo v jednotkách kWh')
         .integer()
+        .defined()
         .min(0)
         .max(1000)
+        .emptyAsNull()
         .nullable()
-        .default(null)
         .label('Kapacita batérie'),
-
-    brand: yup.string().trim().optional().nullable().max(64, 'Výrobca musí mať maximálne 64 znakov').label('Výrobca'),
-    model: yup.string().trim().optional().nullable().max(64, 'Model musí mať maximálne 64 znakov').label('Model'),
+    brand: yup
+        .string()
+        .trim()
+        .defined()
+        .defined()
+        .emptyAsNull()
+        .nullable()
+        .max(64, 'Výrobca musí mať maximálne 64 znakov')
+        .label('Výrobca'),
+    model: yup.string().trim().defined().emptyAsNull().nullable().max(64, 'Model musí mať maximálne 64 znakov').label('Model'),
     yearOfManufacture: yup
         .number()
         .typeError('Rok výroby musí byť číslo')
         .integer()
+        .defined()
         .min(1900)
         .max(2100)
+        .emptyAsNull()
         .nullable()
-        .default(null)
         .label('Rok výroby')
 });
 
@@ -73,6 +91,7 @@ export type VehicleDetailProps = {
 };
 
 const VehicleDetail: React.FC<VehicleDetailProps> = ({ vehicle }) => {
+    const router = useRouter();
     const [readOnly, setReadOnly] = useState(!!vehicle);
     const navigate = useNavigate();
     const createVehicleMutation = useCreateVehicle();
@@ -80,7 +99,8 @@ const VehicleDetail: React.FC<VehicleDetailProps> = ({ vehicle }) => {
     const deleteVehicleByIdMutation = useDeleteVehicleById();
 
     const form = useForm({
-        onSubmit: async ({ value: { customer, ...data } }) => {
+        onSubmit: async ({ value }) => {
+            const { customer, ...data } = vehicleSchema.cast(value);
             if (customer !== null) {
                 try {
                     let saved: Vehicle;
@@ -90,6 +110,20 @@ const VehicleDetail: React.FC<VehicleDetailProps> = ({ vehicle }) => {
                         saved = await createVehicleMutation.mutateAsync({ ...data, customerId: customer.id });
                     }
                     setReadOnly(true);
+                    router.invalidate();
+                    form.reset({
+                        customer: saved.customer,
+                        registrationPlate: saved.registrationPlate ?? '',
+                        vin: saved.vin ?? '',
+                        engineCode: saved.engineCode ?? '',
+                        fuelType: saved.fuelType ?? '',
+                        enginePower: saved.enginePower,
+                        engineVolume: saved.engineVolume,
+                        batteryCapacity: saved.batteryCapacity,
+                        brand: saved.brand ?? '',
+                        model: saved.model ?? '',
+                        yearOfManufacture: saved.yearOfManufacture
+                    });
                     navigate({
                         to: '/vehicle/$id',
                         params: {
@@ -194,18 +228,27 @@ const VehicleDetail: React.FC<VehicleDetailProps> = ({ vehicle }) => {
                 form={form}
                 readOnly={readOnly}
                 required
+                style={{
+                    textTransform: 'uppercase'
+                }}
             />
             <TextInput
                 name='vin'
                 label='VIN'
                 form={form}
                 readOnly={readOnly}
+                style={{
+                    textTransform: 'uppercase'
+                }}
             />
             <TextInput
                 name='engineCode'
                 label='Kód motora'
                 form={form}
                 readOnly={readOnly}
+                style={{
+                    textTransform: 'uppercase'
+                }}
             />
             <TextInput
                 name='yearOfManufacture'

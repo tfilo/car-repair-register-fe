@@ -4,9 +4,10 @@ import { PropsWithChildren } from 'react';
 type NavBtnProps = {
     title: string;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
+    dataCy?: string;
 };
 
-const NavBtn: React.FC<PropsWithChildren<NavBtnProps>> = ({ children, title, onClick }) => {
+const NavBtn: React.FC<PropsWithChildren<NavBtnProps>> = ({ children, title, onClick, dataCy }) => {
     return (
         <IconButton
             color='primary'
@@ -19,6 +20,7 @@ const NavBtn: React.FC<PropsWithChildren<NavBtnProps>> = ({ children, title, onC
                 width: 56,
                 height: 56
             }}
+            data-cy={dataCy}
         >
             {children}
         </IconButton>

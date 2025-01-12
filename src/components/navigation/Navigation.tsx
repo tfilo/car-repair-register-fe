@@ -50,8 +50,9 @@ const Navigation: React.FC = () => {
                 justifyContent: 'space-between',
                 borderBottom: '1px solid lightgray'
             }}
+            data-cy='navbar'
         >
-            <Breadcrumbs aria-label='navigácia'>
+            <Breadcrumbs aria-label='navigácia' data-cy='breadcrumbs'>
                 {pathname.split('/').map((path, idx, array) => {
                     const subpath = array.slice(0, idx + 1).join('/');
                     return array.length - 1 === idx ? (
@@ -79,6 +80,7 @@ const Navigation: React.FC = () => {
                 gap={2}
             >
                 <Button
+                    data-cy='profile-btn'
                     startIcon={<AccountCircle />}
                     variant='text'
                     color='primary'
@@ -102,6 +104,7 @@ const Navigation: React.FC = () => {
                     Profil
                 </Button>
                 <Button
+                    data-cy='logout-btn'
                     startIcon={<LogoutOutlined />}
                     variant='text'
                     color='primary'
@@ -120,6 +123,7 @@ const Navigation: React.FC = () => {
                     Odhlásiť sa
                 </Button>
                 <IconButton
+                    data-cy='profile-icon-btn'
                     title='Profil'
                     color='primary'
                     onClick={() =>
@@ -142,6 +146,7 @@ const Navigation: React.FC = () => {
                     <AccountCircle />
                 </IconButton>
                 <IconButton
+                    data-cy='logout-icon-btn'
                     title='Odhlásiť sa'
                     color='primary'
                     onClick={() =>

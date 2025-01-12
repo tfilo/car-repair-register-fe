@@ -19,6 +19,7 @@ const ActionBar: React.FC = () => {
             <NavBtn
                 onClick={() => navigate({ to: '/add' })}
                 title='Pridať záznam opravy'
+                dataCy='add-records-btn'
             >
                 <CarRepair fontSize='inherit' />
             </NavBtn>
@@ -35,6 +36,7 @@ const ActionBar: React.FC = () => {
                         }
                     })
                 }
+                dataCy='customers-btn'
             >
                 <Person fontSize='inherit' />
             </NavBtn>
@@ -49,6 +51,7 @@ const ActionBar: React.FC = () => {
                         }
                     })
                 }
+                dataCy='vehicles-btn'
             >
                 <DirectionsCar fontSize='inherit' />
             </NavBtn>

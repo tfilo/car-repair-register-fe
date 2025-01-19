@@ -45,7 +45,10 @@ const CommonSearch: CommonSearchComponent = ({ children, query, result, searchHe
                 />
                 {actionBar}
             </Box>
-            <List sx={{ width: '100%' }}>
+            <List
+                sx={{ width: '100%' }}
+                data-cy='search-result-list'
+            >
                 {result.content?.map((el, idx, arr) => {
                     const { Icon, ...currentItem } = children(el);
                     return (
@@ -57,6 +60,7 @@ const CommonSearch: CommonSearchComponent = ({ children, query, result, searchHe
                                 sx={{
                                     cursor: 'pointer'
                                 }}
+                                data-cy='search-result-list-item'
                             >
                                 <ListItemAvatar>
                                     <Avatar>
@@ -66,6 +70,7 @@ const CommonSearch: CommonSearchComponent = ({ children, query, result, searchHe
                                 <ListItemText
                                     primary={currentItem.primary}
                                     secondary={currentItem.secondary}
+                                    data-cy='search-result-item-content'
                                 />
                             </ListItem>
                             {arr.length - 1 !== idx && <Divider component='li' />}

@@ -1,6 +1,9 @@
 describe('login', () => {
     beforeEach(() => {
-        cy.loginToKeycloak('test', 'test');
+        cy.task('db:seed');
+        cy.fixture('authentication').then((authentication) => {
+            cy.loginToKeycloak(authentication.username, authentication.password);
+        });
     });
 
     it('should successfully log in', () => {

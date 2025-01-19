@@ -64,6 +64,35 @@ const loginToKeycloak = (username: string, password: string) => {
     );
 };
 
+const directLogin = (username: string, password: string) => {
+    Cypress.log({
+        displayName: 'DIRECT LOGIN',
+        message: [`🔐 Authenticating | ${username}`],
+        autoEnd: false
+    });
+
+    cy.request({
+        method: 'POST',
+        url: 'http://localhost/auth/realms/evidence/protocol/openid-connect/token',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `client_id=evidence-public&client_secret=&username=${username}&password=${password}&grant_type=password&scope=openid offline_access`
+    })
+        .its('body')
+        .then((data) => {
+            cy.visit('/', {
+                onBeforeLoad(win) {
+                    win.sessionStorage.setItem(`oidc.user:http://localhost/auth/realms/evidence:evidence-public`, JSON.stringify(data));
+                }
+            });
+        });
+};
+
+Cypress.Commands.add('directLogin', (username: string, password: string) => {
+    return directLogin(username, password);
+});
+
 Cypress.Commands.addQuery('getByDataCy', function getByDataCy(value: string) {
     const getFn = cy.now('get', `[data-cy="${value}"`) as () => Promise<HTMLElement>;
     return () => {
@@ -74,21 +103,3 @@ Cypress.Commands.addQuery('getByDataCy', function getByDataCy(value: string) {
 Cypress.Commands.add('loginToKeycloak', (username: string, password: string) => {
     return loginToKeycloak(username, password);
 });
-
-declare global {
-    // eslint-disable-next-line @typescript-eslint/no-namespace
-    namespace Cypress {
-        interface Chainable {
-            /**
-             * Log in by username and password
-             * @example cy.loginToKeycloak('user', 'password')
-             */
-            loginToKeycloak(username: string, password: string): Chainable<void>;
-            /**
-             * Get attribute by data-cy attribute value
-             * @example cy.getByDataCy('value')
-             */
-            getByDataCy(value: string): Chainable<JQuery<HTMLElement>>;
-        }
-    }
-}

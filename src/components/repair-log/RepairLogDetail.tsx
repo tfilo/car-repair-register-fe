@@ -245,6 +245,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 component='div'
                 overflow='hidden'
                 textOverflow='ellipsis'
+                data-cy='log-title'
             >
                 {repairLog !== undefined ? formatVehicleMainDetail(repairLog.vehicle, true) : 'Nový záznam'}
             </Typography>

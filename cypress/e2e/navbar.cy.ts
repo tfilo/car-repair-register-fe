@@ -1,6 +1,9 @@
 describe('navbar', () => {
     beforeEach(() => {
-        cy.loginToKeycloak('test', 'test');
+        cy.task('db:seed');
+        cy.fixture('authentication').then((authentication) => {
+            cy.directLogin(authentication.username, authentication.password);
+        });
     });
 
     it('should be visbile and contains breadcrumbs', () => {
@@ -13,7 +16,7 @@ describe('navbar', () => {
     });
 
     it('should be visbile and contains breadcrumbs on small screen', () => {
-        cy.viewport('iphone-se2')
+        cy.viewport('iphone-se2');
         cy.getByDataCy('navbar').should('be.visible');
         cy.getByDataCy('profile-btn').should('not.be.visible');
         cy.getByDataCy('logout-btn').should('not.be.visible');
@@ -35,5 +38,5 @@ describe('navbar', () => {
         cy.getByDataCy('breadcrumbs').should('have.text', 'Domov/Vozidlo/Nový záznam');
         cy.visit('/');
         cy.getByDataCy('breadcrumbs').should('have.text', 'Domov');
-    })
+    });
 });

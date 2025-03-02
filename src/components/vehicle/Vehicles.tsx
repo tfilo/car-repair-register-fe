@@ -1,11 +1,11 @@
 import { AddCircle, DirectionsCar } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
-import { getRouteApi, useNavigate, useSearch } from '@tanstack/react-router';
+import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router';
 import { formatCustomerName, formatVehicleMainDetail, formatVehicleSecondaryDetail } from '../../utils/formatterUtil';
 import NavBtn from '../common/NavBtn';
 import CommonSearch from '../common/CommonSearch';
 import { useCallback } from 'react';
-import { Vehicle } from '../../api/openapi/backend';
+import { type Vehicle } from '../../api/openapi/backend';
 
 const ActionBar: React.FC = () => {
     const navigate = useNavigate({ from: '/' });
@@ -56,18 +56,11 @@ const Secondary: React.FC<{ vehicle: Vehicle }> = ({ vehicle }) => {
 const Vehicles: React.FC = () => {
     const navigate = useNavigate({ from: '/vehicle' });
     const { query } = useSearch({ from: '/vehicle/' });
-    const routeApi = getRouteApi('/vehicle/');
-    const findVehicles = routeApi.useLoaderData();
+    const findVehicles = useLoaderData({ from: '/vehicle/' });
 
     const navigationHandler = useCallback(
         (id: number) => {
-            return () =>
-                navigate({
-                    to: '/vehicle/$id',
-                    params: {
-                        id: `${id}`
-                    }
-                });
+            return () => navigate({ to: '/vehicle/$id', params: { id: `${id}` } });
         },
         [navigate]
     );

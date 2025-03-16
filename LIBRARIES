@@ -18,6 +18,7 @@ name                                 installed version             author       
 @tanstack/router-plugin              1.114.22                      Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
 @tanstack/yup-form-adapter           0.42.1                        tannerlinsley                                                  MIT           git+https://github.com/TanStack/form.git
 @types/lodash                        4.17.16                       n/a                                                            MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git
+@types/pg                            8.11.11                       n/a                                                            MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git
 @types/react                         19.0.10                       n/a                                                            MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git
 @types/react-dom                     19.0.4                        n/a                                                            MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git
 @vitejs/plugin-react                 4.3.4                         Evan You                                                       MIT           git+https://github.com/vitejs/vite-plugin-react.git
@@ -30,6 +31,7 @@ globals                              16.0.0                        Sindre Sorhus
 license-report                       6.7.2                         Yaniv Kessler                                                  MIT           git+https://github.com/kessler/license-report.git
 mocha-junit-reporter                 2.2.1                         Michael Allen michael.lee.allen@gmail.com                      MIT           git+https://github.com/michaelleeallen/mocha-junit-reporter.git
 oidc-client-ts                       3.2.0                         n/a                                                            Apache-2.0    git+https://github.com/authts/oidc-client-ts.git
+pg                                   8.14.0                        Brian Carlson <brian.m.carlson@gmail.com>                      MIT           git://github.com/brianc/node-postgres.git
 prettier                             3.5.3                         James Long                                                     MIT           git+https://github.com/prettier/prettier.git
 react                                19.0.0                        n/a                                                            MIT           git+https://github.com/facebook/react.git
 react-dom                            19.0.0                        n/a                                                            MIT           git+https://github.com/facebook/react.git

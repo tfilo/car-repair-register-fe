@@ -6,13 +6,13 @@ on:
 
 jobs:
   docker:
+    permissions:
+      actions: read
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

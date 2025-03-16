@@ -3,7 +3,7 @@
     "info": {
         "title": "Car Repair Register API",
         "description": "Evidence of customers and vehicles for small workshops.",
-        "version": "1.1.1"
+        "version": "1.1.2"
     },
     "servers": [
         {
@@ -1491,50 +1491,77 @@
                         "format": "int64"
                     },
                     "vin": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 20,
                         "minLength": 0
                     },
                     "engineCode": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 20,
                         "minLength": 0
                     },
                     "fuelType": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 20,
                         "minLength": 0
                     },
                     "enginePower": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32",
                         "maximum": 3000,
                         "minimum": 0
                     },
                     "engineVolume": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32",
                         "maximum": 10000,
                         "minimum": 0
                     },
                     "batteryCapacity": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32",
                         "maximum": 1000,
                         "minimum": 0
                     },
                     "brand": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 64,
                         "minLength": 0
                     },
                     "model": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 64,
                         "minLength": 0
                     },
                     "yearOfManufacture": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32",
                         "maximum": 2100,
                         "minimum": 1900
@@ -1635,7 +1662,10 @@
                         "type": "string"
                     },
                     "fieldError": {
-                        "type": "array",
+                        "type": [
+                            "array",
+                            "null"
+                        ],
                         "items": {
                             "$ref": "#/components/schemas/FieldError"
                         }
@@ -1673,20 +1703,32 @@
                         "type": "string"
                     },
                     "surname": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "mobile": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "email": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "created": {
                         "type": "string",
                         "format": "date-time"
                     },
                     "modified": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "format": "date-time"
                     }
                 },
@@ -1714,34 +1756,61 @@
                         "$ref": "#/components/schemas/Customer"
                     },
                     "vin": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "engineCode": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "fuelType": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "enginePower": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32"
                     },
                     "engineVolume": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32"
                     },
                     "batteryCapacity": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32"
                     },
                     "brand": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "model": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "yearOfManufacture": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32"
                     },
                     "created": {
@@ -1749,7 +1818,10 @@
                         "format": "date-time"
                     },
                     "modified": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "format": "date-time"
                     }
                 },
@@ -1783,7 +1855,10 @@
                         "format": "int64"
                     },
                     "odometer": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32"
                     },
                     "repairDate": {
@@ -1816,7 +1891,10 @@
                         "format": "date-time"
                     },
                     "modified": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "format": "date-time"
                     }
                 },
@@ -1846,7 +1924,10 @@
                         "format": "date"
                     },
                     "odometer": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32"
                     },
                     "attachments": {
@@ -1860,7 +1941,10 @@
                         "format": "date-time"
                     },
                     "modified": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "format": "date-time"
                     }
                 },
@@ -1884,17 +1968,26 @@
                         "minLength": 0
                     },
                     "surname": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 64,
                         "minLength": 0
                     },
                     "mobile": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 20,
                         "minLength": 0
                     },
                     "email": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 320,
                         "minLength": 0
                     }
@@ -1919,50 +2012,77 @@
                         "format": "int64"
                     },
                     "vin": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 20,
                         "minLength": 0
                     },
                     "engineCode": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 20,
                         "minLength": 0
                     },
                     "fuelType": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 20,
                         "minLength": 0
                     },
                     "enginePower": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32",
                         "maximum": 3000,
                         "minimum": 0
                     },
                     "engineVolume": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32",
                         "maximum": 10000,
                         "minimum": 0
                     },
                     "batteryCapacity": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32",
                         "maximum": 1000,
                         "minimum": 0
                     },
                     "brand": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 64,
                         "minLength": 0
                     },
                     "model": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 64,
                         "minLength": 0
                     },
                     "yearOfManufacture": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32",
                         "maximum": 2100,
                         "minimum": 1900
@@ -1995,7 +2115,10 @@
                         "format": "int64"
                     },
                     "odometer": {
-                        "type": "integer",
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
                         "format": "int32"
                     },
                     "repairDate": {
@@ -2019,17 +2142,26 @@
                         "minLength": 0
                     },
                     "surname": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 64,
                         "minLength": 0
                     },
                     "mobile": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 20,
                         "minLength": 0
                     },
                     "email": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "maxLength": 320,
                         "minLength": 0
                     }

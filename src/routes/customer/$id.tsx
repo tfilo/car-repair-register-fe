@@ -1,4 +1,4 @@
-import { createFileRoute, getRouteApi } from '@tanstack/react-router';
+import { createFileRoute, useLoaderData } from '@tanstack/react-router';
 import yup from '../../yup-config';
 import { getCustomerByIdOptions } from '../../api/queries/customerQueryOptions';
 import CustomerDetail from '../../components/customer/CustomerDetail';
@@ -21,7 +21,8 @@ export const Route = createFileRoute('/customer/$id')({
 });
 
 function RouteComponent() {
-    const routeApi = getRouteApi('/customer/$id');
-    const data = routeApi.useLoaderData();
+    const data = useLoaderData({
+        from: '/customer/$id'
+    });
     return <CustomerDetail customer={data} />;
 }

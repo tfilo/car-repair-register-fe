@@ -2,6 +2,7 @@ import js from '@eslint/js';
 import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
+import reactCompiler from 'eslint-plugin-react-compiler';
 import tseslint from 'typescript-eslint';
 import pluginQuery from '@tanstack/eslint-plugin-query';
 
@@ -18,11 +19,13 @@ export default [
             },
             plugins: {
                 'react-hooks': reactHooks,
-                'react-refresh': reactRefresh
+                'react-refresh': reactRefresh,
+                'react-compiler': reactCompiler
             },
             rules: {
                 ...reactHooks.configs.recommended.rules,
-                'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
+                'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+                'react-compiler/react-compiler': 'error'
             }
         }
     )

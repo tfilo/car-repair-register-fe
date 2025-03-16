@@ -1,11 +1,11 @@
 import { AddCircle, Person } from '@mui/icons-material';
 import { Typography } from '@mui/material';
-import { getRouteApi, useNavigate, useSearch } from '@tanstack/react-router';
+import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router';
 import { formatCustomerContact, formatCustomerName } from '../../utils/formatterUtil';
 import NavBtn from '../common/NavBtn';
 import CommonSearch from '../common/CommonSearch';
 import { useCallback } from 'react';
-import { Customer } from '../../api/openapi/backend';
+import { type Customer } from '../../api/openapi/backend';
 
 const ActionBar: React.FC = () => {
     const navigate = useNavigate({ from: '/' });
@@ -34,8 +34,9 @@ const Primary: React.FC<{ customer: Customer }> = ({ customer }) => {
 const Customers: React.FC = () => {
     const navigate = useNavigate({ from: '/customer' });
     const { query } = useSearch({ from: '/customer/' });
-    const routeApi = getRouteApi('/customer/');
-    const findCustomers = routeApi.useLoaderData();
+    const findCustomers = useLoaderData({
+        from: '/customer/'
+    });
 
     const navigationHandler = useCallback(
         (id: number) => {

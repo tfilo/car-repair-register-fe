@@ -1,9 +1,9 @@
-import { Avatar, Box, Divider, List, ListItem, ListItemAvatar, ListItemText, SvgIconTypeMap } from '@mui/material';
-import { Fragment, ReactElement, ReactNode } from 'react';
-import { PageMetadata } from '../../api/openapi/backend';
+import { Avatar, Box, Divider, List, ListItem, ListItemAvatar, ListItemText, type SvgIconTypeMap } from '@mui/material';
+import { Fragment, type ReactElement, type ReactNode } from 'react';
 import Pagination from './Pagination';
 import QuerySearchField from './QuerySearchField';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
+import type { PageMetadata } from '../../api/openapi/backend';
+import type { OverridableComponent } from '@mui/material/OverridableComponent';
 
 type CommonSearchProps<T extends { id: number }> = {
     query?: string;

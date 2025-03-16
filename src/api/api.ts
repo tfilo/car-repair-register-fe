@@ -3,11 +3,11 @@ import {
     AttachmentApi,
     Configuration,
     CustomerApi,
-    ErrorContext,
-    ErrorMessage,
     RepairLogApi,
-    ResponseContext,
-    VehicleApi
+    VehicleApi,
+    type ErrorContext,
+    type ErrorMessage,
+    type ResponseContext
 } from './openapi/backend';
 
 export const getUser = () => {

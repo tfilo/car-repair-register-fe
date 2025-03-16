@@ -1,4 +1,4 @@
-import { createFileRoute, getRouteApi } from '@tanstack/react-router';
+import { createFileRoute, useLoaderData } from '@tanstack/react-router';
 import yup from '../yup-config';
 import { getRepairLogByIdOptions } from './../api/queries/repairLogQueryOptions';
 import RepairLogDetail from '../components/repair-log/RepairLogDetail';
@@ -21,7 +21,8 @@ export const Route = createFileRoute('/$id')({
 });
 
 function RouteComponent() {
-    const routeApi = getRouteApi('/$id');
-    const data = routeApi.useLoaderData();
+    const data = useLoaderData({
+        from: '/$id'
+    });
     return <RepairLogDetail repairLog={data} />;
 }

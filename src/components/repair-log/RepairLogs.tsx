@@ -1,12 +1,12 @@
 import { Box, ButtonGroup, Typography } from '@mui/material';
 import { CarRepair, DirectionsCar, Person } from '@mui/icons-material';
-import { getRouteApi, useNavigate, useSearch } from '@tanstack/react-router';
+import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router';
 import { formatCustomerName } from '../../utils/formatterUtil';
 import dayjs from 'dayjs';
 import NavBtn from '../common/NavBtn';
 import CommonSearch from '../common/CommonSearch';
 import React, { useCallback } from 'react';
-import { RepairLog } from '../../api/openapi/backend';
+import { type RepairLog } from '../../api/openapi/backend';
 
 const ActionBar: React.FC = () => {
     const navigate = useNavigate({ from: '/' });
@@ -119,8 +119,9 @@ const Secondary: React.FC<{ repairLog: RepairLog }> = ({ repairLog }) => {
 const RepairLogs: React.FC = () => {
     const navigate = useNavigate({ from: '/' });
     const { query } = useSearch({ from: '/' });
-    const routeApi = getRouteApi('/');
-    const findRepairLogs = routeApi.useLoaderData();
+    const findRepairLogs = useLoaderData({
+        from: '/'
+    });
 
     const navigationHandler = useCallback(
         (id: number) => {

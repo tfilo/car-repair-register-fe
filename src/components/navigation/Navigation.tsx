@@ -54,7 +54,13 @@ const Navigation: React.FC = () => {
         >
             <Breadcrumbs aria-label='navigácia' data-cy='breadcrumbs'>
                 {pathname.split('/').map((path, idx, array) => {
-                    const subpath = array.slice(0, idx + 1).join('/');
+                    let subpath = array
+                        .slice(0, idx + 1)
+                        .join('/')
+                        .trim();
+                    if (subpath === '') {
+                        subpath = '/';
+                    }
                     return array.length - 1 === idx ? (
                         <Typography
                             key={subpath}
@@ -67,7 +73,7 @@ const Navigation: React.FC = () => {
                             key={subpath}
                             underline='hover'
                             color='primary'
-                            href={subpath}
+                            to={subpath}
                             component={RouterLink}
                         >
                             {resolveBreadcrumbBundle(idx, array)}

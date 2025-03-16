@@ -1,6 +1,5 @@
-import { FormControl, FormHelperText, InputLabel, styled, SxProps, Theme } from '@mui/material';
+import { FormControl, FormHelperText, InputLabel, styled, SxProps, Theme, TextareaAutosize } from '@mui/material';
 import { DeepKeys, ReactFormExtendedApi, Validator } from '@tanstack/react-form';
-import { TextareaAutosize } from '@mui/base';
 import { ReactElement, useId } from 'react';
 import { blue, grey } from '@mui/material/colors';
 

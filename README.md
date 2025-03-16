@@ -16,7 +16,7 @@ While development it is required to have Postgres database, Keycloak and Backend
 
 - `docker compose up -d`
 
-It will run database on port 5432 and backend on port 80 exposed by traefik and internal healthcheck api on port 9090 for healthcheck (not used in frontend).
+It will run database on port 5432 and backend on port 80 exposed by traefik and internal healthcheck api on port 9090 for healthcheck (not used in frontend). Swagger is available on http://localhost/api/car-repair-register/v3/api-docs after running in docker.
 
 After database, keycloak and backend is running, you can start development server by commands:
 

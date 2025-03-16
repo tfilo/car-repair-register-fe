@@ -9,8 +9,8 @@ lerna-debug.log*
 
 node_modules
 dist
-dist-ssr
 *.local
+src/api/openapi
 
 # Editor directories and files
 .vscode/*
@@ -24,7 +24,8 @@ dist-ssr
 *.sw?
 
 # e2e tests
-cypress/downloads/*
 .nyc_output
 coverage
 cypress/results/*
+cypress/screenshots/*
+cypress/downloads/*

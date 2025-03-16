@@ -1,9 +1,9 @@
 {
-    "openapi": "3.0.1",
+    "openapi": "3.1.0",
     "info": {
         "title": "Car Repair Register API",
         "description": "Evidence of customers and vehicles for small workshops.",
-        "version": "1.1.0"
+        "version": "1.1.2"
     },
     "servers": [
         {
@@ -46,6 +46,16 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
                     "403": {
                         "description": "forbidden",
                         "content": {
@@ -58,16 +68,6 @@
                     },
                     "404": {
                         "description": "not found",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -126,8 +126,8 @@
                             }
                         }
                     },
-                    "409": {
-                        "description": "conflict",
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -156,8 +156,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
+                    "409": {
+                        "description": "conflict",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -199,6 +199,16 @@
                     "200": {
                         "description": "ok"
                     },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
                     "403": {
                         "description": "forbidden",
                         "content": {
@@ -211,16 +221,6 @@
                     },
                     "404": {
                         "description": "not found",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -271,6 +271,16 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
                     "403": {
                         "description": "forbidden",
                         "content": {
@@ -283,16 +293,6 @@
                     },
                     "404": {
                         "description": "not found",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -351,8 +351,8 @@
                             }
                         }
                     },
-                    "409": {
-                        "description": "conflict",
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -381,8 +381,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
+                    "409": {
+                        "description": "conflict",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -424,6 +424,16 @@
                     "200": {
                         "description": "ok"
                     },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
                     "403": {
                         "description": "forbidden",
                         "content": {
@@ -436,16 +446,6 @@
                     },
                     "404": {
                         "description": "not found",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -496,6 +496,16 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
                     "403": {
                         "description": "forbidden",
                         "content": {
@@ -508,16 +518,6 @@
                     },
                     "404": {
                         "description": "not found",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -576,6 +576,16 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
                     "403": {
                         "description": "forbidden",
                         "content": {
@@ -588,16 +598,6 @@
                     },
                     "404": {
                         "description": "not found",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -639,6 +639,16 @@
                     "200": {
                         "description": "ok"
                     },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
                     "403": {
                         "description": "forbidden",
                         "content": {
@@ -651,16 +661,6 @@
                     },
                     "404": {
                         "description": "not found",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -745,26 +745,6 @@
                     }
                 ],
                 "responses": {
-                    "403": {
-                        "description": "forbidden",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "not found",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "ok",
                         "content": {
@@ -777,6 +757,26 @@
                     },
                     "401": {
                         "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "forbidden",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -814,22 +814,22 @@
                     "required": true
                 },
                 "responses": {
-                    "409": {
-                        "description": "conflict",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "201": {
                         "description": "created",
                         "content": {
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Vehicle"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
                                 }
                             }
                         }
@@ -854,8 +854,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
+                    "409": {
+                        "description": "conflict",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -940,26 +940,6 @@
                     }
                 ],
                 "responses": {
-                    "403": {
-                        "description": "forbidden",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "not found",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "ok",
                         "content": {
@@ -972,6 +952,26 @@
                     },
                     "401": {
                         "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "forbidden",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1009,22 +1009,22 @@
                     "required": true
                 },
                 "responses": {
-                    "409": {
-                        "description": "conflict",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "201": {
                         "description": "created",
                         "content": {
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/RepairLog"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
                                 }
                             }
                         }
@@ -1049,8 +1049,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
+                    "409": {
+                        "description": "conflict",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1136,6 +1136,16 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
                     "403": {
                         "description": "forbidden",
                         "content": {
@@ -1148,16 +1158,6 @@
                     },
                     "404": {
                         "description": "not found",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1205,8 +1205,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "forbidden",
+                    "401": {
+                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1215,8 +1215,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
+                    "403": {
+                        "description": "forbidden",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1260,38 +1260,38 @@
                     "content": {
                         "multipart/form-data": {
                             "schema": {
-                                "required": [
-                                    "multipartFile"
-                                ],
                                 "type": "object",
                                 "properties": {
                                     "multipartFile": {
                                         "type": "string",
                                         "format": "binary"
                                     }
-                                }
+                                },
+                                "required": [
+                                    "multipartFile"
+                                ]
                             }
                         }
                     },
                     "required": true
                 },
                 "responses": {
-                    "413": {
-                        "description": "content too large",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "201": {
                         "description": "created",
                         "content": {
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Attachment"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
                                 }
                             }
                         }
@@ -1316,8 +1316,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "unauthorized",
+                    "413": {
+                        "description": "content too large",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1369,6 +1369,16 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
                     "403": {
                         "description": "forbidden",
                         "content": {
@@ -1381,16 +1391,6 @@
                     },
                     "404": {
                         "description": "not found",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1432,6 +1432,16 @@
                     "200": {
                         "description": "ok"
                     },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
                     "403": {
                         "description": "forbidden",
                         "content": {
@@ -1444,16 +1454,6 @@
                     },
                     "404": {
                         "description": "not found",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1479,6 +1479,94 @@
     "components": {
         "schemas": {
             "VehicleUpdate": {
+                "type": "object",
+                "properties": {
+                    "registrationPlate": {
+                        "type": "string",
+                        "maxLength": 20,
+                        "minLength": 0
+                    },
+                    "customerId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "vin": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 20,
+                        "minLength": 0
+                    },
+                    "engineCode": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 20,
+                        "minLength": 0
+                    },
+                    "fuelType": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 20,
+                        "minLength": 0
+                    },
+                    "enginePower": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32",
+                        "maximum": 3000,
+                        "minimum": 0
+                    },
+                    "engineVolume": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32",
+                        "maximum": 10000,
+                        "minimum": 0
+                    },
+                    "batteryCapacity": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32",
+                        "maximum": 1000,
+                        "minimum": 0
+                    },
+                    "brand": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 64,
+                        "minLength": 0
+                    },
+                    "model": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 64,
+                        "minLength": 0
+                    },
+                    "yearOfManufacture": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32",
+                        "maximum": 2100,
+                        "minimum": 1900
+                    }
+                },
                 "required": [
                     "batteryCapacity",
                     "brand",
@@ -1491,84 +1579,9 @@
                     "registrationPlate",
                     "vin",
                     "yearOfManufacture"
-                ],
-                "type": "object",
-                "properties": {
-                    "registrationPlate": {
-                        "maxLength": 20,
-                        "minLength": 0,
-                        "type": "string"
-                    },
-                    "customerId": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "vin": {
-                        "maxLength": 20,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "engineCode": {
-                        "maxLength": 20,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "fuelType": {
-                        "maxLength": 20,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "enginePower": {
-                        "maximum": 3000,
-                        "minimum": 0,
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "engineVolume": {
-                        "maximum": 10000,
-                        "minimum": 0,
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "batteryCapacity": {
-                        "maximum": 1000,
-                        "minimum": 0,
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "brand": {
-                        "maxLength": 64,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "model": {
-                        "maxLength": 64,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "yearOfManufacture": {
-                        "maximum": 2100,
-                        "minimum": 1900,
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    }
-                }
+                ]
             },
             "ErrorMessage": {
-                "required": [
-                    "fieldError",
-                    "httpStatus",
-                    "message"
-                ],
                 "type": "object",
                 "properties": {
                     "httpStatus": {
@@ -1649,19 +1662,22 @@
                         "type": "string"
                     },
                     "fieldError": {
-                        "type": "array",
-                        "nullable": true,
+                        "type": [
+                            "array",
+                            "null"
+                        ],
                         "items": {
                             "$ref": "#/components/schemas/FieldError"
                         }
                     }
-                }
+                },
+                "required": [
+                    "fieldError",
+                    "httpStatus",
+                    "message"
+                ]
             },
             "FieldError": {
-                "required": [
-                    "errorMessage",
-                    "fieldName"
-                ],
                 "type": "object",
                 "properties": {
                     "fieldName": {
@@ -1671,18 +1687,12 @@
                         "type": "string"
                     }
                 },
-                "nullable": true
+                "required": [
+                    "errorMessage",
+                    "fieldName"
+                ]
             },
             "Customer": {
-                "required": [
-                    "created",
-                    "email",
-                    "id",
-                    "mobile",
-                    "modified",
-                    "name",
-                    "surname"
-                ],
                 "type": "object",
                 "properties": {
                     "id": {
@@ -1693,29 +1703,128 @@
                         "type": "string"
                     },
                     "surname": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "mobile": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "email": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "created": {
                         "type": "string",
                         "format": "date-time"
                     },
                     "modified": {
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     }
-                }
+                },
+                "required": [
+                    "created",
+                    "email",
+                    "id",
+                    "mobile",
+                    "modified",
+                    "name",
+                    "surname"
+                ]
             },
             "Vehicle": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "registrationPlate": {
+                        "type": "string"
+                    },
+                    "customer": {
+                        "$ref": "#/components/schemas/Customer"
+                    },
+                    "vin": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "engineCode": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "fuelType": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "enginePower": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32"
+                    },
+                    "engineVolume": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32"
+                    },
+                    "batteryCapacity": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32"
+                    },
+                    "brand": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "model": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "yearOfManufacture": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32"
+                    },
+                    "created": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "modified": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
                 "required": [
                     "batteryCapacity",
                     "brand",
@@ -1731,107 +1840,40 @@
                     "registrationPlate",
                     "vin",
                     "yearOfManufacture"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "registrationPlate": {
-                        "type": "string"
-                    },
-                    "customer": {
-                        "$ref": "#/components/schemas/Customer"
-                    },
-                    "vin": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "engineCode": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "fuelType": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "enginePower": {
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "engineVolume": {
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "batteryCapacity": {
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "brand": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "model": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "yearOfManufacture": {
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "created": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "modified": {
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
-                    }
-                }
+                ]
             },
             "RepairLogUpdate": {
-                "required": [
-                    "content",
-                    "odometer",
-                    "repairDate",
-                    "vehicleId"
-                ],
                 "type": "object",
                 "properties": {
                     "content": {
+                        "type": "string",
                         "maxLength": 5000,
-                        "minLength": 0,
-                        "type": "string"
+                        "minLength": 0
                     },
                     "vehicleId": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "odometer": {
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32"
                     },
                     "repairDate": {
                         "type": "string",
                         "format": "date"
                     }
-                }
+                },
+                "required": [
+                    "content",
+                    "odometer",
+                    "repairDate",
+                    "vehicleId"
+                ]
             },
             "Attachment": {
-                "required": [
-                    "created",
-                    "id",
-                    "mimeType",
-                    "modified",
-                    "name"
-                ],
                 "type": "object",
                 "properties": {
                     "id": {
@@ -1849,23 +1891,22 @@
                         "format": "date-time"
                     },
                     "modified": {
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     }
-                }
-            },
-            "RepairLog": {
+                },
                 "required": [
-                    "attachments",
-                    "content",
                     "created",
                     "id",
+                    "mimeType",
                     "modified",
-                    "odometer",
-                    "repairDate",
-                    "vehicle"
-                ],
+                    "name"
+                ]
+            },
+            "RepairLog": {
                 "type": "object",
                 "properties": {
                     "id": {
@@ -1883,9 +1924,11 @@
                         "format": "date"
                     },
                     "odometer": {
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32"
                     },
                     "attachments": {
                         "type": "array",
@@ -1898,47 +1941,153 @@
                         "format": "date-time"
                     },
                     "modified": {
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     }
-                }
+                },
+                "required": [
+                    "attachments",
+                    "content",
+                    "created",
+                    "id",
+                    "modified",
+                    "odometer",
+                    "repairDate",
+                    "vehicle"
+                ]
             },
             "CustomerUpdate": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 0
+                    },
+                    "surname": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 64,
+                        "minLength": 0
+                    },
+                    "mobile": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 20,
+                        "minLength": 0
+                    },
+                    "email": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 320,
+                        "minLength": 0
+                    }
+                },
                 "required": [
                     "email",
                     "mobile",
                     "name",
                     "surname"
-                ],
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "maxLength": 64,
-                        "minLength": 0,
-                        "type": "string"
-                    },
-                    "surname": {
-                        "maxLength": 64,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "mobile": {
-                        "maxLength": 20,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "email": {
-                        "maxLength": 320,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    }
-                }
+                ]
             },
             "VehicleCreate": {
+                "type": "object",
+                "properties": {
+                    "registrationPlate": {
+                        "type": "string",
+                        "maxLength": 20,
+                        "minLength": 0
+                    },
+                    "customerId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "vin": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 20,
+                        "minLength": 0
+                    },
+                    "engineCode": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 20,
+                        "minLength": 0
+                    },
+                    "fuelType": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 20,
+                        "minLength": 0
+                    },
+                    "enginePower": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32",
+                        "maximum": 3000,
+                        "minimum": 0
+                    },
+                    "engineVolume": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32",
+                        "maximum": 10000,
+                        "minimum": 0
+                    },
+                    "batteryCapacity": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32",
+                        "maximum": 1000,
+                        "minimum": 0
+                    },
+                    "brand": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 64,
+                        "minLength": 0
+                    },
+                    "model": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 64,
+                        "minLength": 0
+                    },
+                    "yearOfManufacture": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32",
+                        "maximum": 2100,
+                        "minimum": 1900
+                    }
+                },
                 "required": [
                     "batteryCapacity",
                     "brand",
@@ -1951,140 +2100,78 @@
                     "registrationPlate",
                     "vin",
                     "yearOfManufacture"
-                ],
-                "type": "object",
-                "properties": {
-                    "registrationPlate": {
-                        "maxLength": 20,
-                        "minLength": 0,
-                        "type": "string"
-                    },
-                    "customerId": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "vin": {
-                        "maxLength": 20,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "engineCode": {
-                        "maxLength": 20,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "fuelType": {
-                        "maxLength": 20,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "enginePower": {
-                        "maximum": 3000,
-                        "minimum": 0,
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "engineVolume": {
-                        "maximum": 10000,
-                        "minimum": 0,
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "batteryCapacity": {
-                        "maximum": 1000,
-                        "minimum": 0,
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "brand": {
-                        "maxLength": 64,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "model": {
-                        "maxLength": 64,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "yearOfManufacture": {
-                        "maximum": 2100,
-                        "minimum": 1900,
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    }
-                }
+                ]
             },
             "RepairLogCreate": {
-                "required": [
-                    "content",
-                    "odometer",
-                    "repairDate",
-                    "vehicleId"
-                ],
                 "type": "object",
                 "properties": {
                     "content": {
+                        "type": "string",
                         "maxLength": 5000,
-                        "minLength": 0,
-                        "type": "string"
+                        "minLength": 0
                     },
                     "vehicleId": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "odometer": {
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "format": "int32"
                     },
                     "repairDate": {
                         "type": "string",
                         "format": "date"
                     }
-                }
+                },
+                "required": [
+                    "content",
+                    "odometer",
+                    "repairDate",
+                    "vehicleId"
+                ]
             },
             "CustomerCreate": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 0
+                    },
+                    "surname": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 64,
+                        "minLength": 0
+                    },
+                    "mobile": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 20,
+                        "minLength": 0
+                    },
+                    "email": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 320,
+                        "minLength": 0
+                    }
+                },
                 "required": [
                     "email",
                     "mobile",
                     "name",
                     "surname"
-                ],
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "maxLength": 64,
-                        "minLength": 0,
-                        "type": "string"
-                    },
-                    "surname": {
-                        "maxLength": 64,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "mobile": {
-                        "maxLength": 20,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "email": {
-                        "maxLength": 320,
-                        "minLength": 0,
-                        "type": "string",
-                        "nullable": true
-                    }
-                }
+                ]
             },
             "PageMetadata": {
                 "type": "object",

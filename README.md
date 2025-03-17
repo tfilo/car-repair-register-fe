@@ -35,7 +35,7 @@ E2E tests writen in typescript using framework Cypress.io can be run using comma
 
 ## Building docker image
 
-There is provided Dockerfile and sh script build-image.sh. You can use this script to build docker image.
+There is provided Dockerfile and sh script `build-image.sh`. You can use this script to build docker image.
 
 ## License
 

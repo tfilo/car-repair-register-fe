@@ -278,6 +278,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                                         setNewCustomer(false);
                                     }
                                 }}
+                                data-cy='new-vehicle-checkbox'
                             />
                         }
                         label='Vytvoriť nové vozidlo?'
@@ -301,6 +302,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                                         setNewCustomer(false);
                                     }
                                 }}
+                                data-cy='new-customer-checkbox'
                             />
                         }
                         label='Vytvoriť nového zákazníka?'
@@ -330,6 +332,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 readOnly={readOnly}
                 required
                 sx={{ display: newCustomer === true ? 'initial' : 'none' }}
+                data-cy={'name-input'}
             />
             <TextInput
                 name='surname'
@@ -337,6 +340,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 form={form}
                 readOnly={readOnly}
                 sx={{ display: newCustomer === true ? 'initial' : 'none' }}
+                data-cy={'surname-input'}
             />
             <TextInput
                 name='registrationPlate'
@@ -348,6 +352,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 style={{
                     textTransform: 'uppercase'
                 }}
+                data-cy={'registration-plate-input'}
             />
             <TextareaInput
                 name='content'
@@ -355,12 +360,14 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 form={form}
                 readOnly={readOnly}
                 required
+                data-cy={'content-textarea'}
             />
             <TextInput
                 name='odometer'
                 label='Stav odometra (km)'
                 form={form}
                 readOnly={readOnly}
+                data-cy={'odometer-input'}
             />
             <DateInput
                 form={form}
@@ -368,6 +375,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 required
                 name='repairDate'
                 label='Dátum opravy'
+                data-cy={'repair-date-input'}
             />
             {readOnly === false && (
                 <FileInput

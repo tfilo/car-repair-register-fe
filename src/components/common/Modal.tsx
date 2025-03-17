@@ -58,6 +58,7 @@ const CustomModal: React.FC<CustomModalProsp> = ({ isOpen, onConfirm, onAbort, i
                         type='button'
                         onClick={onAbort}
                         disabled={isPending}
+                        data-cy='modal-cancel-btn'
                     >
                         Ponechať
                     </Button>
@@ -67,6 +68,7 @@ const CustomModal: React.FC<CustomModalProsp> = ({ isOpen, onConfirm, onAbort, i
                         type='button'
                         onClick={onConfirm}
                         disabled={isPending}
+                        data-cy='modal-remove-btn'
                     >
                         Vymazať
                     </Button>

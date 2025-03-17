@@ -10,17 +10,17 @@ type TextInputProps<TFormData, TFormValidator extends Validator<TFormData, unkno
     required?: boolean;
     sx?: SxProps<Theme>;
     style?: React.CSSProperties;
+    'data-cy'?: string;
 };
 
 type TextInputComponent = <TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>>(
     props: TextInputProps<TFormData, TFormValidator, TName>
 ) => ReactElement | null;
 
-const TextInput: TextInputComponent = ({ form, readOnly, required, name, label, sx, style }) => {
+const TextInput: TextInputComponent = ({ form, readOnly, required, name, label, sx, style, 'data-cy': dataCy }) => {
     return (
-        <form.Field
-            name={name}
-            children={({ state, handleChange, handleBlur }) => {
+        <form.Field name={name}>
+            {({ state, handleChange, handleBlur }) => {
                 return (
                     <TextField
                         fullWidth
@@ -41,10 +41,11 @@ const TextInput: TextInputComponent = ({ form, readOnly, required, name, label, 
                             }
                         }}
                         autoComplete='off'
+                        data-cy={dataCy}
                     />
                 );
             }}
-        />
+        </form.Field>
     );
 };
 

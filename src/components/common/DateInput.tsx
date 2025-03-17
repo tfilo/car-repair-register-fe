@@ -11,19 +11,19 @@ type DateInputProps<TFormData, TFormValidator extends Validator<TFormData, unkno
     readOnly?: boolean;
     required?: boolean;
     sx?: SxProps<Theme>;
+    'data-cy'?: string;
 };
 
 type DateInputComponent = <TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>>(
     props: DateInputProps<TFormData, TFormValidator, TName>
 ) => ReactElement | null;
 
-const DateInput: DateInputComponent = ({ form, readOnly, required, name, label, sx }) => {
+const DateInput: DateInputComponent = ({ form, readOnly, required, name, label, sx, 'data-cy': dataCy }) => {
     const uniqueId = useId();
 
     return (
-        <form.Field
-            name={name}
-            children={({ state, handleChange }) => {
+        <form.Field name={name}>
+            {({ state, handleChange }) => {
                 return (
                     <FormControl>
                         <DatePicker
@@ -42,7 +42,9 @@ const DateInput: DateInputComponent = ({ form, readOnly, required, name, label, 
                             slotProps={{
                                 textField: {
                                     required: required,
-                                    error: state.meta.isTouched && state.meta.errors.length > 0
+                                    error: state.meta.isTouched && state.meta.errors.length > 0,
+                                    // @ts-expect-error for testing only
+                                    'data-cy': dataCy
                                 }
                             }}
                         />
@@ -55,7 +57,7 @@ const DateInput: DateInputComponent = ({ form, readOnly, required, name, label, 
                     </FormControl>
                 );
             }}
-        />
+        </form.Field>
     );
 };
 

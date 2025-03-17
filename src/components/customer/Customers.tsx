@@ -14,6 +14,7 @@ const ActionBar: React.FC = () => {
         <NavBtn
             title='Pridať zákaznika'
             onClick={() => navigate({ to: '/customer/add' })}
+            dataCy='add-customer-btn'
         >
             <AddCircle fontSize='inherit' />
         </NavBtn>

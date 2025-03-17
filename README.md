@@ -24,7 +24,14 @@ After database, keycloak and backend is running, you can start development serve
 - `npm run apigen` (only if you need generate openapi without starting/buildin app)
 - `npm run dev`
 
-React App will start in development mode on port 5173. |
+React App will start in development mode on port 5173. After startup there is available user for testing with:
+
+username: test
+password: test
+
+## Tests
+
+E2E tests writen in typescript using framework Cypress.io can be run using command `npm run cy:run`. Additionaly while development of tests it is possible open tests in interactiver mode using `npm run cy:open`. Both ways require to have backend running in docker compose and frontend started up using `npm run dev`.
 
 ## Building docker image
 
@@ -39,8 +46,6 @@ Project is licensed under [MIT](./LICENSE.txt) License. There are 3rd party libr
 If added new dependencies, list of used libraries can be updated using this script
 
 `npm run licenseReport`
-
-WHILE RUNNING IT WILL INSTANLL GLOBALLY license-report LIBRARY
 
 ## Environment variables
 

@@ -32,6 +32,7 @@ const FileComponent: React.FC<FileComponentProps> = ({ fileName, fileType, fileS
                         <Typography
                             component='div'
                             variant='subtitle1'
+                            data-cy={`download-${fileName.toLowerCase().replaceAll(' ', '_')}-file-name`}
                         >
                             {fileName}
                         </Typography>
@@ -41,11 +42,15 @@ const FileComponent: React.FC<FileComponentProps> = ({ fileName, fileType, fileS
                                     variant='subtitle1'
                                     component='div'
                                     color={fileSize < window.ENV.MAX_ATTACHMENT_SIZE ? 'textSecondary' : 'error'}
+                                    data-cy={`download-${fileName.toLowerCase().replaceAll(' ', '_')}-file-size`}
                                 >
                                     Veľkosť: {fileSizeFormatter(fileSize)}
                                 </Typography>
                                 {fileSize > window.ENV.MAX_ATTACHMENT_SIZE && (
-                                    <Typography color='error'>
+                                    <Typography
+                                        color='error'
+                                        data-cy={`download-${fileName.toLowerCase().replaceAll(' ', '_')}-file-size-warning`}
+                                    >
                                         POZOR - súbor prekročil povolenú veľkosť {fileSizeFormatter(window.ENV.MAX_ATTACHMENT_SIZE)} a
                                         nebude nahraný!
                                     </Typography>
@@ -62,6 +67,7 @@ const FileComponent: React.FC<FileComponentProps> = ({ fileName, fileType, fileS
                                 title='Stiahnuť prílohu'
                                 onClick={onDownload}
                                 disabled={isPending}
+                                data-cy={`download-${fileName.toLowerCase().replaceAll(' ', '_')}-file-button`}
                             >
                                 <Download />
                             </IconButton>
@@ -72,6 +78,7 @@ const FileComponent: React.FC<FileComponentProps> = ({ fileName, fileType, fileS
                                 title='Odstrániť prílohu'
                                 onClick={onDelete}
                                 disabled={isPending}
+                                data-cy={`remove-${fileName.toLowerCase().replaceAll(' ', '_')}-file-button`}
                             >
                                 <Delete />
                             </IconButton>

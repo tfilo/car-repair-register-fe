@@ -209,18 +209,18 @@ INSERT INTO public.attachment (id, creator, created_at, modified_at, deleted_at,
 -- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (1, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:16:46.114621', NULL, NULL, 'Ján', 'Horák', '0900100100', 'jan.horak@tope.sk');
-INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (2, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:17:23.013363', NULL, NULL, 'František', 'Konečný', '0900100101', 'frantisek.konecny@tope.sk');
-INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (3, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:17:53.826568', NULL, NULL, 'Dávid', 'Suchý', '0900100102', 'david.suchy@tope.sk');
+INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (1, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:16:46.114621', NULL, NULL, 'Ján', 'Horák', '0900100100', 'jan.horak@email.test');
+INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (2, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:17:23.013363', NULL, NULL, 'František', 'Konečný', '0900100101', 'frantisek.konecny@email.test');
+INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (3, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:17:53.826568', NULL, NULL, 'Dávid', 'Suchý', '0900100102', 'david.suchy@email.test');
 INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (4, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:18:16.674616', NULL, NULL, 'Alžbeta', 'Sokolová', NULL, NULL);
-INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (5, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:18:36.045287', NULL, NULL, 'Dagmar', 'Balážová', NULL, 'dagmar.b@tope.sk');
+INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (5, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:18:36.045287', NULL, NULL, 'Dagmar', 'Balážová', NULL, 'dagmar.b@email.test');
 INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (6, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:18:55.739409', NULL, NULL, 'Martin', 'Krátky', '0900101000', NULL);
 INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (7, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:19:06.293797', NULL, NULL, 'Ferdinant', NULL, NULL, NULL);
 INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (8, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:19:13.988392', NULL, NULL, 'Matej', NULL, NULL, NULL);
 INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (9, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:19:31.029084', NULL, NULL, 'Ján', 'Novák', '0900101111', NULL);
-INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (10, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:19:48.73523', NULL, NULL, 'Martin', 'Novák', NULL, 'novak.martin@tope.sk');
+INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (10, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:19:48.73523', NULL, NULL, 'Martin', 'Novák', NULL, 'novak.martin@email.test');
 INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (11, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:20:17.976295', NULL, NULL, 'Jozef', NULL, NULL, NULL);
-INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (12, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:20:40.784167', NULL, NULL, 'Emília', 'Holubová', NULL, 'emilia@tope.sk');
+INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (12, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:20:40.784167', NULL, NULL, 'Emília', 'Holubová', NULL, 'emilia@email.test');
 INSERT INTO public.customer (id, creator, created_at, modified_at, deleted_at, name, surname, mobile, email) VALUES (13, '3c001cac-23e4-412f-91ab-91b290d6a755', '2025-01-17 20:20:58.284582', NULL, NULL, 'Pavol', NULL, '0900001001', NULL);
 
 

@@ -48,6 +48,7 @@ const FormAction: React.FC<FormActionProps> = ({
                     onClick={() => setReadOnly(true)}
                     sx={{ height: 48 }}
                     disabled={isPending}
+                    data-cy='cancel-btn'
                 >
                     Zrušiť
                 </Button>
@@ -60,6 +61,7 @@ const FormAction: React.FC<FormActionProps> = ({
                     onClick={onBackHandler}
                     sx={{ height: 48 }}
                     disabled={isPending}
+                    data-cy='back-btn'
                 >
                     Späť
                 </Button>
@@ -76,6 +78,7 @@ const FormAction: React.FC<FormActionProps> = ({
                             onClick={handleOpenDeleteDialog}
                             sx={{ height: 48 }}
                             disabled={isPending}
+                            data-cy='remove-btn'
                         >
                             Odstrániť
                         </Button>
@@ -87,6 +90,7 @@ const FormAction: React.FC<FormActionProps> = ({
                         type='submit'
                         sx={{ height: 48 }}
                         disabled={!canSubmit || isPending}
+                        data-cy='save-btn'
                     >
                         {isPending ? 'Ukladám' : 'Uložiť'}
                     </Button>
@@ -99,6 +103,7 @@ const FormAction: React.FC<FormActionProps> = ({
                         type='button'
                         sx={{ height: 48 }}
                         onClick={() => setReadOnly(false)}
+                        data-cy='edit-btn'
                     >
                         Upraviť
                     </Button>

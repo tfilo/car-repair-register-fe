@@ -15,8 +15,8 @@
         "prettier": "prettier 'src/**/*.{js,jsx,ts,tsx}' --check",
         "prettier:fix": "prettier 'src/**/*.{js,jsx,ts,tsx}' --write",
         "apigen": "rimraf src/api/openapi && openapi-generator-cli generate",
-        "cy:open": "npm run cy:clear && cypress open --e2e --browser electron",
-        "cy:run": "npm run cy:clear && cypress run --browser electron",
+        "cy:open": "npm run cy:clear && cypress open --e2e --browser firefox",
+        "cy:run": "npm run cy:clear && cypress run --browser firefox",
         "cy:clear": "rimraf cypress/results/*.xml",
         "licenseReport": "license-report --package=./package.json --output=table --config license-report.json > ./LIBRARIES"
     },

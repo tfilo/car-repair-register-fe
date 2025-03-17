@@ -64,7 +64,8 @@ const Attachments: React.FC<AttachmentsProps> = ({ attachments, readOnly }) => {
             padding={2}
             gap={2}
         >
-            <Typography>Prílohy: {attachments.length} ks</Typography>
+            <Typography 
+            data-cy='attachments-title'>Prílohy: {attachments.length} ks</Typography>
             {attachments.map((a) => (
                 <FileComponent
                     fileType={a.mimeType}

@@ -1,7 +1,10 @@
-FROM nginx:stable-alpine
+FROM nginxinc/nginx-unprivileged:alpine3.21-slim
 ENV BASE_API_URL='http://localhost/api/car-repair-register'
-COPY ./default.conf /etc/nginx/conf.d/default.conf
-COPY ./envreplace.sh /docker-entrypoint.d/envreplace.sh
+COPY ./init/default.conf /etc/nginx/conf.d/default.conf
+COPY ./init/envreplace.sh /docker-entrypoint.d/envreplace.sh
 WORKDIR /usr/share/nginx/html/
 COPY ./dist/ .
-EXPOSE 80
+USER root
+RUN chown nginx:nginx -R /usr/share/nginx/html/ && \
+    chown nginx:nginx /etc/nginx/conf.d/default.conf
+USER nginx

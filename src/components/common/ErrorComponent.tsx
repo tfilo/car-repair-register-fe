@@ -1,9 +1,11 @@
 import type { ErrorComponentProps } from '@tanstack/react-router';
 import { Link } from '@tanstack/react-router';
 import { ValidationError } from 'yup';
+import { getLocalizedErrorMessage } from '../../utils/errorBundle';
 
 const ErrorComponent: React.FC<ErrorComponentProps> = ({ error }) => {
-    let title = error.name ?? 'Neznáma chyba';
+    const localizedMessage = getLocalizedErrorMessage(error.message);
+    let title = error.name ?? 'Nastala chyba';
 
     if (error instanceof ValidationError) {
         title = 'Nastala chyba pri spracovaní URL adresy';
@@ -13,7 +15,7 @@ const ErrorComponent: React.FC<ErrorComponentProps> = ({ error }) => {
         <div>
             <div>
                 <h3>{title}</h3>
-                <p>{error.message}</p>
+                <p>{localizedMessage}</p>
                 <p>
                     <Link
                         to='/'

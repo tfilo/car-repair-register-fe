@@ -43,7 +43,14 @@ const QuerySearchField: React.FC<QuerySearchFieldProps> = ({ query, helperText }
                 autoComplete='off'
                 data-cy='query-search-field'
             />
-            {hasHelperText && <FormHelperText id={`${uniqueId}_search-query-helper`} data-cy='query-search-field-help'>{helperText}</FormHelperText>}
+            {hasHelperText && (
+                <FormHelperText
+                    id={`${uniqueId}_search-query-helper`}
+                    data-cy='query-search-field-help'
+                >
+                    {helperText}
+                </FormHelperText>
+            )}
         </FormControl>
     );
 };

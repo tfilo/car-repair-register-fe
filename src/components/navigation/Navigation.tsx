@@ -52,7 +52,10 @@ const Navigation: React.FC = () => {
             }}
             data-cy='navbar'
         >
-            <Breadcrumbs aria-label='navigácia' data-cy='breadcrumbs'>
+            <Breadcrumbs
+                aria-label='navigácia'
+                data-cy='breadcrumbs'
+            >
                 {pathname.split('/').map((path, idx, array) => {
                     let subpath = array
                         .slice(0, idx + 1)

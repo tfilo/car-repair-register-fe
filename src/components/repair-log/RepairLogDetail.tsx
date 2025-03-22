@@ -4,10 +4,9 @@ import { Customer, Vehicle, type RepairLog } from '../../api/openapi/backend';
 import { useCreateRepairLog, useDeleteRepairLogById, useUpdateRepairLog } from '../../api/queries/repairLogQueryOptions';
 import { useNavigate, useRouter } from '@tanstack/react-router';
 import { yupValidator } from '@tanstack/yup-form-adapter';
-import { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import yup from '../../yup-config';
 import { useCreateVehicle } from '../../api/queries/vehicleQueryOptions';
-import React from 'react';
 import { formatVehicleMainDetail } from '../../utils/formatterUtil';
 import ErrorMessage from '../common/ErrorMessage';
 import FormAction from '../common/FormAction';
@@ -162,13 +161,12 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                     } else {
                         saved = await createRepairLogMutation.mutateAsync({ content: content.trim(), vehicleId, ...rest });
                     }
-
                     if (files !== null) {
-                        for (let i = 0; i < files.length; i++) {
-                            if (files[i].size < window.ENV.MAX_ATTACHMENT_SIZE) {
-                                await uploadAttachmentMutation.mutateAsync({ repairLogId: saved.id, multipartFile: files[i] });
+                        files.forEach(async (file) => {
+                            if (file.size < window.ENV.MAX_ATTACHMENT_SIZE) {
+                                await uploadAttachmentMutation.mutateAsync({ repairLogId: saved.id, multipartFile: file });
                             }
-                        }
+                        });
                     }
                     setFiles([]);
                     setReadOnly(true);

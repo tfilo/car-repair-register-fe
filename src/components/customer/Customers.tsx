@@ -41,13 +41,14 @@ const Customers: React.FC = () => {
 
     const navigationHandler = useCallback(
         (id: number) => {
-            return () =>
+            return () => {
                 navigate({
                     to: '/customer/$id',
                     params: {
                         id: `${id}`
                     }
                 });
+            };
         },
         [navigate]
     );

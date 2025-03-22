@@ -3,12 +3,12 @@ import { ReactNode } from 'react';
 import { TextGroupWrapper, TextWrapper } from '../components/common/TextWrapper';
 import { isNotBlankString } from './typeGuardUtil';
 
-const CUSTOMER_PREFIX = 'Zákazník:' as const;
-const PHONE_PREFIX = 'Telefón:' as const;
-const EMAIL_PREFIX = 'Email:' as const;
-const REG_PLATE_PREFIX = 'EČ:' as const;
-const VIN_PREFIX = 'VIN:' as const;
-const ENGINE_CODE_PREFIX = 'Kód motora:' as const;
+const CUSTOMER_PREFIX = 'Zákazník:';
+const PHONE_PREFIX = 'Telefón:';
+const EMAIL_PREFIX = 'Email:';
+const REG_PLATE_PREFIX = 'EČ:';
+const VIN_PREFIX = 'VIN:';
+const ENGINE_CODE_PREFIX = 'Kód motora:';
 
 export const formatCustomerNameAsString = (c: Customer): string => {
     const result: string[] = [];

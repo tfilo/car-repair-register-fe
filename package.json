@@ -19,7 +19,6 @@
         "cy:open": "npm run cy:clear && cypress open --e2e --browser electron",
         "cy:run": "npm run cy:clear && cypress run --browser electron",
         "cy:clear": "rimraf cypress/results/*.xml",
-        "coverage": "nyc report --reporter=text --reporter json-summary --report-dir nyc-coverage-report --exclude-after-remap false",
         "licenseReport": "license-report --package=./package.json --output=table --config license-report.json > ./LIBRARIES"
     },
     "devDependencies": {
@@ -53,7 +52,6 @@
         "globals": "^16.0.0",
         "license-report": "^6.7.1",
         "mocha-junit-reporter": "^2.2.1",
-        "nyc": "^17.1.0",
         "oidc-client-ts": "^3.1.0",
         "pg": "^8.14.0",
         "prettier": "^3.5.2",

@@ -24,7 +24,6 @@ src/api/openapi
 *.sw?
 
 # e2e tests
-nyc-coverage-report
 .nyc_output
 coverage
 cypress/results/*

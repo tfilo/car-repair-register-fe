@@ -19,6 +19,26 @@ services:
             - ./init/init.sql:/docker-entrypoint-initdb.d/init.sql
             - postgres_data:/var/lib/postgresql/data
 
+    traefik:
+        image: traefik:v2.5
+        command:
+            - '--api.insecure=true'
+            - '--providers.docker=true'
+            - '--providers.docker.exposedbydefault=false'
+            - '--entrypoints.web.address=:80'
+            - '--log.level=INFO'
+            - '--ping=true'
+        healthcheck:
+            test: ['CMD', 'traefik', 'healthcheck', '--ping']
+            interval: 10s
+            timeout: 10s
+            retries: 10
+        ports:
+            - 80:80
+            - 8080:8080
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+
     keycloak:
         image: quay.io/keycloak/keycloak:26.0
         environment:
@@ -52,6 +72,8 @@ services:
         depends_on:
             db:
                 condition: service_healthy
+            traefik:
+                condition: service_healthy
         labels:
             - traefik.enable=true
             - traefik.http.routers.keycloak.rule=PathPrefix(`/auth`)
@@ -77,6 +99,8 @@ services:
                 condition: service_healthy
             keycloak:
                 condition: service_healthy
+            traefik:
+                condition: service_healthy
         labels:
             - traefik.enable=true
             - traefik.http.routers.backend.rule=PathPrefix(`/api/car-repair-register`)
@@ -96,6 +120,10 @@ services:
         depends_on:
             backend:
                 condition: service_started
+            keycloak:
+                condition: service_healthy
+            traefik:
+                condition: service_healthy
         labels:
             - traefik.enable=true
             - traefik.http.routers.intranet-ui.rule=PathPrefix(`/`)
@@ -103,26 +131,6 @@ services:
             - traefik.http.services.intranet-ui.loadbalancer.server.port=8080
         profiles:
             - withUI
-
-    traefik:
-        image: traefik:v2.5
-        command:
-            - '--api.insecure=true'
-            - '--providers.docker=true'
-            - '--providers.docker.exposedbydefault=false'
-            - '--entrypoints.web.address=:80'
-            - '--log.level=INFO'
-            - '--ping=true'
-        healthcheck:
-            test: ['CMD', 'traefik', 'healthcheck', '--ping']
-            interval: 10s
-            timeout: 10s
-            retries: 10
-        ports:
-            - 80:80
-            - 8080:8080
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock:ro
 
 volumes:
     postgres_data:

@@ -13,8 +13,8 @@ name                                 installed version             author       
 @tanstack/react-form                 0.40.4                        tannerlinsley                                                  MIT           git+https://github.com/TanStack/form.git
 @tanstack/react-query                5.68.0                        tannerlinsley                                                  MIT           git+https://github.com/TanStack/query.git
 @tanstack/react-query-devtools       5.68.0                        tannerlinsley                                                  MIT           git+https://github.com/TanStack/query.git
-@tanstack/react-router               1.114.22                      Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
-@tanstack/router-devtools            1.114.22                      Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
+@tanstack/react-router               1.114.27                      Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
+@tanstack/react-router-devtools      1.114.27                      Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
 @tanstack/router-plugin              1.114.22                      Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
 @tanstack/yup-form-adapter           0.42.1                        tannerlinsley                                                  MIT           git+https://github.com/TanStack/form.git
 @types/lodash                        4.17.16                       n/a                                                            MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git
@@ -30,6 +30,7 @@ eslint-plugin-react-refresh          0.4.19                        Arnaud Barré
 globals                              16.0.0                        Sindre Sorhus sindresorhus@gmail.com https://sindresorhus.com  MIT           git+https://github.com/sindresorhus/globals.git
 license-report                       6.7.2                         Yaniv Kessler                                                  MIT           git+https://github.com/kessler/license-report.git
 mocha-junit-reporter                 2.2.1                         Michael Allen michael.lee.allen@gmail.com                      MIT           git+https://github.com/michaelleeallen/mocha-junit-reporter.git
+nyc                                  17.1.0                        Ben Coe <ben@npmjs.com>                                        ISC           git+ssh://git@github.com/istanbuljs/nyc.git
 oidc-client-ts                       3.2.0                         n/a                                                            Apache-2.0    git+https://github.com/authts/oidc-client-ts.git
 pg                                   8.14.0                        Brian Carlson <brian.m.carlson@gmail.com>                      MIT           git://github.com/brianc/node-postgres.git
 prettier                             3.5.3                         James Long                                                     MIT           git+https://github.com/prettier/prettier.git

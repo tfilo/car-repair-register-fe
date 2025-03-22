@@ -31,7 +31,13 @@ password: test
 
 ## Tests
 
-E2E tests writen in typescript using framework Cypress.io can be run using command `npm run cy:run`. Additionaly while development of tests it is possible open tests in interactiver mode using `npm run cy:open`. Both ways require to have backend running in docker compose and frontend started up using `npm run dev`.
+Tests are writen using Cypress framework. For running test in command line follow this instructions:
+
+- `npm run build:dev` - will create build of application with included instrumentation for coverage calculation
+- `docker compose --profile withUI up --build` - will run full stack using docker compose including frontent
+- `CYPRESS_BASE_URL=http://localhost npm run cy:run` - will execute tests against running app in docker compose
+
+While development of tests it is convinient to run just `npm run cy:open` and selected developed tests. In this case backend should run using just `docker compose up` and frontend in development mode using `npm run dev`
 
 ## Building docker image
 

@@ -57,10 +57,11 @@ jobs:
           npm run build:dev
           docker compose --profile withUI up -d --build --wait
           CYPRESS_BASE_URL=http://localhost npm run cy:run
+          npm run coverage
       - name: Stop containers
         run: docker compose down
       - name: Report NYC coverage
         uses: sidx1024/report-nyc-coverage-github-action@v1.2.7
         with:
-          coverage_file: "coverage/coverage-summary.json"
+          coverage_file: "nyc-coverage-report/coverage-summary.json"
     

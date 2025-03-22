@@ -19,7 +19,7 @@
         "cy:open": "npm run cy:clear && cypress open --e2e --browser electron",
         "cy:run": "npm run cy:clear && cypress run --browser electron",
         "cy:clear": "rimraf cypress/results/*.xml",
-        "coverage": "nyc report --reporter=text",
+        "coverage": "nyc report --reporter=text --reporter json-summary --report-dir nyc-coverage-report --exclude-after-remap false",
         "licenseReport": "license-report --package=./package.json --output=table --config license-report.json > ./LIBRARIES"
     },
     "devDependencies": {

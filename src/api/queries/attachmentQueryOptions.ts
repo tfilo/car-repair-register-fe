@@ -37,7 +37,7 @@ export const useDownloadAttachmentById = () => {
                 if (contentDisposition !== null) {
                     const fileNameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
                     const matches = fileNameRegex.exec(contentDisposition);
-                    if (matches != null && matches[1]) {
+                    if (matches?.[1]) {
                         filename = matches[1].replace(/['"]/g, '');
                     }
                 }

@@ -1,11 +1,10 @@
+import React, { useCallback, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { type Vehicle } from '../../api/openapi/backend';
 import { useForm } from '@tanstack/react-form';
 import { useCreateVehicle, useDeleteVehicleById, useUpdateVehicle } from '../../api/queries/vehicleQueryOptions';
 import { useNavigate, useRouter } from '@tanstack/react-router';
-import { useCallback, useState } from 'react';
 import { formatCustomerNameAsString } from '../../utils/formatterUtil';
-import React from 'react';
 import yup from '../../yup-config';
 import { yupValidator } from '@tanstack/yup-form-adapter';
 import ErrorMessage from '../common/ErrorMessage';
@@ -187,6 +186,9 @@ const VehicleDetail: React.FC<VehicleDetailProps> = ({ vehicle }) => {
             <Typography
                 variant='h5'
                 component='div'
+                overflow='hidden'
+                textOverflow='ellipsis'
+                data-cy='vehicle-title'
             >
                 {vehicle !== undefined ? vehicle.registrationPlate : 'Nové vozidlo'}
             </Typography>
@@ -231,6 +233,7 @@ const VehicleDetail: React.FC<VehicleDetailProps> = ({ vehicle }) => {
                 style={{
                     textTransform: 'uppercase'
                 }}
+                data-cy={'registration-plate-input'}
             />
             <TextInput
                 name='vin'
@@ -240,6 +243,7 @@ const VehicleDetail: React.FC<VehicleDetailProps> = ({ vehicle }) => {
                 style={{
                     textTransform: 'uppercase'
                 }}
+                data-cy='vin-input'
             />
             <TextInput
                 name='engineCode'
@@ -249,48 +253,56 @@ const VehicleDetail: React.FC<VehicleDetailProps> = ({ vehicle }) => {
                 style={{
                     textTransform: 'uppercase'
                 }}
+                data-cy='engine-code-input'
             />
             <TextInput
                 name='yearOfManufacture'
                 label='Rok výroby'
                 form={form}
                 readOnly={readOnly}
+                data-cy='year-of-manufacture-input'
             />
             <TextInput
                 name='brand'
                 label='Výrobca'
                 form={form}
                 readOnly={readOnly}
+                data-cy='brand-input'
             />
             <TextInput
                 name='model'
                 label='Model'
                 form={form}
                 readOnly={readOnly}
+                data-cy='model-input'
             />
             <TextInput
                 name='fuelType'
                 label='Typ paliva'
                 form={form}
                 readOnly={readOnly}
+                data-cy='fuel-type-input'
             />
             <TextInput
                 name='enginePower'
                 label='Výkon motora (kW)'
                 form={form}
                 readOnly={readOnly}
+                data-cy='engine-power-input'
             />
             <TextInput
                 name='engineVolume'
                 label='Objem motora (ccm)'
                 form={form}
                 readOnly={readOnly}
+                data-cy='engine-volume-input'
             />
             <TextInput
                 name='batteryCapacity'
                 label='Kapacita batérie (kWh)'
                 form={form}
                 readOnly={readOnly}
+                data-cy='battery-capacity-input'
             />
             <Stack
                 direction={{

@@ -4,10 +4,9 @@ import { Customer, Vehicle, type RepairLog } from '../../api/openapi/backend';
 import { useCreateRepairLog, useDeleteRepairLogById, useUpdateRepairLog } from '../../api/queries/repairLogQueryOptions';
 import { useNavigate, useRouter } from '@tanstack/react-router';
 import { yupValidator } from '@tanstack/yup-form-adapter';
-import { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import yup from '../../yup-config';
 import { useCreateVehicle } from '../../api/queries/vehicleQueryOptions';
-import React from 'react';
 import { formatVehicleMainDetail } from '../../utils/formatterUtil';
 import ErrorMessage from '../common/ErrorMessage';
 import FormAction from '../common/FormAction';
@@ -162,11 +161,10 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                     } else {
                         saved = await createRepairLogMutation.mutateAsync({ content: content.trim(), vehicleId, ...rest });
                     }
-
                     if (files !== null) {
-                        for (let i = 0; i < files.length; i++) {
-                            if (files[i].size < window.ENV.MAX_ATTACHMENT_SIZE) {
-                                await uploadAttachmentMutation.mutateAsync({ repairLogId: saved.id, multipartFile: files[i] });
+                        for (const file of files) {
+                            if (file.size < window.ENV.MAX_ATTACHMENT_SIZE) {
+                                await uploadAttachmentMutation.mutateAsync({ repairLogId: saved.id, multipartFile: file });
                             }
                         }
                     }
@@ -245,6 +243,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 component='div'
                 overflow='hidden'
                 textOverflow='ellipsis'
+                data-cy='log-title'
             >
                 {repairLog !== undefined ? formatVehicleMainDetail(repairLog.vehicle, true) : 'Nový záznam'}
             </Typography>
@@ -277,6 +276,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                                         setNewCustomer(false);
                                     }
                                 }}
+                                data-cy='new-vehicle-checkbox'
                             />
                         }
                         label='Vytvoriť nové vozidlo?'
@@ -300,6 +300,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                                         setNewCustomer(false);
                                     }
                                 }}
+                                data-cy='new-customer-checkbox'
                             />
                         }
                         label='Vytvoriť nového zákazníka?'
@@ -329,6 +330,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 readOnly={readOnly}
                 required
                 sx={{ display: newCustomer === true ? 'initial' : 'none' }}
+                data-cy={'name-input'}
             />
             <TextInput
                 name='surname'
@@ -336,6 +338,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 form={form}
                 readOnly={readOnly}
                 sx={{ display: newCustomer === true ? 'initial' : 'none' }}
+                data-cy={'surname-input'}
             />
             <TextInput
                 name='registrationPlate'
@@ -347,6 +350,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 style={{
                     textTransform: 'uppercase'
                 }}
+                data-cy={'registration-plate-input'}
             />
             <TextareaInput
                 name='content'
@@ -354,12 +358,14 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 form={form}
                 readOnly={readOnly}
                 required
+                data-cy={'content-textarea'}
             />
             <TextInput
                 name='odometer'
                 label='Stav odometra (km)'
                 form={form}
                 readOnly={readOnly}
+                data-cy={'odometer-input'}
             />
             <DateInput
                 form={form}
@@ -367,6 +373,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                 required
                 name='repairDate'
                 label='Dátum opravy'
+                data-cy={'repair-date-input'}
             />
             {readOnly === false && (
                 <FileInput

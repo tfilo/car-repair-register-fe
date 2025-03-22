@@ -21,7 +21,7 @@ type CustomerInputComponent = <TFormData, TFormValidator extends Validator<TForm
 ) => ReactElement | null;
 
 const CustomerInput: CustomerInputComponent = ({ form, readOnly, required, name, label, sx }) => {
-    const [loadinCustomers, setLoadingCustomers] = useState(false);
+    const [loadingCustomers, setLoadingCustomers] = useState(false);
     const [customerOpen, setCustomerOpen] = useState(false);
     const [customers, setCustomers] = useState<Customer[]>([]);
 
@@ -46,9 +46,8 @@ const CustomerInput: CustomerInputComponent = ({ form, readOnly, required, name,
     }, 1000);
 
     return (
-        <form.Field
-            name={name}
-            children={({ state, handleChange, handleBlur }) => {
+        <form.Field name={name}>
+            {({ state, handleChange, handleBlur }) => {
                 return (
                     <Autocomplete
                         sx={sx}
@@ -57,7 +56,7 @@ const CustomerInput: CustomerInputComponent = ({ form, readOnly, required, name,
                         open={customerOpen}
                         filterOptions={(x) => x}
                         options={customers}
-                        loading={loadinCustomers}
+                        loading={loadingCustomers}
                         onOpen={handleCustomerOpen}
                         onClose={handleCustomerClose}
                         isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -79,7 +78,7 @@ const CustomerInput: CustomerInputComponent = ({ form, readOnly, required, name,
                                         ...params.InputProps,
                                         endAdornment: (
                                             <React.Fragment>
-                                                {loadinCustomers ? (
+                                                {loadingCustomers ? (
                                                     <CircularProgress
                                                         color='inherit'
                                                         size={20}
@@ -93,12 +92,13 @@ const CustomerInput: CustomerInputComponent = ({ form, readOnly, required, name,
                                 }}
                                 error={state.meta.isTouched && state.meta.errors.length > 0}
                                 helperText={state.meta.isTouched && state.meta.errors.join(';')}
+                                data-cy='customer-autocomplete'
                             />
                         )}
                     />
                 );
             }}
-        />
+        </form.Field>
     );
 };
 

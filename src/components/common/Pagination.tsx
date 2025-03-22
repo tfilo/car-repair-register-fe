@@ -43,6 +43,7 @@ const Pagination: React.FC<PaginationProp> = ({ pageMetadata }) => {
                 page={(pageMetadata.number ?? 0) + 1}
                 shape='rounded'
                 onChange={pageChangeHandler}
+                data-cy='pagination'
             />
             <FormControl
                 sx={{ width: '8rem' }}
@@ -54,6 +55,7 @@ const Pagination: React.FC<PaginationProp> = ({ pageMetadata }) => {
                     value={pageMetadata.size}
                     label='Počet na stranu'
                     onChange={sizeChangeHandler}
+                    data-cy='page-size'
                 >
                     <MenuItem value={10}>10</MenuItem>
                     <MenuItem value={25}>25</MenuItem>

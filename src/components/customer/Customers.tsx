@@ -14,6 +14,7 @@ const ActionBar: React.FC = () => {
         <NavBtn
             title='Pridať zákaznika'
             onClick={() => navigate({ to: '/customer/add' })}
+            dataCy='add-customer-btn'
         >
             <AddCircle fontSize='inherit' />
         </NavBtn>
@@ -40,13 +41,14 @@ const Customers: React.FC = () => {
 
     const navigationHandler = useCallback(
         (id: number) => {
-            return () =>
+            return () => {
                 navigate({
                     to: '/customer/$id',
                     params: {
                         id: `${id}`
                     }
                 });
+            };
         },
         [navigate]
     );

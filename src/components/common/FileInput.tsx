@@ -50,8 +50,8 @@ const FileInput: React.FC<FileInputProps> = ({ label, files, setFiles }) => {
     const onFileChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const newFiles: File[] = [];
-            for (let i = 0; i < event.target.files.length; i++) {
-                newFiles.push(event.target.files[i]);
+            for (const file of event.target.files) {
+                newFiles.push(file);
             }
             setFiles((prev) => {
                 return [...prev, ...newFiles];
@@ -84,6 +84,7 @@ const FileInput: React.FC<FileInputProps> = ({ label, files, setFiles }) => {
                     }}
                     variant='outlined'
                     sx={{ height: 48 }}
+                    data-cy='add-file-button'
                 >
                     {label}
                 </Button>
@@ -101,6 +102,7 @@ const FileInput: React.FC<FileInputProps> = ({ label, files, setFiles }) => {
                         variant='outlined'
                         color='error'
                         sx={{ height: 48 }}
+                        data-cy='remove-files-button'
                     >
                         Odstrániť nové prílohy
                     </Button>

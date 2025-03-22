@@ -21,7 +21,7 @@ type VehicleInputComponent = <TFormData, TFormValidator extends Validator<TFormD
 ) => ReactElement | null;
 
 const VehicleInput: VehicleInputComponent = ({ form, readOnly, required, name, label, sx }) => {
-    const [loadinVehicles, setLoadingVehicles] = useState(false);
+    const [loadingVehicles, setLoadingVehicles] = useState(false);
     const [customerOpen, setCustomerOpen] = useState(false);
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
@@ -46,9 +46,8 @@ const VehicleInput: VehicleInputComponent = ({ form, readOnly, required, name, l
     }, 1000);
 
     return (
-        <form.Field
-            name={name}
-            children={({ state, handleChange, handleBlur }) => {
+        <form.Field name={name}>
+            {({ state, handleChange, handleBlur }) => {
                 return (
                     <Autocomplete
                         sx={sx}
@@ -56,7 +55,7 @@ const VehicleInput: VehicleInputComponent = ({ form, readOnly, required, name, l
                         open={customerOpen}
                         filterOptions={(x) => x}
                         options={vehicles}
-                        loading={loadinVehicles}
+                        loading={loadingVehicles}
                         onOpen={handleCustomerOpen}
                         onClose={handleCustomerClose}
                         isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -78,7 +77,7 @@ const VehicleInput: VehicleInputComponent = ({ form, readOnly, required, name, l
                                         ...params.InputProps,
                                         endAdornment: (
                                             <React.Fragment>
-                                                {loadinVehicles ? (
+                                                {loadingVehicles ? (
                                                     <CircularProgress
                                                         color='inherit'
                                                         size={20}
@@ -92,12 +91,13 @@ const VehicleInput: VehicleInputComponent = ({ form, readOnly, required, name, l
                                 }}
                                 error={state.meta.isTouched && state.meta.errors.length > 0}
                                 helperText={state.meta.isTouched && state.meta.errors.join(';')}
+                                data-cy='vehicle-autocomplete'
                             />
                         )}
                     />
                 );
             }}
-        />
+        </form.Field>
     );
 };
 

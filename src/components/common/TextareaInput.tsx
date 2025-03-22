@@ -34,18 +34,18 @@ type TextareaInputProps<TFormData, TFormValidator extends Validator<TFormData, u
     label: string;
     readOnly?: boolean;
     required?: boolean;
+    'data-cy'?: string;
 };
 
 type TextareaInputComponent = <TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>>(
     props: TextareaInputProps<TFormData, TFormValidator, TName>
 ) => ReactElement | null;
 
-const TextareaInput: TextareaInputComponent = ({ form, readOnly, required, name, label }) => {
+const TextareaInput: TextareaInputComponent = ({ form, readOnly, required, name, label, 'data-cy': dataCy }) => {
     const uniqueId = useId();
     return (
-        <form.Field
-            name={name}
-            children={({ state, handleChange, handleBlur }) => {
+        <form.Field name={name}>
+            {({ state, handleChange, handleBlur }) => {
                 const innerSx: SxProps<Theme> | undefined =
                     state.meta.isTouched && state.meta.errors.length > 0
                         ? [
@@ -83,6 +83,7 @@ const TextareaInput: TextareaInputComponent = ({ form, readOnly, required, name,
                             sx={innerSx}
                             readOnly={readOnly}
                             autoComplete='off'
+                            data-cy={dataCy}
                         />
                         <FormHelperText
                             error={state.meta.isTouched && state.meta.errors.length > 0}
@@ -93,7 +94,7 @@ const TextareaInput: TextareaInputComponent = ({ form, readOnly, required, name,
                     </FormControl>
                 );
             }}
-        />
+        </form.Field>
     );
 };
 

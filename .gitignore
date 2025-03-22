@@ -24,7 +24,8 @@ src/api/openapi
 *.sw?
 
 # e2e tests
-cypress/downloads/*
 .nyc_output
 coverage
 cypress/results/*
+cypress/screenshots/*
+cypress/downloads/*

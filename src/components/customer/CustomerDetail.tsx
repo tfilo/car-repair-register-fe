@@ -173,6 +173,7 @@ const CustomerDetail: React.FC<CustomerProps> = ({ customer }) => {
                 component='div'
                 overflow='hidden'
                 textOverflow='ellipsis'
+                data-cy='customer-title'
             >
                 {customer !== undefined ? formatCustomerName(customer) : 'Nový zákazník'}
             </Typography>
@@ -186,24 +187,28 @@ const CustomerDetail: React.FC<CustomerProps> = ({ customer }) => {
                 form={form}
                 readOnly={readOnly}
                 required
+                data-cy={'name-input'}
             />
             <TextInput
                 name='surname'
                 label='Priezvisko'
                 form={form}
                 readOnly={readOnly}
+                data-cy={'surname-input'}
             />
             <TextInput
                 name='mobile'
                 label='Telefón'
                 form={form}
                 readOnly={readOnly}
+                data-cy={'mobile-input'}
             />
             <TextInput
                 name='email'
                 label='Email'
                 form={form}
                 readOnly={readOnly}
+                data-cy={'email-input'}
             />
             <Stack
                 direction={{

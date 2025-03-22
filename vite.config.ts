@@ -6,12 +6,14 @@ import { ViteMinifyPlugin } from 'vite-plugin-minify';
 import istanbul from 'vite-plugin-istanbul';
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
     plugins: [
         TanStackRouterVite(),
         react(),
         istanbul({
-            cypress: true
+            cypress: true,
+            forceBuildInstrument: mode !== 'production', // adds instrumentation to non production builds
+            include: ['src/**/*', 'cypress/support/wrappers/**/*']
         }),
         createHtmlPlugin({
             minify: false
@@ -39,4 +41,4 @@ export default defineConfig({
             }
         }
     }
-});
+}));

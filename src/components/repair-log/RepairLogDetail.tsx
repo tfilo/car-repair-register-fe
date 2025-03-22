@@ -162,11 +162,11 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                         saved = await createRepairLogMutation.mutateAsync({ content: content.trim(), vehicleId, ...rest });
                     }
                     if (files !== null) {
-                        files.forEach(async (file) => {
+                        for (const file of files) {
                             if (file.size < window.ENV.MAX_ATTACHMENT_SIZE) {
                                 await uploadAttachmentMutation.mutateAsync({ repairLogId: saved.id, multipartFile: file });
                             }
-                        });
+                        }
                     }
                     setFiles([]);
                     setReadOnly(true);

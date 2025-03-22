@@ -45,23 +45,34 @@ const loginToKeycloak = (username: string, password: string) => {
 
     cy.visit('/');
 
-    cy.origin(
-        'http://localhost/auth/*',
-        {
-            args: {
-                username,
-                password
+    const baseUrl = Cypress.config().baseUrl;
+
+    if (baseUrl !== null && (new URL(baseUrl).port === '80' || new URL(baseUrl).port.trim() === '')) {
+        cy.get('h1[id="kc-page-title"]').should('be.visible');
+        cy.get('input[id="username"]:visible').type(username);
+        cy.get('input[id="password"]:visible').type(password, {
+            log: false
+        });
+        cy.get('button[type="submit"]:visible').click();
+    } else {
+        cy.origin(
+            'http://localhost/auth/*',
+            {
+                args: {
+                    username,
+                    password
+                }
+            },
+            ({ username, password }) => {
+                cy.get('h1[id="kc-page-title"]').should('be.visible');
+                cy.get('input[id="username"]:visible').type(username);
+                cy.get('input[id="password"]:visible').type(password, {
+                    log: false
+                });
+                cy.get('button[type="submit"]:visible').click();
             }
-        },
-        ({ username, password }) => {
-            cy.get('h1[id="kc-page-title"]').should('be.visible');
-            cy.get('input[id="username"]:visible').type(username);
-            cy.get('input[id="password"]:visible').type(password, {
-                log: false
-            });
-            cy.get('button[type="submit"]:visible').click();
-        }
-    );
+        );
+    }
 };
 
 const directLogin = (username: string, password: string) => {

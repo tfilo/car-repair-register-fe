@@ -17,10 +17,19 @@ describe('login', () => {
         cy.getByDataCy('navbar').should('be.visible');
         cy.getByDataCy('logout-btn').should('be.visible');
         cy.getByDataCy('logout-btn').click();
-        cy.origin('http://localhost/auth/*', () => {
+
+        const baseUrl = Cypress.config().baseUrl;
+
+        if (baseUrl !== null && (new URL(baseUrl).port === '80' || new URL(baseUrl).port.trim() === '')) {
             cy.get('h1[id="kc-page-title"]').should('be.visible');
             cy.get('input[id="username"]').should('be.visible');
             cy.get('input[id="password"]').should('be.visible');
-        });
+        } else {
+            cy.origin('http://localhost/auth/*', () => {
+                cy.get('h1[id="kc-page-title"]').should('be.visible');
+                cy.get('input[id="username"]').should('be.visible');
+                cy.get('input[id="password"]').should('be.visible');
+            });
+        }
     });
 });

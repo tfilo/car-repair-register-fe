@@ -60,8 +60,6 @@ services:
 
     backend:
         image: tfilo/car-repair-register-be:latest
-        ports:
-            - 9090:9090
         environment:
             SPRING_JPA_SHOW_SQL: true
             SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/evidence?currentSchema=public
@@ -84,6 +82,27 @@ services:
             - traefik.http.routers.backend.rule=PathPrefix(`/api/car-repair-register`)
             - traefik.http.routers.backend.entrypoints=web
             - traefik.http.services.backend.loadbalancer.server.port=8080
+
+    ui:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            API_BASE_PATH: '/api/car-repair-register'
+            KEYCLOAK_REALM: 'evidence'
+            KEYCLOAK_CLIENT: 'evidence-public'
+            KEYCLOAK_URL: 'http://localhost/auth'
+            MAX_ATTACHMENT_SIZE: 67108864
+        depends_on:
+            backend:
+                condition: service_started
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.intranet-ui.rule=PathPrefix(`/`)
+            - traefik.http.routers.intranet-ui.entrypoints=web
+            - traefik.http.services.intranet-ui.loadbalancer.server.port=8080
+        profiles:
+            - withUI
 
     traefik:
         image: traefik:v2.5

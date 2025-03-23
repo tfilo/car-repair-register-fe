@@ -33,3 +33,59 @@ jobs:
           npm run lint
           npm run prettier
           npm run build
+
+  tests:
+    needs: build
+    permissions:
+      actions: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: "./package-lock.json"
+      - name: Run E2E tests
+        run: |
+          npm ci
+          npm run build:dev
+          docker compose --profile withUI up -d --build --wait
+          CYPRESS_BASE_URL=http://localhost npm run cy:run
+      - name: Stop containers
+        run: docker compose down
+      - name: Parse and post coverage summary
+        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            const fs = require('fs');
+            const coverage = JSON.parse(fs.readFileSync('./coverage/coverage-summary.json', 'utf8'));
+            const summary = `
+            **🛡️ Code Coverage Summary**
+            - 📊 **Statements:** ${coverage.total.statements.pct}%
+            - 🌿 **Branches:** ${coverage.total.branches.pct}%
+            - 🔧 **Functions:** ${coverage.total.functions.pct}%
+            - 📄 **Lines:** ${coverage.total.lines.pct}%
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.payload.pull_request.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });
+      - name: Print coverage summary (for main branch)
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "🛡️ **Code Coverage Summary**"
+          echo "📊 **Statements:** $(jq '.total.statements.pct' ./coverage/coverage-summary.json)%"
+          echo "🌿 **Branches:** $(jq '.total.branches.pct' ./coverage/coverage-summary.json)%"
+          echo "🔧 **Functions:** $(jq '.total.functions.pct' ./coverage/coverage-summary.json)%"
+          echo "📄 **Lines:** $(jq '.total.lines.pct' ./coverage/coverage-summary.json)%"

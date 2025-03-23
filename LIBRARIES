@@ -13,8 +13,8 @@ name                                 installed version             author       
 @tanstack/react-form                 0.40.4                        tannerlinsley                                                  MIT           git+https://github.com/TanStack/form.git
 @tanstack/react-query                5.68.0                        tannerlinsley                                                  MIT           git+https://github.com/TanStack/query.git
 @tanstack/react-query-devtools       5.68.0                        tannerlinsley                                                  MIT           git+https://github.com/TanStack/query.git
-@tanstack/react-router               1.114.22                      Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
-@tanstack/router-devtools            1.114.22                      Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
+@tanstack/react-router               1.114.27                      Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
+@tanstack/react-router-devtools      1.114.27                      Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
 @tanstack/router-plugin              1.114.22                      Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
 @tanstack/yup-form-adapter           0.42.1                        tannerlinsley                                                  MIT           git+https://github.com/TanStack/form.git
 @types/lodash                        4.17.16                       n/a                                                            MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git

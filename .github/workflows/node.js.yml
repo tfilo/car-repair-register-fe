@@ -38,7 +38,7 @@ jobs:
     needs: build
     permissions:
       actions: read
-      issues: write
+      pull-requests: write
     runs-on: ubuntu-latest
     strategy:
       matrix:

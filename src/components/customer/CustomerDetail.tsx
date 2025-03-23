@@ -1,19 +1,19 @@
-import { Box, Divider, List, ListItem, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material';
-import type { Customer } from '../../api/openapi/backend';
-import { useForm } from '@tanstack/react-form';
-import { useCreateCustomer, useDeleteCustomerById, useUpdateCustomer } from '../../api/queries/customerQueryOptions';
+import React, { useCallback, useState } from 'react';
 import { useNavigate, useRouter } from '@tanstack/react-router';
-import { yupValidator } from '@tanstack/yup-form-adapter';
-import { useCallback, useState } from 'react';
-import { formatCustomerName, formatVehicleMainDetail } from '../../utils/formatterUtil';
+import { useQuery } from '@tanstack/react-query';
+import { Box, Divider, List, ListItem, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material';
+import { DirectionsCar } from '@mui/icons-material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import type { Customer } from '../../api/openapi/backend';
+import { useCreateCustomer, useDeleteCustomerById, useUpdateCustomer } from '../../api/queries/customerQueryOptions';
+import { findVehiclesOptions } from '../../api/queries/vehicleQueryOptions';
 import yup from '../../yup-config';
+import { formatCustomerName, formatVehicleMainDetail } from '../../utils/formatterUtil';
 import ErrorMessage from '../common/ErrorMessage';
 import FormAction from '../common/FormAction';
 import TextInput from '../common/TextInput';
 import TechnicalInfo from '../common/TechnicalInfo';
-import { useQuery } from '@tanstack/react-query';
-import { findVehiclesOptions } from '../../api/queries/vehicleQueryOptions';
-import { DirectionsCar } from '@mui/icons-material';
+import { FormProvider, useForm } from 'react-hook-form';
 
 export type CustomerProps = {
     customer?: Customer;
@@ -98,44 +98,49 @@ const CustomerDetail: React.FC<CustomerProps> = ({ customer }) => {
     const updateCustomerMutation = useUpdateCustomer();
     const deleteCustomerByIdMutation = useDeleteCustomerById();
 
-    const form = useForm({
-        onSubmit: async ({ value }) => {
-            const data = customerSchema.cast(value);
-            try {
-                let saved: Customer;
-                if (customer !== undefined) {
-                    saved = await updateCustomerMutation.mutateAsync({ id: customer.id, customer: data });
-                } else {
-                    saved = await createCustomerMutation.mutateAsync(data);
-                }
-                setReadOnly(true);
-                router.invalidate();
-                form.reset({
-                    name: saved.name ?? '',
-                    surname: saved.surname ?? '',
-                    email: saved.email ?? '',
-                    mobile: saved.mobile ?? ''
-                });
-                navigate({
-                    to: '/customer/$id',
-                    params: {
-                        id: `${saved.id}`
-                    }
-                });
-            } catch (e) {
-                console.log('Nastala chyba', e);
-            }
-        },
-        validators: {
-            onChange: customerSchema
-        },
+    const methods = useForm({
+        resolver: yupResolver(customerSchema, {
+            stripUnknown: true // Remove non used attributes
+        }),
         defaultValues: {
             name: customer?.name ?? '',
             surname: customer?.surname ?? '',
             email: customer?.email ?? '',
             mobile: customer?.mobile ?? ''
-        },
-        validatorAdapter: yupValidator()
+        }
+    });
+
+    const {
+        handleSubmit,
+        reset,
+        formState: { isLoading, isSubmitting, isValidating, isSubmitted, isValid }
+    } = methods;
+
+    const onSubmit = handleSubmit(async (data) => {
+        try {
+            let saved: Customer;
+            if (customer !== undefined) {
+                saved = await updateCustomerMutation.mutateAsync({ id: customer.id, customer: data });
+            } else {
+                saved = await createCustomerMutation.mutateAsync(data);
+            }
+            setReadOnly(true);
+            router.invalidate();
+            reset({
+                name: saved.name ?? '',
+                surname: saved.surname ?? '',
+                email: saved.email ?? '',
+                mobile: saved.mobile ?? ''
+            });
+            navigate({
+                to: '/customer/$id',
+                params: {
+                    id: `${saved.id}`
+                }
+            });
+        } catch (e) {
+            console.log('Nastala chyba', e);
+        }
     });
 
     const handleCustomerDelete = useCallback(() => {
@@ -154,111 +159,103 @@ const CustomerDetail: React.FC<CustomerProps> = ({ customer }) => {
         }
     }, [customer, deleteCustomerByIdMutation, navigate]);
 
+    const isPending = isLoading || isSubmitting || isValidating;
+    const canSubmit = (isSubmitted && isValid) || !isSubmitted;
+
     return (
-        <Box
-            component='form'
-            display='flex'
-            flexDirection='column'
-            gap={2}
-            noValidate
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-            marginBottom={8}
-        >
-            <Typography
-                variant='h5'
-                component='div'
-                overflow='hidden'
-                textOverflow='ellipsis'
-                data-cy='customer-title'
-            >
-                {customer !== undefined ? formatCustomerName(customer) : 'Nový zákazník'}
-            </Typography>
-            <ErrorMessage
-                mutationResult={[createCustomerMutation, updateCustomerMutation]}
-                yupSchema={customerSchema}
-            />
-            <TextInput
-                name='name'
-                label='Meno'
-                form={form}
-                readOnly={readOnly}
-                required
-                data-cy={'name-input'}
-            />
-            <TextInput
-                name='surname'
-                label='Priezvisko'
-                form={form}
-                readOnly={readOnly}
-                data-cy={'surname-input'}
-            />
-            <TextInput
-                name='mobile'
-                label='Telefón'
-                form={form}
-                readOnly={readOnly}
-                data-cy={'mobile-input'}
-            />
-            <TextInput
-                name='email'
-                label='Email'
-                form={form}
-                readOnly={readOnly}
-                data-cy={'email-input'}
-            />
-            <Stack
-                direction={{
-                    sx: 'column',
-                    sm: 'row'
-                }}
+        <FormProvider {...methods}>
+            <Box
+                component='form'
+                display='flex'
+                flexDirection='column'
                 gap={2}
-                justifyContent='space-between'
+                noValidate
+                onSubmit={onSubmit}
+                autoComplete='off'
+                marginBottom={8}
             >
-                <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
-                    {([canSubmit, isSubmitting]) => {
-                        return (
-                            <FormAction
-                                canSubmit={canSubmit}
-                                isPending={isSubmitting || deleteCustomerByIdMutation.isPending}
-                                onBackHandler={() =>
-                                    navigate({
-                                        to: '/customer',
-                                        search: {
-                                            page: 0,
-                                            size: 10
-                                        }
-                                    })
-                                }
-                                onDeleteHandler={handleCustomerDelete}
-                                setReadOnly={(v) => {
-                                    if (v === true) {
-                                        form.reset();
-                                    }
-                                    setReadOnly(v);
-                                }}
-                                readOnly={readOnly}
-                                allowDelete={customer !== undefined}
-                                deleteModal={{
-                                    title: 'Naozaj vymazať zákazníka vrátane všetkých záznamov?',
-                                    body: 'Po potvrdení dôjde k odstráneniu zákazníka, vrátane jeho vozidiel a záznamov o opravách!'
-                                }}
-                            />
-                        );
+                <Typography
+                    variant='h5'
+                    component='div'
+                    overflow='hidden'
+                    textOverflow='ellipsis'
+                    data-cy='customer-title'
+                >
+                    {customer !== undefined ? formatCustomerName(customer) : 'Nový zákazník'}
+                </Typography>
+                <ErrorMessage
+                    mutationResult={[createCustomerMutation, updateCustomerMutation]}
+                    yupSchema={customerSchema}
+                />
+                <TextInput
+                    name='name'
+                    label='Meno'
+                    readOnly={readOnly}
+                    required
+                    data-cy={'name-input'}
+                />
+                <TextInput
+                    name='surname'
+                    label='Priezvisko'
+                    readOnly={readOnly}
+                    data-cy={'surname-input'}
+                />
+                <TextInput
+                    name='mobile'
+                    label='Telefón'
+                    readOnly={readOnly}
+                    data-cy={'mobile-input'}
+                />
+                <TextInput
+                    name='email'
+                    label='Email'
+                    readOnly={readOnly}
+                    data-cy={'email-input'}
+                />
+                <Stack
+                    direction={{
+                        sx: 'column',
+                        sm: 'row'
                     }}
-                </form.Subscribe>
-            </Stack>
-            {customer && readOnly && (
-                <>
-                    <TechnicalInfo object={customer} />
-                    <Divider />
-                    <CustomerVehicles customerId={customer?.id} />
-                </>
-            )}
-        </Box>
+                    gap={2}
+                    justifyContent='space-between'
+                >
+                    <FormAction
+                        canSubmit={canSubmit}
+                        isPending={isPending || deleteCustomerByIdMutation.isPending}
+                        onBackHandler={() =>
+                            navigate({
+                                to: '/customer',
+                                search: {
+                                    page: 0,
+                                    size: 10
+                                }
+                            })
+                        }
+                        onDeleteHandler={handleCustomerDelete}
+                        setReadOnly={(v) => {
+                            if (v === true) {
+                                reset();
+                            }
+                            setReadOnly(v);
+                        }}
+                        readOnly={readOnly}
+                        allowDelete={customer !== undefined}
+                        deleteModal={{
+                            title: 'Naozaj vymazať zákazníka vrátane všetkých záznamov?',
+                            body: 'Po potvrdení dôjde k odstráneniu zákazníka, vrátane jeho vozidiel a záznamov o opravách!'
+                        }}
+                    />
+                </Stack>
+                {customer && readOnly && (
+                    <>
+                        <TechnicalInfo object={customer} />
+                        <Divider />
+                        <CustomerVehicles customerId={customer?.id} />
+                    </>
+                )}
+            </Box>
+        </FormProvider>
     );
 };
 

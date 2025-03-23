@@ -1,29 +1,36 @@
-import { Autocomplete, CircularProgress, SxProps, TextField, Theme } from '@mui/material';
-import { DeepKeys, ReactFormExtendedApi, Validator } from '@tanstack/react-form';
-import { formatCustomerNameAsString } from '../../utils/formatterUtil';
-import React, { ReactElement, useState } from 'react';
-import { Customer } from '../../api/openapi/backend';
-import { queryClient } from '../../queryClient';
-import { findCustomersOptions } from '../../api/queries/customerQueryOptions';
+import React, { useState } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
+import { get } from 'lodash';
+import { Autocomplete, CircularProgress, SxProps, TextField, Theme } from '@mui/material';
+import { Customer } from '../../api/openapi/backend';
+import { findCustomersOptions } from '../../api/queries/customerQueryOptions';
+import { queryClient } from '../../queryClient';
+import { formatCustomerNameAsString, formatErrorToString } from '../../utils/formatterUtil';
+import { isNotBlankString } from '../../utils/typeGuardUtil';
 
-type CustomerInputProps<TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>> = {
-    form: ReactFormExtendedApi<TFormData, TFormValidator>;
-    name: TName;
+type CustomerInputProps = {
+    name: string;
     label: string;
     readOnly?: boolean;
     required?: boolean;
     sx?: SxProps<Theme>;
 };
 
-type CustomerInputComponent = <TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>>(
-    props: CustomerInputProps<TFormData, TFormValidator, TName>
-) => ReactElement | null;
-
-const CustomerInput: CustomerInputComponent = ({ form, readOnly, required, name, label, sx }) => {
+const CustomerInput: React.FC<CustomerInputProps> = ({ readOnly, required, name, label, sx }) => {
     const [loadingCustomers, setLoadingCustomers] = useState(false);
     const [customerOpen, setCustomerOpen] = useState(false);
     const [customers, setCustomers] = useState<Customer[]>([]);
+
+    const {
+        control,
+        formState: { errors }
+    } = useFormContext();
+
+    // Field error object
+    const errorObj = get(errors, name);
+    // Message from error object
+    const errorMsg = formatErrorToString(errorObj);
 
     const handleCustomerOpen = () => {
         setCustomerOpen(true);
@@ -46,8 +53,11 @@ const CustomerInput: CustomerInputComponent = ({ form, readOnly, required, name,
     }, 1000);
 
     return (
-        <form.Field name={name}>
-            {({ state, handleChange, handleBlur }) => {
+        <Controller
+            control={control}
+            name={name}
+            render={({ field: { onChange, onBlur, value } }) => {
+                const checkedValue = value && isNaN(value.id) ? null : value;
                 return (
                     <Autocomplete
                         sx={sx}
@@ -61,10 +71,10 @@ const CustomerInput: CustomerInputComponent = ({ form, readOnly, required, name,
                         onClose={handleCustomerClose}
                         isOptionEqualToValue={(option, value) => option.id === value.id}
                         getOptionLabel={(o) => formatCustomerNameAsString(o)}
-                        onChange={(_, val) => handleChange(val as Parameters<typeof handleChange>[0])}
+                        onChange={(_, val) => onChange(val)}
                         getOptionKey={(o) => o.id}
-                        value={state.value as Customer}
-                        onBlur={handleBlur}
+                        value={checkedValue as Customer}
+                        onBlur={onBlur}
                         autoHighlight
                         readOnly={readOnly}
                         renderInput={(params) => (
@@ -90,15 +100,15 @@ const CustomerInput: CustomerInputComponent = ({ form, readOnly, required, name,
                                         autoComplete: 'off'
                                     }
                                 }}
-                                error={state.meta.isTouched && state.meta.errors.length > 0}
-                                helperText={state.meta.isTouched && state.meta.errors.join(';')}
+                                error={isNotBlankString(errorMsg)}
+                                helperText={errorMsg}
                                 data-cy='customer-autocomplete'
                             />
                         )}
                     />
                 );
             }}
-        </form.Field>
+        />
     );
 };
 

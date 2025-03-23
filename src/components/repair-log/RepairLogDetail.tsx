@@ -1,48 +1,115 @@
+import React, { useCallback, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useNavigate, useRouter } from '@tanstack/react-router';
 import { Box, Checkbox, FormControlLabel, FormGroup, Stack, Typography } from '@mui/material';
-import { useForm, Validator } from '@tanstack/react-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Customer, Vehicle, type RepairLog } from '../../api/openapi/backend';
 import { useCreateRepairLog, useDeleteRepairLogById, useUpdateRepairLog } from '../../api/queries/repairLogQueryOptions';
-import { useNavigate, useRouter } from '@tanstack/react-router';
-import { yupValidator } from '@tanstack/yup-form-adapter';
-import React, { useCallback, useMemo, useState } from 'react';
-import yup from '../../yup-config';
 import { useCreateVehicle } from '../../api/queries/vehicleQueryOptions';
+import { useCreateCustomer } from '../../api/queries/customerQueryOptions';
+import { useUploadAttachment } from '../../api/queries/attachmentQueryOptions';
+import yup from '../../yup-config';
 import { formatVehicleMainDetail } from '../../utils/formatterUtil';
+import { isNotBlankString } from '../../utils/typeGuardUtil';
 import ErrorMessage from '../common/ErrorMessage';
 import FormAction from '../common/FormAction';
 import TechnicalInfo from '../common/TechnicalInfo';
 import TextInput from '../common/TextInput';
 import CustomerInput from '../common/CustomerInput';
-import { useCreateCustomer } from '../../api/queries/customerQueryOptions';
 import VehicleInput from '../common/VehicleInput';
 import DateInput from '../common/DateInput';
 import TextareaInput from '../common/TextareaInput';
 import FileInput from '../common/FileInput';
-import { useUploadAttachment } from '../../api/queries/attachmentQueryOptions';
 import Attachments from './Attachments';
-import { isNotBlankString } from '../../utils/typeGuardUtil';
 
 export type RepairLogDetailProps = {
     repairLog?: RepairLog;
 };
 
-type FormType = Omit<RepairLog, 'vehicle' | 'attachments' | 'created' | 'modified' | 'id'> & {
-    vehicle:
-        | null
-        | (Pick<Vehicle, 'registrationPlate' | 'id'> & {
-              customer: Pick<Customer, 'name' | 'surname'>;
-          });
-    customer: null | Pick<Customer, 'name' | 'surname' | 'id'>;
+type FormType = Pick<RepairLog, 'content' | 'repairDate' | 'odometer'> & {
+    vehicle: null | Pick<Vehicle, 'id'>;
+    customer: null | Pick<Customer, 'id'>;
     name: string | null;
     surname: string | null;
     registrationPlate: string | null;
+    newVehicle: boolean;
+    newCustomer: boolean;
 };
+
+const repairLogSchema = yup.object({
+    newVehicle: yup.boolean().defined().default(false),
+    newCustomer: yup.boolean().defined().default(false),
+    content: yup.string().defined().trim().required().max(5000, 'Popis opravy musí mať maximálne 5000 znakov').label('Popis opravy'),
+    vehicle: yup
+        .object({
+            id: yup.number().defined().required()
+        })
+        .defined()
+        .nullable()
+        .when(['newVehicle'], {
+            is: true,
+            then: (schema) => schema.transform(() => null),
+            otherwise: (schema) => schema.required()
+        })
+        .label('Vozidlo'),
+    customer: yup
+        .object({
+            id: yup.number().nonNullable().required().required()
+        })
+        .defined()
+        .nullable()
+        .when(['newVehicle', 'newCustomer'], {
+            is: (newVehicle: boolean, newCustomer: boolean) => newVehicle === true && newCustomer === false,
+            then: (schema) => schema.required(),
+            otherwise: (schema) => schema.nullable().transform(() => null)
+        })
+        .label('Zákazník'),
+    name: yup
+        .string()
+        .defined()
+        .nullable()
+        .when(['newCustomer'], {
+            is: true,
+            then: (schema) => schema.trim().required().max(64, 'Meno musí mať maximálne 64 znakov'),
+            otherwise: (schema) => schema.transform(() => null)
+        })
+        .label('Meno'),
+    surname: yup
+        .string()
+        .defined()
+        .nullable()
+        .when(['newCustomer'], {
+            is: true,
+            then: (schema) => schema.trim().max(64, 'Priezvisko musí mať maximálne 64 znakov'),
+            otherwise: (schema) => schema.transform(() => null)
+        })
+        .label('Priezvisko'),
+    registrationPlate: yup
+        .string()
+        .defined()
+        .nullable()
+        .when(['newVehicle'], {
+            is: true,
+            then: (schema) => schema.trim().required().max(20, 'EČ musí mať maximálne 20 znakov'),
+            otherwise: (schema) => schema.transform(() => null)
+        })
+        .label('EČ'),
+    odometer: yup
+        .number()
+        .typeError('Stav odometra musí byť číslo v jednotkách km')
+        .integer()
+        .defined()
+        .min(0)
+        .max(99999999)
+        .emptyAsNull()
+        .nullable()
+        .label('Stav odometra (km)'),
+    repairDate: yup.string().trim().required().max(20, 'Dátum opravy musí mať maximálne 20 znakov').label('Dátum opravy')
+});
 
 const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
     const router = useRouter();
     const [readOnly, setReadOnly] = useState(!!repairLog);
-    const [newVehicle, setNewVehicle] = useState(false);
-    const [newCustomer, setNewCustomer] = useState(false);
     const navigate = useNavigate();
     const createCustomerMutation = useCreateCustomer();
     const createVehicleMutation = useCreateVehicle();
@@ -52,77 +119,34 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
     const uploadAttachmentMutation = useUploadAttachment();
     const [files, setFiles] = useState<File[]>([]);
 
-    const repairLogSchema = useMemo(
-        () =>
-            yup.object<FormType>({
-                content: yup.string().trim().required().max(5000, 'Popis opravy musí mať maximálne 5000 znakov').label('Popis opravy'),
-                vehicle:
-                    newVehicle === true
-                        ? yup
-                              .object()
-                              .optional()
-                              .nullable()
-                              .transform(() => null)
-                        : yup
-                              .object({
-                                  id: yup.number().required()
-                              })
-                              .required()
-                              .label('Vozidlo'),
-                customer:
-                    newVehicle === true && newCustomer === false
-                        ? yup
-                              .object({
-                                  id: yup.number().required()
-                              })
-                              .required()
-                              .label('Zákazník')
-                        : yup
-                              .object()
-                              .optional()
-                              .nullable()
-                              .transform(() => null),
-                name:
-                    newCustomer === true
-                        ? yup.string().trim().required().max(64, 'Meno musí mať maximálne 64 znakov').label('Meno')
-                        : yup
-                              .string()
-                              .optional()
-                              .nullable()
-                              .transform(() => null),
-                surname:
-                    newCustomer === true
-                        ? yup.string().trim().optional().nullable().max(64, 'Priezvisko musí mať maximálne 64 znakov').label('Priezvisko')
-                        : yup
-                              .string()
-                              .optional()
-                              .nullable()
-                              .transform(() => null),
-                registrationPlate:
-                    newVehicle === true
-                        ? yup.string().trim().required().max(20, 'EČ musí mať maximálne 20 znakov').label('EČ')
-                        : yup
-                              .string()
-                              .optional()
-                              .nullable()
-                              .transform(() => null),
-                odometer: yup
-                    .number()
-                    .typeError('Stav odometra musí byť číslo v jednotkách km')
-                    .integer()
-                    .defined()
-                    .min(0)
-                    .max(99999999)
-                    .emptyAsNull()
-                    .nullable()
-                    .label('Stav odometra (km)'),
-                repairDate: yup.string().trim().required().max(20, 'Dátum opravy musí mať maximálne 20 znakov').label('Dátum opravy')
-            }),
-        [newCustomer, newVehicle]
-    );
+    const methods = useForm<FormType>({
+        resolver: yupResolver(repairLogSchema, {
+            stripUnknown: true // Remove non used attributes
+        }),
+        defaultValues: {
+            newCustomer: false,
+            newVehicle: false,
+            content: repairLog?.content ?? '',
+            vehicle: repairLog?.vehicle ?? null,
+            customer: null,
+            registrationPlate: '',
+            name: '',
+            surname: '',
+            repairDate: repairLog?.repairDate ?? '',
+            odometer: repairLog?.odometer ?? null
+        }
+    });
 
-    const form = useForm<FormType, Validator<unknown, yup.AnySchema>>({
-        onSubmit: async ({ value: { vehicle, customer, content, name, surname, registrationPlate, ...rest } }) => {
+    const {
+        handleSubmit,
+        setValue,
+        reset,
+        watch,
+        formState: { isLoading, isSubmitting, isValidating, isSubmitted, isValid }
+    } = methods;
+
+    const onSubmit = handleSubmit(
+        async ({ newCustomer, newVehicle, vehicle, customer, content, name, surname, registrationPlate, ...rest }) => {
             try {
                 let vehicleId: number | null = vehicle?.id ?? null;
                 let customerId: number | null = customer?.id ?? null;
@@ -171,7 +195,9 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
                     setFiles([]);
                     setReadOnly(true);
                     router.invalidate();
-                    form.reset({
+                    reset({
+                        newCustomer: false,
+                        newVehicle: false,
                         content: saved.content ?? '',
                         vehicle: saved.vehicle ?? null,
                         customer: null,
@@ -191,22 +217,8 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
             } catch (e) {
                 console.log('Nastala chyba', e);
             }
-        },
-        validators: {
-            onChange: repairLogSchema
-        },
-        defaultValues: {
-            content: repairLog?.content ?? '',
-            vehicle: repairLog?.vehicle ?? null,
-            customer: null,
-            registrationPlate: '',
-            name: '',
-            surname: '',
-            repairDate: repairLog?.repairDate ?? '',
-            odometer: repairLog?.odometer ?? null
-        },
-        validatorAdapter: yupValidator()
-    });
+        }
+    );
 
     const handleRepairLogDelete = useCallback(() => {
         if (repairLog !== undefined) {
@@ -224,214 +236,204 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
         }
     }, [repairLog, deleteRepairLogByIdMutation, navigate]);
 
+    const isPending = isLoading || isSubmitting || isValidating;
+    const canSubmit = (isSubmitted && isValid) || !isSubmitted;
+
+    const [newVehicle, newCustomer] = watch(['newVehicle', 'newCustomer']);
+
     return (
-        <Box
-            component='form'
-            display='flex'
-            flexDirection='column'
-            gap={2}
-            noValidate
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-            marginBottom={8}
-        >
-            <Typography
-                variant='h5'
-                component='div'
-                overflow='hidden'
-                textOverflow='ellipsis'
-                data-cy='log-title'
-            >
-                {repairLog !== undefined ? formatVehicleMainDetail(repairLog.vehicle, true) : 'Nový záznam'}
-            </Typography>
-            <ErrorMessage
-                mutationResult={[
-                    createRepairLogMutation,
-                    updateRepairLogMutation,
-                    uploadAttachmentMutation,
-                    createCustomerMutation,
-                    createVehicleMutation
-                ]}
-                yupSchema={repairLogSchema}
-            />
-            {!repairLog && readOnly === false && (
-                <FormGroup>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={newVehicle}
-                                onChange={() => {
-                                    form.setFieldValue('customer', null);
-                                    form.setFieldValue('vehicle', null);
-                                    form.setFieldValue('registrationPlate', '');
-                                    if (newVehicle === false) {
-                                        setNewVehicle(true);
-                                    } else {
-                                        form.setFieldValue('name', null);
-                                        form.setFieldValue('surname', '');
-                                        setNewVehicle(false);
-                                        setNewCustomer(false);
-                                    }
-                                }}
-                                data-cy='new-vehicle-checkbox'
-                            />
-                        }
-                        label='Vytvoriť nové vozidlo?'
-                    />
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={newCustomer}
-                                onChange={() => {
-                                    form.setFieldValue('customer', null);
-                                    form.setFieldValue('name', null);
-                                    form.setFieldValue('surname', '');
-                                    if (newCustomer === false) {
-                                        setNewCustomer(true);
-                                        if (newVehicle === false) {
-                                            form.setFieldValue('vehicle', null);
-                                            form.setFieldValue('registrationPlate', '');
-                                            setNewVehicle(true);
-                                        }
-                                    } else {
-                                        setNewCustomer(false);
-                                    }
-                                }}
-                                data-cy='new-customer-checkbox'
-                            />
-                        }
-                        label='Vytvoriť nového zákazníka?'
-                    />
-                </FormGroup>
-            )}
-            <VehicleInput
-                name='vehicle'
-                label='Vozidlo'
-                required
-                readOnly={readOnly}
-                form={form}
-                sx={{ display: newVehicle === false ? 'initial' : 'none' }}
-            />
-            <CustomerInput
-                name='customer'
-                label='Zákazník'
-                required
-                readOnly={readOnly}
-                form={form}
-                sx={{ display: newVehicle === true && newCustomer === false ? 'initial' : 'none' }}
-            />
-            <TextInput
-                name='name'
-                label='Meno'
-                form={form}
-                readOnly={readOnly}
-                required
-                sx={{ display: newCustomer === true ? 'initial' : 'none' }}
-                data-cy={'name-input'}
-            />
-            <TextInput
-                name='surname'
-                label='Priezvisko'
-                form={form}
-                readOnly={readOnly}
-                sx={{ display: newCustomer === true ? 'initial' : 'none' }}
-                data-cy={'surname-input'}
-            />
-            <TextInput
-                name='registrationPlate'
-                label='Evidenčné číslo'
-                form={form}
-                readOnly={readOnly}
-                required
-                sx={{ display: newVehicle === true ? 'initial' : 'none' }}
-                style={{
-                    textTransform: 'uppercase'
-                }}
-                data-cy={'registration-plate-input'}
-            />
-            <TextareaInput
-                name='content'
-                label='Popis opravy'
-                form={form}
-                readOnly={readOnly}
-                required
-                data-cy={'content-textarea'}
-            />
-            <TextInput
-                name='odometer'
-                label='Stav odometra (km)'
-                form={form}
-                readOnly={readOnly}
-                data-cy={'odometer-input'}
-            />
-            <DateInput
-                form={form}
-                readOnly={readOnly}
-                required
-                name='repairDate'
-                label='Dátum opravy'
-                data-cy={'repair-date-input'}
-            />
-            {readOnly === false && (
-                <FileInput
-                    label='Pridať prílohy'
-                    files={files}
-                    setFiles={setFiles}
-                />
-            )}
-            {repairLog && (
-                <Attachments
-                    attachments={repairLog.attachments}
-                    readOnly={readOnly}
-                />
-            )}
-            <Stack
-                direction={{
-                    sx: 'column',
-                    sm: 'row'
-                }}
+        <FormProvider {...methods}>
+            <Box
+                component='form'
+                display='flex'
+                flexDirection='column'
                 gap={2}
-                justifyContent='space-between'
+                noValidate
+                onSubmit={onSubmit}
+                autoComplete='off'
+                marginBottom={8}
             >
-                <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
-                    {([canSubmit, isSubmitting]) => {
-                        return (
-                            <FormAction
-                                canSubmit={canSubmit}
-                                isPending={isSubmitting || deleteRepairLogByIdMutation.isPending}
-                                onBackHandler={() =>
-                                    navigate({
-                                        to: '/',
-                                        search: {
-                                            page: 0,
-                                            size: 10
+                <Typography
+                    variant='h5'
+                    component='div'
+                    overflow='hidden'
+                    textOverflow='ellipsis'
+                    data-cy='log-title'
+                >
+                    {repairLog !== undefined ? formatVehicleMainDetail(repairLog.vehicle, true) : 'Nový záznam'}
+                </Typography>
+                <ErrorMessage
+                    mutationResult={[
+                        createRepairLogMutation,
+                        updateRepairLogMutation,
+                        uploadAttachmentMutation,
+                        createCustomerMutation,
+                        createVehicleMutation
+                    ]}
+                    yupSchema={repairLogSchema}
+                />
+                {!repairLog && readOnly === false && (
+                    <FormGroup>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={newVehicle}
+                                    onChange={() => {
+                                        setValue('customer', null);
+                                        setValue('vehicle', null);
+                                        setValue('registrationPlate', '');
+                                        if (newVehicle === false) {
+                                            setValue('newVehicle', true);
+                                        } else {
+                                            setValue('name', null);
+                                            setValue('surname', '');
+                                            setValue('newVehicle', false);
+                                            setValue('newCustomer', false);
                                         }
-                                    })
-                                }
-                                onDeleteHandler={handleRepairLogDelete}
-                                setReadOnly={(v) => {
-                                    if (v === true) {
-                                        form.reset();
-                                        setFiles([]);
-                                    }
-                                    setReadOnly(v);
-                                }}
-                                readOnly={readOnly}
-                                allowDelete={repairLog !== undefined}
-                                deleteModal={{
-                                    title: 'Naozaj vymazať záznam opravy?',
-                                    body: 'Po potvrdení dôjde k odstráneniu záznamu opravy!'
-                                }}
-                            />
-                        );
+                                    }}
+                                    data-cy='new-vehicle-checkbox'
+                                />
+                            }
+                            label='Vytvoriť nové vozidlo?'
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={newCustomer}
+                                    onChange={() => {
+                                        setValue('customer', null);
+                                        setValue('name', null);
+                                        setValue('surname', '');
+                                        if (newCustomer === false) {
+                                            setValue('newCustomer', true);
+                                            if (newVehicle === false) {
+                                                setValue('vehicle', null);
+                                                setValue('registrationPlate', '');
+                                                setValue('newVehicle', true);
+                                            }
+                                        } else {
+                                            setValue('newCustomer', false);
+                                        }
+                                    }}
+                                    data-cy='new-customer-checkbox'
+                                />
+                            }
+                            label='Vytvoriť nového zákazníka?'
+                        />
+                    </FormGroup>
+                )}
+                <VehicleInput
+                    name='vehicle'
+                    label='Vozidlo'
+                    required
+                    readOnly={readOnly}
+                    sx={{ display: newVehicle === false ? 'initial' : 'none' }}
+                />
+                <CustomerInput
+                    name='customer'
+                    label='Zákazník'
+                    required
+                    readOnly={readOnly}
+                    sx={{ display: newVehicle === true && newCustomer === false ? 'initial' : 'none' }}
+                />
+                <TextInput
+                    name='name'
+                    label='Meno'
+                    readOnly={readOnly}
+                    required
+                    sx={{ display: newCustomer === true ? 'initial' : 'none' }}
+                    data-cy={'name-input'}
+                />
+                <TextInput
+                    name='surname'
+                    label='Priezvisko'
+                    readOnly={readOnly}
+                    sx={{ display: newCustomer === true ? 'initial' : 'none' }}
+                    data-cy={'surname-input'}
+                />
+                <TextInput
+                    name='registrationPlate'
+                    label='Evidenčné číslo'
+                    readOnly={readOnly}
+                    required
+                    sx={{ display: newVehicle === true ? 'initial' : 'none' }}
+                    style={{
+                        textTransform: 'uppercase'
                     }}
-                </form.Subscribe>
-            </Stack>
-            {repairLog && readOnly && <TechnicalInfo object={repairLog} />}
-        </Box>
+                    data-cy={'registration-plate-input'}
+                />
+                <TextareaInput
+                    name='content'
+                    label='Popis opravy'
+                    readOnly={readOnly}
+                    required
+                    data-cy={'content-textarea'}
+                />
+                <TextInput
+                    name='odometer'
+                    label='Stav odometra (km)'
+                    readOnly={readOnly}
+                    data-cy={'odometer-input'}
+                />
+                <DateInput
+                    readOnly={readOnly}
+                    required
+                    name='repairDate'
+                    label='Dátum opravy'
+                    data-cy={'repair-date-input'}
+                />
+                {readOnly === false && (
+                    <FileInput
+                        label='Pridať prílohy'
+                        files={files}
+                        setFiles={setFiles}
+                    />
+                )}
+                {repairLog && (
+                    <Attachments
+                        attachments={repairLog.attachments}
+                        readOnly={readOnly}
+                    />
+                )}
+                <Stack
+                    direction={{
+                        sx: 'column',
+                        sm: 'row'
+                    }}
+                    gap={2}
+                    justifyContent='space-between'
+                >
+                    <FormAction
+                        canSubmit={canSubmit}
+                        isPending={isPending || deleteRepairLogByIdMutation.isPending}
+                        onBackHandler={() =>
+                            navigate({
+                                to: '/',
+                                search: {
+                                    page: 0,
+                                    size: 10
+                                }
+                            })
+                        }
+                        onDeleteHandler={handleRepairLogDelete}
+                        setReadOnly={(v) => {
+                            if (v === true) {
+                                reset();
+                                setFiles([]);
+                            }
+                            setReadOnly(v);
+                        }}
+                        readOnly={readOnly}
+                        allowDelete={repairLog !== undefined}
+                        deleteModal={{
+                            title: 'Naozaj vymazať záznam opravy?',
+                            body: 'Po potvrdení dôjde k odstráneniu záznamu opravy!'
+                        }}
+                    />
+                </Stack>
+                {repairLog && readOnly && <TechnicalInfo object={repairLog} />}
+            </Box>
+        </FormProvider>
     );
 };
 

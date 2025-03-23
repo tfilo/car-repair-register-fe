@@ -1,10 +1,12 @@
+import React from 'react';
 import { SxProps, TextField, Theme } from '@mui/material';
-import { DeepKeys, ReactFormExtendedApi, Validator } from '@tanstack/react-form';
-import { ReactElement } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { get } from 'lodash';
+import { formatErrorToString } from '../../utils/formatterUtil';
+import { isNotBlankString } from '../../utils/typeGuardUtil';
 
-type TextInputProps<TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>> = {
-    form: ReactFormExtendedApi<TFormData, TFormValidator>;
-    name: TName;
+type TextInputProps = {
+    name: string;
     label: string;
     readOnly?: boolean;
     required?: boolean;
@@ -13,39 +15,45 @@ type TextInputProps<TFormData, TFormValidator extends Validator<TFormData, unkno
     'data-cy'?: string;
 };
 
-type TextInputComponent = <TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>>(
-    props: TextInputProps<TFormData, TFormValidator, TName>
-) => ReactElement | null;
+const TextInput: React.FC<TextInputProps> = ({ readOnly, required, name, label, sx, style, 'data-cy': dataCy }) => {
+    const {
+        control,
+        formState: { errors }
+    } = useFormContext();
 
-const TextInput: TextInputComponent = ({ form, readOnly, required, name, label, sx, style, 'data-cy': dataCy }) => {
+    // Field error object
+    const errorObj = get(errors, name);
+    // Message from error object
+    const errorMsg = formatErrorToString(errorObj?.message);
+
     return (
-        <form.Field name={name}>
-            {({ state, handleChange, handleBlur }) => {
-                return (
-                    <TextField
-                        fullWidth
-                        sx={sx}
-                        value={state.value ?? ''}
-                        onChange={(e) => handleChange(e.target.value as Parameters<typeof handleChange>[0])}
-                        onBlur={handleBlur}
-                        label={label}
-                        required={required}
-                        error={state.meta.isTouched && state.meta.errors.length > 0}
-                        helperText={state.meta.isTouched && state.meta.errors.join(';')}
-                        slotProps={{
-                            input: {
-                                readOnly
-                            },
-                            htmlInput: {
-                                style
-                            }
-                        }}
-                        autoComplete='off'
-                        data-cy={dataCy}
-                    />
-                );
-            }}
-        </form.Field>
+        <Controller
+            control={control}
+            name={name}
+            render={({ field: { onChange, onBlur, value } }) => (
+                <TextField
+                    fullWidth
+                    sx={sx}
+                    value={value ?? ''}
+                    onChange={(e) => onChange(e.target.value)}
+                    onBlur={onBlur}
+                    label={label}
+                    required={required}
+                    error={isNotBlankString(errorMsg)}
+                    helperText={errorMsg}
+                    slotProps={{
+                        input: {
+                            readOnly
+                        },
+                        htmlInput: {
+                            style
+                        }
+                    }}
+                    autoComplete='off'
+                    data-cy={dataCy}
+                />
+            )}
+        />
     );
 };
 

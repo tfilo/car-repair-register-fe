@@ -1,7 +1,10 @@
+import React, { useId, useMemo } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { get } from 'lodash';
 import { FormControl, FormHelperText, InputLabel, styled, SxProps, Theme, TextareaAutosize } from '@mui/material';
-import { DeepKeys, ReactFormExtendedApi, Validator } from '@tanstack/react-form';
-import { ReactElement, useId } from 'react';
 import { blue, grey } from '@mui/material/colors';
+import { formatErrorToString } from '../../utils/formatterUtil';
+import { isNotBlankString } from '../../utils/typeGuardUtil';
 
 const Textarea = styled(TextareaAutosize)(
     () => `
@@ -28,73 +31,80 @@ const Textarea = styled(TextareaAutosize)(
 `
 );
 
-type TextareaInputProps<TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>> = {
-    form: ReactFormExtendedApi<TFormData, TFormValidator>;
-    name: TName;
+type TextareaInputProps = {
+    name: string;
     label: string;
     readOnly?: boolean;
     required?: boolean;
     'data-cy'?: string;
 };
 
-type TextareaInputComponent = <TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>>(
-    props: TextareaInputProps<TFormData, TFormValidator, TName>
-) => ReactElement | null;
-
-const TextareaInput: TextareaInputComponent = ({ form, readOnly, required, name, label, 'data-cy': dataCy }) => {
+const TextareaInput: React.FC<TextareaInputProps> = ({ readOnly, required, name, label, 'data-cy': dataCy }) => {
     const uniqueId = useId();
-    return (
-        <form.Field name={name}>
-            {({ state, handleChange, handleBlur }) => {
-                const innerSx: SxProps<Theme> | undefined =
-                    state.meta.isTouched && state.meta.errors.length > 0
-                        ? [
-                              {
-                                  '&:focus': {
-                                      boxShadow: '0 0 0 1px #d32f2f',
-                                      borderColor: '#d32f2f'
-                                  }
-                              },
-                              {
-                                  borderColor: '#d32f2f'
-                              }
-                          ]
-                        : undefined;
 
-                return (
-                    <FormControl>
-                        <InputLabel
-                            htmlFor={`${uniqueId}_${name}`}
-                            shrink={true}
-                            sx={{ background: '#fff', paddingX: '4px' }}
-                            error={state.meta.isTouched && state.meta.errors.length > 0}
-                            required={required}
-                        >
-                            {label}
-                        </InputLabel>
-                        <Textarea
-                            id={`${uniqueId}_${name}`}
-                            aria-describedby={`${uniqueId}_${name}-helper`}
-                            value={state.value as string}
-                            onChange={(e) => handleChange(e.target.value as Parameters<typeof handleChange>[0])}
-                            onBlur={handleBlur}
-                            minRows={6}
-                            required={required}
-                            sx={innerSx}
-                            readOnly={readOnly}
-                            autoComplete='off'
-                            data-cy={dataCy}
-                        />
-                        <FormHelperText
-                            error={state.meta.isTouched && state.meta.errors.length > 0}
-                            id={`${uniqueId}_${name}-helper`}
-                        >
-                            {state.meta.isTouched && state.meta.errors.join(';')}
-                        </FormHelperText>
-                    </FormControl>
-                );
-            }}
-        </form.Field>
+    const {
+        control,
+        formState: { errors }
+    } = useFormContext();
+
+    // Field error object
+    const errorObj = get(errors, name);
+    // Message from error object
+    const errorMsg = formatErrorToString(errorObj?.message);
+
+    const innerSx: SxProps<Theme> | undefined = useMemo(() => {
+        return isNotBlankString(errorMsg)
+            ? [
+                  {
+                      '&:focus': {
+                          boxShadow: '0 0 0 1px #d32f2f',
+                          borderColor: '#d32f2f'
+                      }
+                  },
+                  {
+                      borderColor: '#d32f2f'
+                  }
+              ]
+            : undefined;
+    }, [errorMsg]);
+
+    return (
+        <Controller
+            control={control}
+            name={name}
+            render={({ field: { onChange, onBlur, value } }) => (
+                <FormControl>
+                    <InputLabel
+                        htmlFor={`${uniqueId}_${name}`}
+                        shrink={true}
+                        sx={{ background: '#fff', paddingX: '4px' }}
+                        error={isNotBlankString(errorMsg)}
+                        required={required}
+                    >
+                        {label}
+                    </InputLabel>
+                    <Textarea
+                        id={`${uniqueId}_${name}`}
+                        aria-describedby={`${uniqueId}_${name}-helper`}
+                        value={value as string}
+                        onChange={(e) => onChange(e.target.value)}
+                        onBlur={onBlur}
+                        minRows={6}
+                        required={required}
+                        sx={innerSx}
+                        readOnly={readOnly}
+                        autoComplete='off'
+                        data-cy={dataCy}
+                    />
+                    <FormHelperText
+                        error={isNotBlankString(errorMsg)}
+                        id={`${uniqueId}_${name}-helper`}
+                    >
+                        {errorMsg}
+                    </FormHelperText>
+                </FormControl>
+            )}
+        />
     );
 };
 

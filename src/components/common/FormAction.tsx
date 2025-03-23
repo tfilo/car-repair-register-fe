@@ -96,18 +96,16 @@ const FormAction: React.FC<FormActionProps> = ({
                     </Button>
                 </>
             ) : (
-                <>
-                    <Button
-                        startIcon={<Edit />}
-                        variant='contained'
-                        type='button'
-                        sx={{ height: 48 }}
-                        onClick={() => setReadOnly(false)}
-                        data-cy='edit-btn'
-                    >
-                        Upraviť
-                    </Button>
-                </>
+                <Button
+                    startIcon={<Edit />}
+                    variant='contained'
+                    type='button'
+                    sx={{ height: 48 }}
+                    onClick={() => setReadOnly(false)}
+                    data-cy='edit-btn'
+                >
+                    Upraviť
+                </Button>
             )}
             {isDeleteModalOpen && (
                 <CustomModal

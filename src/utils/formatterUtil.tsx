@@ -1,5 +1,6 @@
-import { Customer, Vehicle } from '../api/openapi/backend';
 import { ReactNode } from 'react';
+import { Customer, Vehicle } from '../api/openapi/backend';
+import type { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 import { TextGroupWrapper, TextWrapper } from '../components/common/TextWrapper';
 import { isNotBlankString } from './typeGuardUtil';
 
@@ -127,4 +128,33 @@ export const fileSizeFormatter = (size: number): string => {
     }
 
     return `${(size / 1024 / 1024).toFixed(2)} MB`;
+};
+
+export const formatErrorToString = (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    message?: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | unknown
+): string | undefined => {
+    if (message === undefined || message === null) {
+        return undefined;
+    }
+    if (typeof message === 'string') {
+        return message.trim();
+    }
+    if (typeof message === 'object') {
+        if ('message' in message && message.message !== undefined) {
+            if (typeof message.message === 'string') {
+                return message.message.trim();
+            } else {
+                return formatErrorToString(message.message);
+            }
+        } else {
+            return Object.keys(message)
+                .map((key) => {
+                    const value = message[key as keyof typeof message];
+                    return formatErrorToString(value);
+                })
+                .filter((val) => val !== undefined)
+                .join('; ');
+        }
+    }
 };

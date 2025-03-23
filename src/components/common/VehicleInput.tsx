@@ -1,29 +1,36 @@
-import { Autocomplete, CircularProgress, SxProps, TextField, Theme } from '@mui/material';
-import { DeepKeys, ReactFormExtendedApi, Validator } from '@tanstack/react-form';
-import { formatCustomerNameAsString } from '../../utils/formatterUtil';
-import React, { ReactElement, useState } from 'react';
-import { Vehicle } from '../../api/openapi/backend';
-import { queryClient } from '../../queryClient';
+import React, { useState } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { get } from 'lodash';
 import { useDebouncedCallback } from 'use-debounce';
+import { Autocomplete, CircularProgress, SxProps, TextField, Theme } from '@mui/material';
+import { Vehicle } from '../../api/openapi/backend';
 import { findVehiclesOptions } from '../../api/queries/vehicleQueryOptions';
+import { queryClient } from '../../queryClient';
+import { formatCustomerNameAsString, formatErrorToString } from '../../utils/formatterUtil';
+import { isNotBlankString } from '../../utils/typeGuardUtil';
 
-type VehicleInputProps<TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>> = {
-    form: ReactFormExtendedApi<TFormData, TFormValidator>;
-    name: TName;
+type VehicleInputProps = {
+    name: string;
     label: string;
     readOnly?: boolean;
     required?: boolean;
     sx?: SxProps<Theme>;
 };
 
-type VehicleInputComponent = <TFormData, TFormValidator extends Validator<TFormData, unknown>, TName extends DeepKeys<TFormData>>(
-    props: VehicleInputProps<TFormData, TFormValidator, TName>
-) => ReactElement | null;
-
-const VehicleInput: VehicleInputComponent = ({ form, readOnly, required, name, label, sx }) => {
+const VehicleInput: React.FC<VehicleInputProps> = ({ readOnly, required, name, label, sx }) => {
     const [loadingVehicles, setLoadingVehicles] = useState(false);
     const [customerOpen, setCustomerOpen] = useState(false);
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+
+    const {
+        control,
+        formState: { errors }
+    } = useFormContext();
+
+    // Field error object
+    const errorObj = get(errors, name);
+    // Message from error object
+    const errorMsg = formatErrorToString(errorObj?.message);
 
     const handleCustomerOpen = () => {
         setCustomerOpen(true);
@@ -46,58 +53,58 @@ const VehicleInput: VehicleInputComponent = ({ form, readOnly, required, name, l
     }, 1000);
 
     return (
-        <form.Field name={name}>
-            {({ state, handleChange, handleBlur }) => {
-                return (
-                    <Autocomplete
-                        sx={sx}
-                        disablePortal
-                        open={customerOpen}
-                        filterOptions={(x) => x}
-                        options={vehicles}
-                        loading={loadingVehicles}
-                        onOpen={handleCustomerOpen}
-                        onClose={handleCustomerClose}
-                        isOptionEqualToValue={(option, value) => option.id === value.id}
-                        getOptionLabel={(o) => o.registrationPlate + ' - ' + formatCustomerNameAsString(o.customer)}
-                        onChange={(_, val) => handleChange(val as Parameters<typeof handleChange>[0])}
-                        getOptionKey={(o) => o.id}
-                        value={state.value as Vehicle}
-                        onBlur={handleBlur}
-                        autoHighlight
-                        readOnly={readOnly}
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                label={label}
-                                required={required}
-                                onChange={(e) => debouncedSearch(e.target.value)}
-                                slotProps={{
-                                    input: {
-                                        ...params.InputProps,
-                                        endAdornment: (
-                                            <React.Fragment>
-                                                {loadingVehicles ? (
-                                                    <CircularProgress
-                                                        color='inherit'
-                                                        size={20}
-                                                    />
-                                                ) : null}
-                                                {params.InputProps.endAdornment}
-                                            </React.Fragment>
-                                        ),
-                                        autoComplete: 'off'
-                                    }
-                                }}
-                                error={state.meta.isTouched && state.meta.errors.length > 0}
-                                helperText={state.meta.isTouched && state.meta.errors.join(';')}
-                                data-cy='vehicle-autocomplete'
-                            />
-                        )}
-                    />
-                );
-            }}
-        </form.Field>
+        <Controller
+            control={control}
+            name={name}
+            render={({ field: { onChange, onBlur, value } }) => (
+                <Autocomplete
+                    sx={sx}
+                    disablePortal
+                    open={customerOpen}
+                    filterOptions={(x) => x}
+                    options={vehicles}
+                    loading={loadingVehicles}
+                    onOpen={handleCustomerOpen}
+                    onClose={handleCustomerClose}
+                    isOptionEqualToValue={(option, value) => option.id === value.id}
+                    getOptionLabel={(o) => o.registrationPlate + ' - ' + formatCustomerNameAsString(o.customer)}
+                    onChange={(_, val) => onChange(val)}
+                    getOptionKey={(o) => o.id}
+                    value={value as Vehicle}
+                    onBlur={onBlur}
+                    autoHighlight
+                    readOnly={readOnly}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label={label}
+                            required={required}
+                            onChange={(e) => debouncedSearch(e.target.value)}
+                            slotProps={{
+                                input: {
+                                    ...params.InputProps,
+                                    endAdornment: (
+                                        <React.Fragment>
+                                            {loadingVehicles ? (
+                                                <CircularProgress
+                                                    color='inherit'
+                                                    size={20}
+                                                />
+                                            ) : null}
+                                            {params.InputProps.endAdornment}
+                                        </React.Fragment>
+                                    ),
+                                    autoComplete: 'off'
+                                }
+                            }}
+                            error={isNotBlankString(errorMsg)}
+                            helperText={errorMsg}
+                            data-cy='vehicle-autocomplete'
+                        />
+                    )}
+                />
+            )}
+        />
     );
 };
 

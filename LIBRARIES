@@ -1,50 +1,50 @@
-name                                 installed version             author                                                         license type  link
-----                                 -----------------             ------                                                         ------------  ----
-@cypress/code-coverage               3.13.12                       Cypress <hello@cypress.io> (http://www.cypress.io/)            MIT           git+https://github.com/cypress-io/code-coverage.git
-@emotion/react                       11.14.0                       Emotion Contributors                                           MIT           git+https://github.com/emotion-js/emotion.git#main
-@emotion/styled                      11.14.0                       n/a                                                            MIT           git+https://github.com/emotion-js/emotion.git#main
-@eslint/js                           9.22.0                        n/a                                                            MIT           git+https://github.com/eslint/eslint.git
-@fontsource/roboto                   5.2.5                         Google Inc.                                                    OFL-1.1       git+https://github.com/fontsource/font-files.git
-@hookform/resolvers                  4.1.3                         bluebill1049 <bluebill1049@hotmail.com>                        MIT           git+https://github.com/react-hook-form/resolvers.git
-@mui/icons-material                  6.4.7                         MUI Team                                                       MIT           git+https://github.com/mui/material-ui.git
-@mui/material                        6.4.7                         MUI Team                                                       MIT           git+https://github.com/mui/material-ui.git
-@mui/x-date-pickers                  7.27.3                        MUI Team                                                       MIT           git+https://github.com/mui/mui-x.git
-@openapitools/openapi-generator-cli  2.18.4                        OpenAPI Tools team@openapitools.org https://openapitools.org/  Apache-2.0    git+https://github.com/OpenAPITools/openapi-generator-cli.git
-@tanstack/eslint-plugin-query        5.68.0                        Eliya Cohen                                                    MIT           git+https://github.com/TanStack/query.git
-@tanstack/react-query                5.68.0                        tannerlinsley                                                  MIT           git+https://github.com/TanStack/query.git
-@tanstack/react-query-devtools       5.68.0                        tannerlinsley                                                  MIT           git+https://github.com/TanStack/query.git
-@tanstack/react-router               1.114.27                      Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
-@tanstack/react-router-devtools      1.114.27                      Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
-@tanstack/router-plugin              1.114.22                      Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
-@types/lodash                        4.17.16                       n/a                                                            MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git
-@types/pg                            8.11.11                       n/a                                                            MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git
-@types/react                         19.0.10                       n/a                                                            MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git
-@types/react-dom                     19.0.4                        n/a                                                            MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git
-@vitejs/plugin-react                 4.3.4                         Evan You                                                       MIT           git+https://github.com/vitejs/vite-plugin-react.git
-cypress                              14.2.0                        n/a                                                            MIT           git+https://github.com/cypress-io/cypress.git
-eslint                               9.22.0                        Nicholas C. Zakas <nicholas+npm@nczconsulting.com>             MIT           git+https://github.com/eslint/eslint.git
-eslint-plugin-react-compiler         19.0.0-beta-e552027-20250112  n/a                                                            MIT           git+https://github.com/facebook/react.git
-eslint-plugin-react-hooks            5.2.0                         n/a                                                            MIT           git+https://github.com/facebook/react.git
-eslint-plugin-react-refresh          0.4.19                        Arnaud Barré (https://github.com/ArnaudBarre)                  MIT           git+https://github.com/ArnaudBarre/eslint-plugin-react-refresh.git
-globals                              16.0.0                        Sindre Sorhus sindresorhus@gmail.com https://sindresorhus.com  MIT           git+https://github.com/sindresorhus/globals.git
-license-report                       6.7.2                         Yaniv Kessler                                                  MIT           git+https://github.com/kessler/license-report.git
-lodash                               4.17.21                       John-David Dalton <john.david.dalton@gmail.com>                MIT           git+https://github.com/lodash/lodash.git
-mocha-junit-reporter                 2.2.1                         Michael Allen michael.lee.allen@gmail.com                      MIT           git+https://github.com/michaelleeallen/mocha-junit-reporter.git
-oidc-client-ts                       3.2.0                         n/a                                                            Apache-2.0    git+https://github.com/authts/oidc-client-ts.git
-pg                                   8.14.0                        Brian Carlson <brian.m.carlson@gmail.com>                      MIT           git://github.com/brianc/node-postgres.git
-prettier                             3.5.3                         James Long                                                     MIT           git+https://github.com/prettier/prettier.git
-react                                19.0.0                        n/a                                                            MIT           git+https://github.com/facebook/react.git
-react-dom                            19.0.0                        n/a                                                            MIT           git+https://github.com/facebook/react.git
-react-hook-form                      7.54.2                        <bluebill1049@hotmail.com>                                     MIT           git+https://github.com/react-hook-form/react-hook-form.git
-react-oidc-context                   3.2.0                         n/a                                                            MIT           git+https://github.com/authts/react-oidc-context.git
-rimraf                               6.0.1                         Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)            ISC           git://github.com/isaacs/rimraf.git
-sass-embedded                        1.85.1                        Google Inc.                                                    MIT           git+https://github.com/sass/embedded-host-node.git
-typescript                           5.7.3                         Microsoft Corp.                                                Apache-2.0    git+https://github.com/microsoft/TypeScript.git
-typescript-eslint                    8.26.1                        n/a                                                            MIT           git+https://github.com/typescript-eslint/typescript-eslint.git
-use-debounce                         10.0.4                        Nik (nik@xnim.me)                                              MIT           git+ssh://git@github.com/xnimorz/use-debounce.git
-vite                                 6.2.2                         Evan You                                                       MIT           git+https://github.com/vitejs/vite.git
-vite-plugin-html                     3.2.2                         Vben                                                           MIT           git+https://github.com/vbenjs/vite-plugin-html.git
-vite-plugin-istanbul                 7.0.0                         iFaxity (christian@faxity.se)                                  MIT           git+https://github.com/ifaxity/vite-plugin-istanbul.git
-vite-plugin-minify                   2.1.0                         zhuweiyou <i@zhuweiyou.com>                                    MIT           git+https://github.com/zhuweiyou/vite-plugin-minify.git
-yup                                  1.6.1                         @monasticpanic Jason Quense                                    MIT           git+https://github.com/jquense/yup.git
-yup-locales                          1.2.28                        n/a                                                            MIT           git+https://github.com/loicmahieu/yup-locales.git
+name                                 installed version  author                                                         license type  link
+----                                 -----------------  ------                                                         ------------  ----
+react                                19.1.0             n/a                                                            MIT           git+https://github.com/facebook/react.git
+react-dom                            19.1.0             n/a                                                            MIT           git+https://github.com/facebook/react.git
+@cypress/code-coverage               3.14.3             Cypress <hello@cypress.io> (http://www.cypress.io/)            MIT           git+https://github.com/cypress-io/code-coverage.git
+@emotion/react                       11.14.0            Emotion Contributors                                           MIT           git+https://github.com/emotion-js/emotion.git#main
+@emotion/styled                      11.14.0            n/a                                                            MIT           git+https://github.com/emotion-js/emotion.git#main
+@eslint/js                           9.27.0             n/a                                                            MIT           git+https://github.com/eslint/eslint.git
+@fontsource/roboto                   5.2.5              Google Inc.                                                    OFL-1.1       git+https://github.com/fontsource/font-files.git
+@hookform/resolvers                  4.1.3              bluebill1049 <bluebill1049@hotmail.com>                        MIT           git+https://github.com/react-hook-form/resolvers.git
+@mui/icons-material                  6.4.11             MUI Team                                                       MIT           git+https://github.com/mui/material-ui.git
+@mui/material                        6.4.11             MUI Team                                                       MIT           git+https://github.com/mui/material-ui.git
+@mui/x-date-pickers                  7.29.4             MUI Team                                                       MIT           git+https://github.com/mui/mui-x.git
+@openapitools/openapi-generator-cli  2.20.2             OpenAPI Tools team@openapitools.org https://openapitools.org/  Apache-2.0    git+https://github.com/OpenAPITools/openapi-generator-cli.git
+@tanstack/eslint-plugin-query        5.74.7             Eliya Cohen                                                    MIT           git+https://github.com/TanStack/query.git
+@tanstack/react-query                5.76.2             tannerlinsley                                                  MIT           git+https://github.com/TanStack/query.git
+@tanstack/react-query-devtools       5.76.2             tannerlinsley                                                  MIT           git+https://github.com/TanStack/query.git
+@tanstack/react-router               1.120.9            Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
+@tanstack/react-router-devtools      1.120.9            Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
+@tanstack/router-plugin              1.120.9            Tanner Linsley                                                 MIT           git+https://github.com/TanStack/router.git
+@types/lodash                        4.17.17            n/a                                                            MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git
+@types/pg                            8.15.2             n/a                                                            MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git
+@types/react                         19.1.5             n/a                                                            MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git
+@types/react-dom                     19.1.5             n/a                                                            MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git
+@vitejs/plugin-react                 4.5.0              Evan You                                                       MIT           git+https://github.com/vitejs/vite-plugin-react.git
+cypress                              14.4.0             n/a                                                            MIT           git+https://github.com/cypress-io/cypress.git
+eslint                               9.27.0             Nicholas C. Zakas <nicholas+npm@nczconsulting.com>             MIT           git+https://github.com/eslint/eslint.git
+eslint-plugin-react-compiler         19.1.0-rc.2        n/a                                                            MIT           git+https://github.com/facebook/react.git
+eslint-plugin-react-hooks            5.2.0              n/a                                                            MIT           git+https://github.com/facebook/react.git
+eslint-plugin-react-refresh          0.4.20             Arnaud Barré (https://github.com/ArnaudBarre)                  MIT           git+https://github.com/ArnaudBarre/eslint-plugin-react-refresh.git
+globals                              16.1.0             Sindre Sorhus sindresorhus@gmail.com https://sindresorhus.com  MIT           git+https://github.com/sindresorhus/globals.git
+license-report                       6.7.2              Yaniv Kessler                                                  MIT           git+https://github.com/kessler/license-report.git
+lodash                               4.17.21            John-David Dalton <john.david.dalton@gmail.com>                MIT           git+https://github.com/lodash/lodash.git
+mocha-junit-reporter                 2.2.1              Michael Allen michael.lee.allen@gmail.com                      MIT           git+https://github.com/michaelleeallen/mocha-junit-reporter.git
+oidc-client-ts                       3.2.1              n/a                                                            Apache-2.0    git+https://github.com/authts/oidc-client-ts.git
+pg                                   8.16.0             Brian Carlson <brian.m.carlson@gmail.com>                      MIT           git://github.com/brianc/node-postgres.git
+prettier                             3.5.3              James Long                                                     MIT           git+https://github.com/prettier/prettier.git
+react-hook-form                      7.56.4             Beier(Bill) Luo <bluebill1049@hotmail.com>                     MIT           git+https://github.com/react-hook-form/react-hook-form.git
+react-oidc-context                   3.3.0              n/a                                                            MIT           git+https://github.com/authts/react-oidc-context.git
+rimraf                               6.0.1              Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)            ISC           git://github.com/isaacs/rimraf.git
+sass-embedded                        1.89.0             Google Inc.                                                    MIT           git+https://github.com/sass/embedded-host-node.git
+typescript                           5.8.3              Microsoft Corp.                                                Apache-2.0    git+https://github.com/microsoft/TypeScript.git
+typescript-eslint                    8.32.1             n/a                                                            MIT           git+https://github.com/typescript-eslint/typescript-eslint.git
+use-debounce                         10.0.4             Nik (nik@xnim.me)                                              MIT           git+ssh://git@github.com/xnimorz/use-debounce.git
+vite                                 6.3.5              Evan You                                                       MIT           git+https://github.com/vitejs/vite.git
+vite-plugin-html                     3.2.2              Vben                                                           MIT           git+https://github.com/vbenjs/vite-plugin-html.git
+vite-plugin-istanbul                 7.0.0              iFaxity (christian@faxity.se)                                  MIT           git+https://github.com/ifaxity/vite-plugin-istanbul.git
+vite-plugin-minify                   2.1.0              zhuweiyou <i@zhuweiyou.com>                                    MIT           git+https://github.com/zhuweiyou/vite-plugin-minify.git
+yup                                  1.6.1              @monasticpanic Jason Quense                                    MIT           git+https://github.com/jquense/yup.git
+yup-locales                          1.2.28             n/a                                                            MIT           git+https://github.com/loicmahieu/yup-locales.git

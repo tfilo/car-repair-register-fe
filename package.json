@@ -5,7 +5,7 @@
         "url": "https://github.com/tope-sk/car-repair-register-fe"
     },
     "license": "MIT",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "type": "module",
     "scripts": {
         "dev": "vite",

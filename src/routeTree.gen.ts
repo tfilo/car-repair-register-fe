@@ -8,146 +8,62 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as AddRouteImport } from './routes/add'
+import { Route as IdRouteImport } from './routes/$id'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as VehicleIndexRouteImport } from './routes/vehicle/index'
+import { Route as CustomerIndexRouteImport } from './routes/customer/index'
+import { Route as VehicleAddRouteImport } from './routes/vehicle/add'
+import { Route as VehicleIdRouteImport } from './routes/vehicle/$id'
+import { Route as CustomerAddRouteImport } from './routes/customer/add'
+import { Route as CustomerIdRouteImport } from './routes/customer/$id'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as AddImport } from './routes/add'
-import { Route as IdImport } from './routes/$id'
-import { Route as IndexImport } from './routes/index'
-import { Route as VehicleIndexImport } from './routes/vehicle/index'
-import { Route as CustomerIndexImport } from './routes/customer/index'
-import { Route as VehicleAddImport } from './routes/vehicle/add'
-import { Route as VehicleIdImport } from './routes/vehicle/$id'
-import { Route as CustomerAddImport } from './routes/customer/add'
-import { Route as CustomerIdImport } from './routes/customer/$id'
-
-// Create/Update Routes
-
-const AddRoute = AddImport.update({
+const AddRoute = AddRouteImport.update({
   id: '/add',
   path: '/add',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const IdRoute = IdImport.update({
+const IdRoute = IdRouteImport.update({
   id: '/$id',
   path: '/$id',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const IndexRoute = IndexImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const VehicleIndexRoute = VehicleIndexImport.update({
+const VehicleIndexRoute = VehicleIndexRouteImport.update({
   id: '/vehicle/',
   path: '/vehicle/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const CustomerIndexRoute = CustomerIndexImport.update({
+const CustomerIndexRoute = CustomerIndexRouteImport.update({
   id: '/customer/',
   path: '/customer/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const VehicleAddRoute = VehicleAddImport.update({
+const VehicleAddRoute = VehicleAddRouteImport.update({
   id: '/vehicle/add',
   path: '/vehicle/add',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const VehicleIdRoute = VehicleIdImport.update({
+const VehicleIdRoute = VehicleIdRouteImport.update({
   id: '/vehicle/$id',
   path: '/vehicle/$id',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const CustomerAddRoute = CustomerAddImport.update({
+const CustomerAddRoute = CustomerAddRouteImport.update({
   id: '/customer/add',
   path: '/customer/add',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const CustomerIdRoute = CustomerIdImport.update({
+const CustomerIdRoute = CustomerIdRouteImport.update({
   id: '/customer/$id',
   path: '/customer/$id',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-// Populate the FileRoutesByPath interface
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/$id': {
-      id: '/$id'
-      path: '/$id'
-      fullPath: '/$id'
-      preLoaderRoute: typeof IdImport
-      parentRoute: typeof rootRoute
-    }
-    '/add': {
-      id: '/add'
-      path: '/add'
-      fullPath: '/add'
-      preLoaderRoute: typeof AddImport
-      parentRoute: typeof rootRoute
-    }
-    '/customer/$id': {
-      id: '/customer/$id'
-      path: '/customer/$id'
-      fullPath: '/customer/$id'
-      preLoaderRoute: typeof CustomerIdImport
-      parentRoute: typeof rootRoute
-    }
-    '/customer/add': {
-      id: '/customer/add'
-      path: '/customer/add'
-      fullPath: '/customer/add'
-      preLoaderRoute: typeof CustomerAddImport
-      parentRoute: typeof rootRoute
-    }
-    '/vehicle/$id': {
-      id: '/vehicle/$id'
-      path: '/vehicle/$id'
-      fullPath: '/vehicle/$id'
-      preLoaderRoute: typeof VehicleIdImport
-      parentRoute: typeof rootRoute
-    }
-    '/vehicle/add': {
-      id: '/vehicle/add'
-      path: '/vehicle/add'
-      fullPath: '/vehicle/add'
-      preLoaderRoute: typeof VehicleAddImport
-      parentRoute: typeof rootRoute
-    }
-    '/customer/': {
-      id: '/customer/'
-      path: '/customer'
-      fullPath: '/customer'
-      preLoaderRoute: typeof CustomerIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/vehicle/': {
-      id: '/vehicle/'
-      path: '/vehicle'
-      fullPath: '/vehicle'
-      preLoaderRoute: typeof VehicleIndexImport
-      parentRoute: typeof rootRoute
-    }
-  }
-}
-
-// Create and export the route tree
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -160,7 +76,6 @@ export interface FileRoutesByFullPath {
   '/customer': typeof CustomerIndexRoute
   '/vehicle': typeof VehicleIndexRoute
 }
-
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$id': typeof IdRoute
@@ -172,9 +87,8 @@ export interface FileRoutesByTo {
   '/customer': typeof CustomerIndexRoute
   '/vehicle': typeof VehicleIndexRoute
 }
-
 export interface FileRoutesById {
-  __root__: typeof rootRoute
+  __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$id': typeof IdRoute
   '/add': typeof AddRoute
@@ -185,7 +99,6 @@ export interface FileRoutesById {
   '/customer/': typeof CustomerIndexRoute
   '/vehicle/': typeof VehicleIndexRoute
 }
-
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
@@ -222,7 +135,6 @@ export interface FileRouteTypes {
     | '/vehicle/'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   IdRoute: typeof IdRoute
@@ -233,6 +145,74 @@ export interface RootRouteChildren {
   VehicleAddRoute: typeof VehicleAddRoute
   CustomerIndexRoute: typeof CustomerIndexRoute
   VehicleIndexRoute: typeof VehicleIndexRoute
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/add': {
+      id: '/add'
+      path: '/add'
+      fullPath: '/add'
+      preLoaderRoute: typeof AddRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$id': {
+      id: '/$id'
+      path: '/$id'
+      fullPath: '/$id'
+      preLoaderRoute: typeof IdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vehicle/': {
+      id: '/vehicle/'
+      path: '/vehicle'
+      fullPath: '/vehicle'
+      preLoaderRoute: typeof VehicleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/customer/': {
+      id: '/customer/'
+      path: '/customer'
+      fullPath: '/customer'
+      preLoaderRoute: typeof CustomerIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vehicle/add': {
+      id: '/vehicle/add'
+      path: '/vehicle/add'
+      fullPath: '/vehicle/add'
+      preLoaderRoute: typeof VehicleAddRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vehicle/$id': {
+      id: '/vehicle/$id'
+      path: '/vehicle/$id'
+      fullPath: '/vehicle/$id'
+      preLoaderRoute: typeof VehicleIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/customer/add': {
+      id: '/customer/add'
+      path: '/customer/add'
+      fullPath: '/customer/add'
+      preLoaderRoute: typeof CustomerAddRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/customer/$id': {
+      id: '/customer/$id'
+      path: '/customer/$id'
+      fullPath: '/customer/$id'
+      preLoaderRoute: typeof CustomerIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -246,55 +226,6 @@ const rootRouteChildren: RootRouteChildren = {
   CustomerIndexRoute: CustomerIndexRoute,
   VehicleIndexRoute: VehicleIndexRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/$id",
-        "/add",
-        "/customer/$id",
-        "/customer/add",
-        "/vehicle/$id",
-        "/vehicle/add",
-        "/customer/",
-        "/vehicle/"
-      ]
-    },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/$id": {
-      "filePath": "$id.tsx"
-    },
-    "/add": {
-      "filePath": "add.tsx"
-    },
-    "/customer/$id": {
-      "filePath": "customer/$id.tsx"
-    },
-    "/customer/add": {
-      "filePath": "customer/add.tsx"
-    },
-    "/vehicle/$id": {
-      "filePath": "vehicle/$id.tsx"
-    },
-    "/vehicle/add": {
-      "filePath": "vehicle/add.tsx"
-    },
-    "/customer/": {
-      "filePath": "customer/index.tsx"
-    },
-    "/vehicle/": {
-      "filePath": "vehicle/index.tsx"
-    }
-  }
-}
-ROUTE_MANIFEST_END */

@@ -1,11 +1,11 @@
 {
     "name": "car-repair-register-fe",
     "author": {
-        "name": "Tomáš Filo (tope-sk)",
-        "url": "https://github.com/tope-sk/car-repair-register-fe"
+        "name": "Tomáš Filo",
+        "url": "https://github.com/tfilo/car-repair-register-fe"
     },
     "license": "MIT",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "type": "module",
     "scripts": {
         "dev": "vite",
@@ -48,6 +48,7 @@
         "@types/react-dom": "^19.1.5",
         "@vitejs/plugin-react": "^4.5.0",
         "cypress": "^14.4.0",
+        "date-fns": "^4.1.0",
         "eslint": "^9.27.0",
         "eslint-plugin-react-compiler": "^19.1.0-rc.2",
         "eslint-plugin-react-hooks": "^5.2.0",

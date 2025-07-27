@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useRouter } from '@tanstack/react-router';
+import { parseISO, isValid, isFuture } from 'date-fns';
 import { Box, Checkbox, FormControlLabel, FormGroup, Stack, Typography } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Customer, Vehicle, type RepairLog } from '../../api/openapi/backend';
@@ -104,7 +105,22 @@ const repairLogSchema = yup.object({
         .emptyAsNull()
         .nullable()
         .label('Stav odometra (km)'),
-    repairDate: yup.string().trim().required().max(20, 'Dátum opravy musí mať maximálne 20 znakov').label('Dátum opravy')
+    repairDate: yup
+        .string()
+        .trim()
+        .defined()
+        .required()
+        .test({
+            name: 'validDate',
+            message: 'Dátum opravy musí byť platný dátum',
+            test: (value) => isValid(parseISO(value))
+        })
+        .test({
+            name: 'pastOrPresent',
+            message: 'Dátum opravy musí byť dnešný alebo z minulosti',
+            test: (value) => !isFuture(parseISO(value))
+        })
+        .label('Dátum opravy')
 });
 
 const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
@@ -144,6 +160,8 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
         watch,
         formState: { isLoading, isSubmitting, isValidating, isSubmitted, isValid }
     } = methods;
+
+    console.log(watch('repairDate'));
 
     const onSubmit = handleSubmit(
         async ({ newCustomer, newVehicle, vehicle, customer, content, name, surname, registrationPlate, ...rest }) => {

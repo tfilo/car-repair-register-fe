@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { addDays, format } from 'date-fns';
 
 describe('repair logs', () => {
     beforeEach(() => {
@@ -262,6 +263,29 @@ describe('repair logs', () => {
         cy.getByDataCy('save-btn').should('be.disabled');
         cy.getByDataCy('odometer-input').find('input').type('AAAAA');
         cy.getByDataCy('odometer-input').find('p').should('be.visible').should('have.text', 'Stav odometra musí byť číslo v jednotkách km');
+    });
+
+    it('should check date must byt from past or present', () => {
+        cy.visit('/add');
+        cy.getByDataCy('vehicle-autocomplete').find('input').type('Ján horák');
+        cy.get('li[role="option"]').eq(0).should('have.text', 'AA002AA - Ján Horák').click();
+        cy.getByDataCy('content-textarea').type('Toto je testovací popis opravy ktorý ma{enter}viacero riadkov');
+        cy.getByDataCy('repair-date-input').find('input').type(format(addDays(new Date(), 1), 'dd.MM.yyyy'));
+        cy.getByDataCy('save-btn').click();
+        cy.getByDataCy('repair-date-input').parent().find('.MuiFormHelperText-root.Mui-error').should('be.visible').should('have.text', 'Dátum opravy musí byť dnešný alebo z minulosti');
+        cy.getByDataCy('save-btn').should('be.disabled');
+        // check today
+        cy.visit('/add');
+        cy.getByDataCy('repair-date-input').find('input').type(format(new Date(), 'dd.MM.yyyy'));
+        cy.getByDataCy('save-btn').click();
+        cy.getByDataCy('save-btn').should('be.disabled');
+        cy.getByDataCy('repair-date-input').parent().find('.MuiFormHelperText-root.Mui-error').should('not.exist');
+        // check previouse
+        cy.visit('/add');
+        cy.getByDataCy('repair-date-input').find('input').type('01.01.2000');
+        cy.getByDataCy('save-btn').click();
+        cy.getByDataCy('save-btn').should('be.disabled');
+        cy.getByDataCy('repair-date-input').parent().find('.MuiFormHelperText-root.Mui-error').should('not.exist');
     });
 
     it('should edit record', () => {

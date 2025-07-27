@@ -20,7 +20,7 @@ services:
             - postgres_data:/var/lib/postgresql/data
 
     traefik:
-        image: traefik:v2.5
+        image: traefik:v3.5
         command:
             - '--api.insecure=true'
             - '--providers.docker=true'
@@ -40,7 +40,7 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock:ro
 
     keycloak:
-        image: quay.io/keycloak/keycloak:26.0
+        image: quay.io/keycloak/keycloak:26.3
         environment:
             KC_BOOTSTRAP_ADMIN_USERNAME: 'admin'
             KC_BOOTSTRAP_ADMIN_PASSWORD: 'admin123'

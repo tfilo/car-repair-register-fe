@@ -1,6 +1,6 @@
 # Car repair register - frontend
 
-Frontend application for [car-repair-register-be](https://github.com/tope-sk/car-repair-register-fe) writen in React.js. Based on Vite react-ts template.
+Frontend application for [car-repair-register-be](https://github.com/tfilo/car-repair-register-fe) writen in React.js. Based on Vite react-ts template.
 
 `npm create vite@latest car-repair-register-fe -- --template react-ts`
 

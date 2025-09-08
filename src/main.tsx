@@ -9,27 +9,18 @@ import { envSchema } from './envSchema';
 // Validation of environment variables
 envSchema.validateSync(window.ENV);
 
+const isDeveloperMode = import.meta.env.MODE === 'development';
+
 const oidcConfig: AuthProviderProps = {
     authority: window.ENV.KEYCLOAK_URL + '/realms/' + window.ENV.KEYCLOAK_REALM,
     client_id: window.ENV.KEYCLOAK_CLIENT,
     redirect_uri: window.location.href,
     automaticSilentRenew: true,
     onSigninCallback: () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const formId = urlParams.get('formId');
-        const callback = urlParams.get('callback');
-        const preserved = new URLSearchParams();
-        if (formId && callback) {
-            preserved.set('formId', formId);
-            preserved.set('callback', callback);
-        }
-        const preservedQuery = preserved.toString();
-        window.history.replaceState(
-            { formId, callback },
-            document.title,
-            window.location.pathname + (preservedQuery ? '?' + preservedQuery : '')
-        );
-    }
+        window.history.replaceState({}, document.title, window.location.pathname);
+    },
+    monitorSession: !isDeveloperMode,
+    monitorAnonymousSession: !isDeveloperMode
 };
 
 const rootElement = document.getElementById('root')!;

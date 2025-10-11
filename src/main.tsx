@@ -6,6 +6,10 @@ import type { AuthProviderProps } from 'react-oidc-context';
 import { AuthProvider } from 'react-oidc-context';
 import { envSchema } from './envSchema';
 
+// Remove search from redirect uri
+const redirectUri = new URL(window.location.href);
+redirectUri.search = '';
+
 // Validation of environment variables
 envSchema.validateSync(window.ENV);
 
@@ -14,7 +18,7 @@ const isDeveloperMode = import.meta.env.MODE === 'development';
 const oidcConfig: AuthProviderProps = {
     authority: window.ENV.KEYCLOAK_URL + '/realms/' + window.ENV.KEYCLOAK_REALM,
     client_id: window.ENV.KEYCLOAK_CLIENT,
-    redirect_uri: window.location.href,
+    redirect_uri: redirectUri.toString(),
     automaticSilentRenew: true,
     onSigninCallback: () => {
         window.history.replaceState({}, document.title, window.location.pathname);

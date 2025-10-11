@@ -30,6 +30,7 @@ const FileComponent: React.FC<FileComponentProps> = ({ fileName, fileType, fileS
                     <Icon fontSize='large' />
                     <CardContent sx={{ flex: '1' }}>
                         <Typography
+                            sx={{ wordBreak: 'break-all' }}
                             component='div'
                             variant='subtitle1'
                             data-cy={`download-${fileName.toLowerCase().replaceAll(' ', '_')}-file-name`}

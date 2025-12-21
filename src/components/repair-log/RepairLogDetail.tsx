@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useNavigate, useRouter } from '@tanstack/react-router';
 import { parseISO, isValid, isFuture } from 'date-fns';
 import { Box, Checkbox, FormControlLabel, FormGroup, Stack, Typography } from '@mui/material';
@@ -157,11 +157,9 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
         handleSubmit,
         setValue,
         reset,
-        watch,
+        control,
         formState: { isLoading, isSubmitting, isValidating, isSubmitted, isValid }
     } = methods;
-
-    console.log(watch('repairDate'));
 
     const onSubmit = handleSubmit(
         async ({ newCustomer, newVehicle, vehicle, customer, content, name, surname, registrationPlate, ...rest }) => {
@@ -257,7 +255,7 @@ const RepairLogDetail: React.FC<RepairLogDetailProps> = ({ repairLog }) => {
     const isPending = isLoading || isSubmitting || isValidating;
     const canSubmit = (isSubmitted && isValid) || !isSubmitted;
 
-    const [newVehicle, newCustomer] = watch(['newVehicle', 'newCustomer']);
+    const [newVehicle, newCustomer] = useWatch({ control, name: ['newVehicle', 'newCustomer'] });
 
     return (
         <FormProvider {...methods}>

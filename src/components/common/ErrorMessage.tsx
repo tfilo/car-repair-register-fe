@@ -1,4 +1,4 @@
-import { Alert } from '@mui/material';
+import { Alert, Typography } from '@mui/material';
 import { Error } from '@mui/icons-material';
 import { getLocalizedErrorMessage } from '../../utils/errorBundle';
 import { instanceOfErrorMessage } from '../../api/openapi/backend';
@@ -45,6 +45,22 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({ mutationResult, yupSchema }
                                         <li key={`${idx}_${fe.fieldName}`}>{getLabel(fe.fieldName) + ' - ' + fe.errorMessage}</li>
                                     ))}
                                 </ul>
+                            )}
+                            {mr.error.message === 'Failed to fetch' && (
+                                <div>
+                                    <Typography
+                                        variant='subtitle2'
+                                        component='div'
+                                        paddingTop={1}
+                                    >
+                                        Dodatočné informácie o chybe:
+                                    </Typography>
+                                    <div>Čas chyby: {new Date().toUTCString()}</div>
+                                    <div>Trieda chyby: {mr.error.name}</div>
+                                    <div>Stav siete: {navigator.onLine ? 'Online' : 'Offline'}</div>
+                                    {!!mr.error.cause && <div>Príčina: {mr.error.cause.toString().substring(0, 2000)}</div>}
+                                    {!!mr.error.stack && <div>Výpis: {mr.error.stack.substring(0, 2000)}</div>}
+                                </div>
                             )}
                         </Alert>
                     );

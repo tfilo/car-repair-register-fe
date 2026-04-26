@@ -86,6 +86,9 @@ services:
             SERVER_PORT: 8080
             SERVER_SERVLET_CONTEXT_PATH: /api/car-repair-register
             JAVA_OPTS: '-XX:MaxDirectMemorySize=96m'
+            APP_UPLOAD_DIR: /uploads
+        volumes:
+          - ./uploads:/uploads
         depends_on:
             db:
                 condition: service_healthy

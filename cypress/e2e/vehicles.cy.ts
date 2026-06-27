@@ -196,7 +196,7 @@ describe('vehicles', () => {
         cy.getByDataCy('cancel-btn').should('not.exist');
     });
 
-    it.only('should delete vehicle', () => {
+    it('should delete vehicle', () => {
         cy.visit('/vehicle/4');
         cy.getByDataCy('edit-btn').scrollIntoView().click();
         cy.getByDataCy('remove-btn').scrollIntoView().click();

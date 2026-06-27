@@ -72,6 +72,13 @@ services:
             - traefik.http.routers.keycloak.entrypoints=web
             - traefik.http.services.keycloak.loadbalancer.server.port=8080
 
+    backend-init:
+        image: busybox
+        user: 'root'
+        volumes:
+            - backend_data:/uploads
+        command: chmod -R 777 /uploads
+
     backend:
         image: tfilo/car-repair-register-be:latest
         environment:
@@ -86,7 +93,12 @@ services:
             SERVER_PORT: 8080
             SERVER_SERVLET_CONTEXT_PATH: /api/car-repair-register
             JAVA_OPTS: '-XX:MaxDirectMemorySize=96m'
+            APP_UPLOAD_DIR: /uploads
+        volumes:
+            - backend_data:/uploads
         depends_on:
+            backend-init:
+                condition: service_completed_successfully
             db:
                 condition: service_healthy
             keycloak:
@@ -126,3 +138,4 @@ services:
 
 volumes:
     postgres_data:
+    backend_data:

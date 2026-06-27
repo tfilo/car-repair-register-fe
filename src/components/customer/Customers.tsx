@@ -33,7 +33,7 @@ const Primary: React.FC<{ customer: Customer }> = ({ customer }) => {
 };
 
 const Customers: React.FC = () => {
-    const navigate = useNavigate({ from: '/customer' });
+    const navigate = useNavigate({ from: '/customer/' });
     const { query } = useSearch({ from: '/customer/' });
     const findCustomers = useLoaderData({
         from: '/customer/'

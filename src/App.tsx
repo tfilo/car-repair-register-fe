@@ -35,13 +35,19 @@ const router = createRouter({
 const App: React.FC = () => {
     const auth = useAuth();
 
-    const { isLoading, activeNavigator, isAuthenticated, signinRedirect } = auth;
+    const { isLoading, activeNavigator, isAuthenticated, signinRedirect, removeUser, error } = auth;
 
     useEffect(() => {
-        if (!isLoading && !isAuthenticated && !activeNavigator) {
-            signinRedirect();
-        }
-    }, [isLoading, isAuthenticated, activeNavigator, signinRedirect]);
+        (async () => {
+            if (error) {
+                console.error('OIDC Auth Error caught:', auth.error);
+                await removeUser();
+            }
+            if (!isLoading && !isAuthenticated && !activeNavigator) {
+                await signinRedirect();
+            }
+        })();
+    }, [isLoading, isAuthenticated, activeNavigator, signinRedirect, error, auth.error, removeUser]);
 
     return (
         <>

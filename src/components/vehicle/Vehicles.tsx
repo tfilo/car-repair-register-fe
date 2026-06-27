@@ -55,7 +55,7 @@ const Secondary: React.FC<{ vehicle: Vehicle }> = ({ vehicle }) => {
 };
 
 const Vehicles: React.FC = () => {
-    const navigate = useNavigate({ from: '/vehicle' });
+    const navigate = useNavigate({ from: '/vehicle/' });
     const { query } = useSearch({ from: '/vehicle/' });
     const findVehicles = useLoaderData({ from: '/vehicle/' });
 

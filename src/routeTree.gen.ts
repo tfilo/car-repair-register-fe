@@ -9,19 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AddRouteImport } from './routes/add'
-import { Route as IdRouteImport } from './routes/$id'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as VehicleIndexRouteImport } from './routes/vehicle/index'
+import { Route as IdRouteImport } from './routes/$id'
+import { Route as AddRouteImport } from './routes/add'
 import { Route as CustomerIndexRouteImport } from './routes/customer/index'
-import { Route as VehicleAddRouteImport } from './routes/vehicle/add'
-import { Route as VehicleIdRouteImport } from './routes/vehicle/$id'
-import { Route as CustomerAddRouteImport } from './routes/customer/add'
 import { Route as CustomerIdRouteImport } from './routes/customer/$id'
+import { Route as CustomerAddRouteImport } from './routes/customer/add'
+import { Route as VehicleIndexRouteImport } from './routes/vehicle/index'
+import { Route as VehicleIdRouteImport } from './routes/vehicle/$id'
+import { Route as VehicleAddRouteImport } from './routes/vehicle/add'
 
-const AddRoute = AddRouteImport.update({
-  id: '/add',
-  path: '/add',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IdRoute = IdRouteImport.update({
@@ -29,14 +29,9 @@ const IdRoute = IdRouteImport.update({
   path: '/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const VehicleIndexRoute = VehicleIndexRouteImport.update({
-  id: '/vehicle/',
-  path: '/vehicle/',
+const AddRoute = AddRouteImport.update({
+  id: '/add',
+  path: '/add',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CustomerIndexRoute = CustomerIndexRouteImport.update({
@@ -44,14 +39,9 @@ const CustomerIndexRoute = CustomerIndexRouteImport.update({
   path: '/customer/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const VehicleAddRoute = VehicleAddRouteImport.update({
-  id: '/vehicle/add',
-  path: '/vehicle/add',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const VehicleIdRoute = VehicleIdRouteImport.update({
-  id: '/vehicle/$id',
-  path: '/vehicle/$id',
+const CustomerIdRoute = CustomerIdRouteImport.update({
+  id: '/customer/$id',
+  path: '/customer/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CustomerAddRoute = CustomerAddRouteImport.update({
@@ -59,9 +49,19 @@ const CustomerAddRoute = CustomerAddRouteImport.update({
   path: '/customer/add',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CustomerIdRoute = CustomerIdRouteImport.update({
-  id: '/customer/$id',
-  path: '/customer/$id',
+const VehicleIndexRoute = VehicleIndexRouteImport.update({
+  id: '/vehicle/',
+  path: '/vehicle/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VehicleIdRoute = VehicleIdRouteImport.update({
+  id: '/vehicle/$id',
+  path: '/vehicle/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VehicleAddRoute = VehicleAddRouteImport.update({
+  id: '/vehicle/add',
+  path: '/vehicle/add',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -149,11 +149,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/add': {
-      id: '/add'
-      path: '/add'
-      fullPath: '/add'
-      preLoaderRoute: typeof AddRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$id': {
@@ -163,18 +163,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/vehicle/': {
-      id: '/vehicle/'
-      path: '/vehicle'
-      fullPath: '/vehicle/'
-      preLoaderRoute: typeof VehicleIndexRouteImport
+    '/add': {
+      id: '/add'
+      path: '/add'
+      fullPath: '/add'
+      preLoaderRoute: typeof AddRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/customer/': {
@@ -184,18 +177,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CustomerIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/vehicle/add': {
-      id: '/vehicle/add'
-      path: '/vehicle/add'
-      fullPath: '/vehicle/add'
-      preLoaderRoute: typeof VehicleAddRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/vehicle/$id': {
-      id: '/vehicle/$id'
-      path: '/vehicle/$id'
-      fullPath: '/vehicle/$id'
-      preLoaderRoute: typeof VehicleIdRouteImport
+    '/customer/$id': {
+      id: '/customer/$id'
+      path: '/customer/$id'
+      fullPath: '/customer/$id'
+      preLoaderRoute: typeof CustomerIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/customer/add': {
@@ -205,11 +191,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CustomerAddRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/customer/$id': {
-      id: '/customer/$id'
-      path: '/customer/$id'
-      fullPath: '/customer/$id'
-      preLoaderRoute: typeof CustomerIdRouteImport
+    '/vehicle/': {
+      id: '/vehicle/'
+      path: '/vehicle'
+      fullPath: '/vehicle/'
+      preLoaderRoute: typeof VehicleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vehicle/$id': {
+      id: '/vehicle/$id'
+      path: '/vehicle/$id'
+      fullPath: '/vehicle/$id'
+      preLoaderRoute: typeof VehicleIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vehicle/add': {
+      id: '/vehicle/add'
+      path: '/vehicle/add'
+      fullPath: '/vehicle/add'
+      preLoaderRoute: typeof VehicleAddRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

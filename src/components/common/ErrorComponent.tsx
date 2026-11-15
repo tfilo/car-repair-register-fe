@@ -4,8 +4,8 @@ import { ValidationError } from 'yup';
 import { getLocalizedErrorMessage } from '../../utils/errorBundle';
 
 const ErrorComponent: React.FC<ErrorComponentProps> = ({ error }) => {
-    const localizedMessage = getLocalizedErrorMessage(error.message);
-    let title = error.name ?? 'Nastala chyba';
+    const message: string = error !== null && typeof error === 'object' && 'message' in error ? `${error.message}` : '';
+    let title = error !== null && typeof error === 'object' && 'name' in error ? `$error.name}` : 'Nastala chyba';
 
     if (error instanceof ValidationError) {
         title = 'Nastala chyba pri spracovaní URL adresy';
@@ -15,7 +15,7 @@ const ErrorComponent: React.FC<ErrorComponentProps> = ({ error }) => {
         <div>
             <div>
                 <h3>{title}</h3>
-                <p>{localizedMessage}</p>
+                <p>{getLocalizedErrorMessage(message)}</p>
                 <p>
                     <Link
                         to='/'

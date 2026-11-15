@@ -15,11 +15,12 @@ export const Route = createFileRoute('/customer/$id')({
             .label('URL parameter id')
             .validate(Number(params.id));
     },
-    loader: async ({ context: { queryClient }, params: { id } }) => queryClient.ensureQueryData(getCustomerByIdOptions(+id)),
+    loader: async ({ context: { queryClient }, params: { id } }) => queryClient.query(getCustomerByIdOptions(+id)),
     component: RouteComponent,
     pendingComponent: Loader
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 function RouteComponent() {
     const data = useLoaderData({
         from: '/customer/$id'

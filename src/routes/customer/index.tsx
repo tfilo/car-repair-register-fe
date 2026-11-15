@@ -22,7 +22,7 @@ export const Route = createFileRoute('/customer/')({
         query
     }),
     loader: async ({ context: { queryClient }, deps: { page, size, sort, query } }) =>
-        queryClient.ensureQueryData(findCustomersOptions(page, size, sort, query)),
+        queryClient.query(findCustomersOptions(page, size, sort, query)),
     component: Customers,
     pendingComponent: Loader
 });

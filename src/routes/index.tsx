@@ -18,7 +18,7 @@ export const Route = createFileRoute('/')({
     },
     loaderDeps: ({ search: { page, size, sort, query, vehicleId } }) => ({ page, size, sort, query, vehicleId }),
     loader: async ({ context: { queryClient }, deps: { page, size, sort, query, vehicleId } }) =>
-        queryClient.ensureQueryData(findRepairLogsOptions(page, size, sort, query, vehicleId)),
+        queryClient.query(findRepairLogsOptions(page, size, sort, query, vehicleId)),
     component: RepairLogs,
     pendingComponent: Loader
 });
